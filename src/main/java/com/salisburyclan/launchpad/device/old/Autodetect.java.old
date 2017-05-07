@@ -1,0 +1,126 @@
+package com.salisburyclan.launchpad.device;
+
+import com.salisburyclan.launchpad.api.LaunchpadClient;
+import com.salisburyclan.launchpad.protocol.LaunchpadProtocolClient;
+import com.salisburyclan.launchpad.device.LaunchpadMk2ProtocolClient;
+
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+
+public class Autodetect {
+
+    public static final String DEVICE_SIGNATURE = "Launchpad MK2";
+
+    /**
+     * Tries to auto-detect a MIDI Launchpad based on its device signature.
+     *
+     * @return The auto-detected resources.
+     * @throws MidiUnavailableException If an error occurs during device probing.
+     */
+    public static DeviceResources autodetect() throws MidiUnavailableException {
+        MidiDevice inputDevice = autodetectInputDevice();
+        MidiDevice outputDevice = autodetectOutputDevice();
+        if (inputDevice != null && outputDevice != null) {
+          inputDevice.open();
+          outputDevice.open();
+          return null; //new DeviceResources("MK2", inputDevice, outputDevice);
+        } else {
+          return null;
+        }
+    }
+
+      /*
+      MidiDevice outputDevice = resources.getOutputDevice();
+      if (outputDevice != null) {
+        if (!outputDevice.isOpen()) {
+            outputDevice.open();
+        }
+        openedOutputDevice = true;
+        Receiver receiver = outputDevice.getReceiver();
+        this.client = new LaunchpadMk2ProtocolClient(receiver);
+      } else {
+        this.client = null;
+      }
+
+        MidiDevice inputDevice = resources.getInputDevice();
+        if (inputDevice != null) {
+            if (!inputDevice.isOpen()) {
+                inputDevice.open();
+            }
+            Transmitter transmitter = inputDevice.getTransmitter();
+            Receiver receiver = new LaunchpadMk2ProtocolReceiver(listener);
+            transmitter.setReceiver(receiver);
+        } else {
+            this.transmitter = null;
+        }
+	*/
+
+  /*
+    @Override
+    public void setListener(LaunchpadListener listener) {
+        if (transmitter == null) {
+            throw new LaunchpadException("Unable to set the listener, because no Transmitter or Input Device have been configured.");
+        }
+        MidiProtocolListener midiProtocolListener = new DefaultMidiProtocolListener(listener);
+        Receiver midiReceiver = new DefaultMidiProtocolReceiver(midiProtocolListener);
+        transmitter.setReceiver(midiReceiver);
+    }
+
+    @Override
+    public void close() throws IOException {
+        if (resources == null) {
+            return;
+        }
+            MidiDevice outputDevice = resources.getOutputDevice();
+            if (outputDevice != null && outputDevice.isOpen()) {
+                outputDevice.close();
+            }
+            MidiDevice inputDevice = resources.getInputDevice();
+            if (inputDevice != null && inputDevice.isOpen()) {
+                inputDevice.close();
+            }
+    }
+    */
+
+
+    public static MidiDevice autodetectInputDevice() throws MidiUnavailableException {
+        MidiDevice.Info[] midiDeviceInfo = MidiSystem.getMidiDeviceInfo();
+System.out.println("Enumerating all input midi devices");
+        for (MidiDevice.Info info : midiDeviceInfo) {
+System.out.println("'" + info.getDescription() + "' & '" + info.getName() + "'");
+            if (info.getDescription().contains(DEVICE_SIGNATURE)) {
+                MidiDevice device = MidiSystem.getMidiDevice(info);
+                if (device.getMaxTransmitters() == -1) {
+                    return device;
+                }
+                device.close();
+            }
+        }
+        return null;
+    }
+
+    public static MidiDevice autodetectOutputDevice() throws MidiUnavailableException {
+        MidiDevice.Info[] midiDeviceInfo = MidiSystem.getMidiDeviceInfo();
+System.out.println("Enumerating all output midi devices");
+        for (MidiDevice.Info info : midiDeviceInfo) {
+System.out.println("'" + info.getDescription() + "' & '" + info.getName() + "'");
+            if (info.getDescription().contains(DEVICE_SIGNATURE) || info.getName().contains(DEVICE_SIGNATURE)) {
+                MidiDevice device = MidiSystem.getMidiDevice(info);
+                if (device.getMaxReceivers() == -1) {
+                    return device;
+                }
+            }
+        }
+        System.out.println("No acceptable midi device");
+        return null;
+    }
+
+    public static void main(String[] args) {
+      try {
+        autodetect();
+      } catch (MidiUnavailableException e) {
+        e.printStackTrace(System.out);
+      }
+    }
+}

@@ -1,0 +1,58 @@
+apply plugin: 'java'
+apply plugin: 'java-library'
+
+repositories {
+  jcenter()
+}
+
+buildscript {
+  repositories.mavenLocal()
+}
+
+
+//compileJava {
+//    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+//}
+
+dependencies {
+  implementation 'com.google.guava:guava:20.0'
+//  compile files('lib/coremidi4j-0.9.1.jar')
+//  compile 'uk.co.xfactory-librarians:coremidi4j:0.9'
+  testCompile "com.google.truth:truth:0.31"
+  testCompile "com.google.truth.extensions:truth-java8-extension:0.32"
+  testCompile 'org.mockito:mockito-core:2.+'
+  testImplementation 'junit:junit:4.12'
+}
+
+task allBlue(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.launchpad.apps.AllBlue'
+  if (project.hasProperty('lcs')) {
+    args lcs
+  }
+}
+
+task rainbow(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.launchpad.apps.Rainbow'
+  if (project.hasProperty('lcs')) {
+    args lcs
+  }
+}
+
+task spark(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.launchpad.apps.Spark'
+  if (project.hasProperty('lcs')) {
+    args lcs
+  }
+}
+
+task sweep(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.launchpad.apps.Sweep'
+  if (project.hasProperty('lcs')) {
+    args lcs
+  }
+}
+
