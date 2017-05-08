@@ -1,9 +1,9 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.launchpad.api.Color;
-import com.salisburyclan.launchpad.api.ViewportListener;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolClient;
-import com.salisburyclan.launchpad.protocol.ViewExtent;
+import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.Before;
@@ -28,7 +28,7 @@ public class DeviceViewportTest {
 
   private DeviceViewport viewport;
 
-  private ViewExtent testExtent = new ViewExtent(0,10,2,6);
+  private ViewExtent testExtent = new ViewExtent(0,2,10,6);
 
   @Before
   public void setUp() {
@@ -38,8 +38,8 @@ public class DeviceViewportTest {
 
   @Test
   public void testExtent() throws Exception {
-    assertThat(viewport.getWidth()).isEqualTo(testExtent.getWidth());
-    assertThat(viewport.getHeight()).isEqualTo(testExtent.getHeight());
+    assertThat(viewport.getExtent().getWidth()).isEqualTo(testExtent.getWidth());
+    assertThat(viewport.getExtent().getHeight()).isEqualTo(testExtent.getHeight());
   }
 
   @Test

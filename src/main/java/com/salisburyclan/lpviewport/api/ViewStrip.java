@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.api;
+package com.salisburyclan.lpviewport.api;
 
 // ViewStrip is a 1-dimensional Viewport.
 public interface ViewStrip {

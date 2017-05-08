@@ -1,7 +1,7 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolClient;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolListener;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
 
 import javax.sound.midi.Receiver;
 

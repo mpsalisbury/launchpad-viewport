@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;

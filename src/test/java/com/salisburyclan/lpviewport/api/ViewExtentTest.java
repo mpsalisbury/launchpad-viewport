@@ -1,18 +1,17 @@
-package com.salisburyclan.launchpad.protocol;
+package com.salisburyclan.lpviewport.api;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.salisburyclan.launchpad.testing.AssertThrows.assertThrows;
 
 @RunWith(JUnit4.class)
 public class ViewExtentTest {
 
   @Test
   public void testExtent() {
-    ViewExtent extent = new ViewExtent(0, 9, 2, 4);
+    ViewExtent extent = new ViewExtent(0, 2, 9, 4);
 
     assertThat(extent.getWidth()).isEqualTo(10);
     assertThat(extent.getHeight()).isEqualTo(3);
@@ -23,24 +22,18 @@ public class ViewExtentTest {
   }
 
   @Test
-  public void testCheckWithinSucceeds() {
-    ViewExtent extent = new ViewExtent(0, 9, 2, 4);
+  public void testIsPointWithin() {
+    ViewExtent extent = new ViewExtent(0, 2, 9, 4);
 
-    // None of these should throw.
-    extent.checkWithin(0,2);
-    extent.checkWithin(9,2);
-    extent.checkWithin(9,4);
-    extent.checkWithin(0,4);
-    extent.checkWithin(2,3);
-  }
+    assertThat(extent.isPointWithin(0,2)).isEqualTo(true);
+    assertThat(extent.isPointWithin(9,2)).isEqualTo(true);
+    assertThat(extent.isPointWithin(9,4)).isEqualTo(true);
+    assertThat(extent.isPointWithin(0,4)).isEqualTo(true);
+    assertThat(extent.isPointWithin(2,3)).isEqualTo(true);
 
-  @Test
-  public void testCheckWithinFails() {
-    ViewExtent extent = new ViewExtent(0, 9, 2, 4);
-
-    assertThrows(IllegalArgumentException.class, () -> extent.checkWithin(-1,2));
-    assertThrows(IllegalArgumentException.class, () -> extent.checkWithin(11,2));
-    assertThrows(IllegalArgumentException.class, () -> extent.checkWithin(2,0));
-    assertThrows(IllegalArgumentException.class, () -> extent.checkWithin(2,5));
+    assertThat(extent.isPointWithin(-1,2)).isEqualTo(false);
+    assertThat(extent.isPointWithin(11,2)).isEqualTo(false);
+    assertThat(extent.isPointWithin(2,0)).isEqualTo(false);
+    assertThat(extent.isPointWithin(2,5)).isEqualTo(false);
   }
 }

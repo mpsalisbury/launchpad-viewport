@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
 /**
  * Encodes a 2-D x,y position in a single int.

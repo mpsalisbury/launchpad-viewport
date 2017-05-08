@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.api;
+package com.salisburyclan.lpviewport.api;
 
 import java.util.stream.IntStream;
 

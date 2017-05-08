@@ -1,11 +1,11 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.launchpad.api.LaunchpadClient;
-import com.salisburyclan.launchpad.api.LaunchpadException;
-import com.salisburyclan.launchpad.api.Viewport;
-import com.salisburyclan.launchpad.api.ViewExtent;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolClient;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolListener;
+import com.salisburyclan.lpviewport.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.LaunchpadException;
+import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
 
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiUnavailableException;

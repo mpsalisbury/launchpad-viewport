@@ -1,6 +1,6 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.launchpad.device.midi.mk2.LaunchpadMk2MidiDeviceSpec;
+import com.salisburyclan.lpviewport.device.midi.mk2.LaunchpadMk2MidiDeviceSpec;
 import java.util.ArrayList;
 import java.util.List;
 

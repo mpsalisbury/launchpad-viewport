@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
 import javax.sound.midi.SysexMessage;
 import org.junit.Test;

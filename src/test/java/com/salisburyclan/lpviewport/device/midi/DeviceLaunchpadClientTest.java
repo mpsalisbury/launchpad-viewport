@@ -1,11 +1,11 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.launchpad.api.Color;
-import com.salisburyclan.launchpad.api.LaunchpadClient;
-import com.salisburyclan.launchpad.api.Viewport;
-import com.salisburyclan.launchpad.api.ViewportListener;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolClient;
-import com.salisburyclan.launchpad.protocol.ViewExtent;
+import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.Rule;
@@ -30,7 +30,7 @@ public class DeviceLaunchpadClientTest {
 
   @Test
   public void testGetOverallViewport() throws Exception {
-    ViewExtent testExtent = new ViewExtent(0,10,2,6);
+    ViewExtent testExtent = new ViewExtent(0,2,10,6);
 
     when(mockResources.getClient()).thenReturn(mockClient);
     when(mockResources.getListener()).thenReturn(mockDeviceListener);
@@ -39,8 +39,8 @@ public class DeviceLaunchpadClientTest {
     LaunchpadClient client = new DeviceLaunchpadClient(mockResources);
     Viewport viewport = client.getViewport();
 
-    assertThat(viewport.getWidth()).isEqualTo(testExtent.getWidth());
-    assertThat(viewport.getHeight()).isEqualTo(testExtent.getHeight());
+    assertThat(viewport.getExtent().getWidth()).isEqualTo(testExtent.getWidth());
+    assertThat(viewport.getExtent().getHeight()).isEqualTo(testExtent.getHeight());
 
     int testX = 4;
     int testY = 2;

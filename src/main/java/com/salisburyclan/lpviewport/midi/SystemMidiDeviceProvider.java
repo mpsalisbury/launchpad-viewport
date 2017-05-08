@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.midi;
+package com.salisburyclan.lpviewport.midi;
 
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;

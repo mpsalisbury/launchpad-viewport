@@ -1,10 +1,10 @@
-package com.salisburyclan.launchpad.device.midi.mk2;
+package com.salisburyclan.lpviewport.device.midi.mk2;
 
 import com.google.common.primitives.Bytes;
-import com.salisburyclan.launchpad.device.midi.mk2.LaunchpadMk2Constants.ButtonMapping;
-import com.salisburyclan.launchpad.device.midi.mk2.LaunchpadMk2Constants.ColorMapping;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolClient;
-import com.salisburyclan.launchpad.protocol.ViewExtent;
+import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.device.midi.mk2.LaunchpadMk2Constants.ButtonMapping;
+import com.salisburyclan.lpviewport.device.midi.mk2.LaunchpadMk2Constants.ColorMapping;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

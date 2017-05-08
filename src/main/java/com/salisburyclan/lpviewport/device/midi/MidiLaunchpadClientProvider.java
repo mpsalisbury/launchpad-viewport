@@ -1,11 +1,11 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.salisburyclan.launchpad.api.LaunchpadClient;
-import com.salisburyclan.launchpad.api.LaunchpadClientProvider;
-import com.salisburyclan.launchpad.midi.MidiDeviceProvider;
-import com.salisburyclan.launchpad.midi.SystemMidiDeviceProvider;
+import com.salisburyclan.lpviewport.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.LaunchpadClientProvider;
+import com.salisburyclan.lpviewport.midi.MidiDeviceProvider;
+import com.salisburyclan.lpviewport.midi.SystemMidiDeviceProvider;
 
 import java.util.Arrays;
 import java.util.ArrayList;

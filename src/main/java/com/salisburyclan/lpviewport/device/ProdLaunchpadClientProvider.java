@@ -1,8 +1,8 @@
-package com.salisburyclan.launchpad.device;
+package com.salisburyclan.lpviewport.device;
 
-import com.salisburyclan.launchpad.api.LaunchpadClientProvider;
-import com.salisburyclan.launchpad.device.midi.MidiLaunchpadClientProvider;
-import com.salisburyclan.launchpad.device.javafx.JavafxLaunchpadClientProvider;
+import com.salisburyclan.lpviewport.api.LaunchpadClientProvider;
+import com.salisburyclan.lpviewport.device.midi.MidiLaunchpadClientProvider;
+import com.salisburyclan.lpviewport.device.javafx.JavafxLaunchpadClientProvider;
 
 public class ProdLaunchpadClientProvider extends AggregateLaunchpadClientProvider {
 

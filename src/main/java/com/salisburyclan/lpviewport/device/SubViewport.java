@@ -1,12 +1,12 @@
-package com.salisburyclan.launchpad.device;
+package com.salisburyclan.lpviewport.device;
 
-import com.salisburyclan.launchpad.api.Color;
-import com.salisburyclan.launchpad.api.Viewport;
-import com.salisburyclan.launchpad.api.ViewButton;
-import com.salisburyclan.launchpad.api.ViewButtonListener;
-import com.salisburyclan.launchpad.api.ViewExtent;
-import com.salisburyclan.launchpad.api.ViewportListener;
-import com.salisburyclan.launchpad.api.ViewStrip;
+import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.ViewButton;
+import com.salisburyclan.lpviewport.api.ViewButtonListener;
+import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.ViewStrip;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
 public class SubViewport implements Viewport {

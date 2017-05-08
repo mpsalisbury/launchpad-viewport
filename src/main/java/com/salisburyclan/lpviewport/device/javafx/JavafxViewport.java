@@ -1,14 +1,14 @@
-package com.salisburyclan.launchpad.device.javafx;
+package com.salisburyclan.lpviewport.device.javafx;
 
-import com.salisburyclan.launchpad.api.Color;
-import com.salisburyclan.launchpad.api.ViewButton;
-import com.salisburyclan.launchpad.api.ViewExtent;
-import com.salisburyclan.launchpad.api.Viewport;
-import com.salisburyclan.launchpad.api.ViewportListener;
-import com.salisburyclan.launchpad.api.ViewStrip;
-import com.salisburyclan.launchpad.device.ListenerMultiplexer;
-import com.salisburyclan.launchpad.device.SubViewport;
-import com.salisburyclan.launchpad.device.SubViewStrip;
+import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.ViewButton;
+import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.ViewStrip;
+import com.salisburyclan.lpviewport.device.ListenerMultiplexer;
+import com.salisburyclan.lpviewport.device.SubViewport;
+import com.salisburyclan.lpviewport.device.SubViewStrip;
 
 public class JavafxViewport implements Viewport {
   ColorButtonGrid buttonGrid;

@@ -1,6 +1,6 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.launchpad.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.ViewportListener;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.Rule;

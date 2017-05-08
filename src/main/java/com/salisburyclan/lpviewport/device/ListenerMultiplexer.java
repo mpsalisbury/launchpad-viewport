@@ -1,6 +1,6 @@
-package com.salisburyclan.launchpad.device;
+package com.salisburyclan.lpviewport.device;
 
-import com.salisburyclan.launchpad.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.ViewportListener;
 import java.util.ArrayList;
 import java.util.List;
 

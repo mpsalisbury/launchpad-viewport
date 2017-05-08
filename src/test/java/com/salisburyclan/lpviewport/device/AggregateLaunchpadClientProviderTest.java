@@ -1,12 +1,12 @@
-package com.salisburyclan.launchpad.device;
+package com.salisburyclan.lpviewport.device;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.truth.Truth8;
 
-import com.salisburyclan.launchpad.api.LaunchpadClient;
-import com.salisburyclan.launchpad.api.LaunchpadClientProvider;
-import com.salisburyclan.launchpad.api.Viewport;
+import com.salisburyclan.lpviewport.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.LaunchpadClientProvider;
+import com.salisburyclan.lpviewport.api.Viewport;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

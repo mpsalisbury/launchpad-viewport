@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.device.javafx;
+package com.salisburyclan.lpviewport.device.javafx;
 
 public interface ButtonGridListener {
   void onButtonPressed(int x, int y);

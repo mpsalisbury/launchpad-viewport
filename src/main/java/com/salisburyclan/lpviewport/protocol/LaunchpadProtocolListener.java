@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.protocol;
+package com.salisburyclan.lpviewport.protocol;
 
 //import javax.sound.midi.MidiMessage;
 

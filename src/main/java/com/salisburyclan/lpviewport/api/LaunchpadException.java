@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.api;
+package com.salisburyclan.lpviewport.api;
 
 public class LaunchpadException extends RuntimeException {
 

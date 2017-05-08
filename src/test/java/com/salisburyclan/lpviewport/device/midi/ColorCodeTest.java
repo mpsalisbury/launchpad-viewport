@@ -1,11 +1,11 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.salisburyclan.launchpad.testing.AssertThrows.assertThrows;
+import static com.salisburyclan.lpviewport.testing.AssertThrows.assertThrows;
 
 @RunWith(JUnit4.class)
 public class ColorCodeTest {

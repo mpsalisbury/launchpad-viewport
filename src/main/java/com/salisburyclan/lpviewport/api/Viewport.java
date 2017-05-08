@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.api;
+package com.salisburyclan.lpviewport.api;
 
 // Viewport is a rectangular set of buttons/lights.
 public interface Viewport {

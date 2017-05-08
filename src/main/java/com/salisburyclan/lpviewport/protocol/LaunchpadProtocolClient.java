@@ -1,6 +1,6 @@
-package com.salisburyclan.launchpad.protocol;
+package com.salisburyclan.lpviewport.protocol;
 
-import com.salisburyclan.launchpad.api.ViewExtent;
+import com.salisburyclan.lpviewport.api.ViewExtent;
 
 public interface LaunchpadProtocolClient {
   ViewExtent getOverallExtent();

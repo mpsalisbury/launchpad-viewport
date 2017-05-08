@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.api;
+package com.salisburyclan.lpviewport.api;
 
 // ViewButton is a 1-button Viewport.
 public interface ViewButton {

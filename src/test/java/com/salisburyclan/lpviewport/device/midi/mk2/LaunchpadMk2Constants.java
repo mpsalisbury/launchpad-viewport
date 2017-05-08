@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.device.midi.mk2;
+package com.salisburyclan.lpviewport.device.midi.mk2;
 
 public class LaunchpadMk2Constants {
 

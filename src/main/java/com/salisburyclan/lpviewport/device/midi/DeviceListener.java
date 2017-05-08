@@ -1,8 +1,8 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.launchpad.api.ViewportListener;
-import com.salisburyclan.launchpad.device.ListenerMultiplexer;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolListener;
+import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.device.ListenerMultiplexer;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
 import java.util.ArrayList;
 import java.util.List;
 

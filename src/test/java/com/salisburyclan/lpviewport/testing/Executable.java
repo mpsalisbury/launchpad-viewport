@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.testing;
+package com.salisburyclan.lpviewport.testing;
 
 /** Copy of org.junit.jupiter.api.Executable.  Deprecate when we move to junit5. */
 

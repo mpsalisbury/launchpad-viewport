@@ -1,14 +1,14 @@
-package com.salisburyclan.launchpad.apps;
+package com.salisburyclan.lpviewport.apps;
 
-import com.salisburyclan.launchpad.api.Color;
-import com.salisburyclan.launchpad.api.LaunchpadClient;
-import com.salisburyclan.launchpad.api.ViewExtent;
-import com.salisburyclan.launchpad.api.ViewButton;
-import com.salisburyclan.launchpad.api.ViewButtonListener;
-import com.salisburyclan.launchpad.api.Viewport;
-import com.salisburyclan.launchpad.api.ViewportListener;
-import com.salisburyclan.launchpad.api.ViewStrip;
-import com.salisburyclan.launchpad.api.ViewStripListener;
+import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.api.ViewButton;
+import com.salisburyclan.lpviewport.api.ViewButtonListener;
+import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.ViewStrip;
+import com.salisburyclan.lpviewport.api.ViewStripListener;
 
 public class AllBlue extends JavafxLaunchpadApplication {
 

@@ -1,8 +1,8 @@
-package com.salisburyclan.launchpad.device;
+package com.salisburyclan.lpviewport.device;
 
 import com.google.common.collect.ImmutableSet;
-import com.salisburyclan.launchpad.api.LaunchpadClient;
-import com.salisburyclan.launchpad.api.LaunchpadClientProvider;
+import com.salisburyclan.lpviewport.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.LaunchpadClientProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,10 +1,10 @@
-package com.salisburyclan.launchpad.device.midi.mk2;
+package com.salisburyclan.lpviewport.device.midi.mk2;
 
-import com.salisburyclan.launchpad.api.ViewExtent;
-import com.salisburyclan.launchpad.device.midi.ColorCode;
-import com.salisburyclan.launchpad.device.midi.LaunchpadDevice;
-import com.salisburyclan.launchpad.device.midi.SysexBuilder;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolClient;
+import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.device.midi.ColorCode;
+import com.salisburyclan.lpviewport.device.midi.LaunchpadDevice;
+import com.salisburyclan.lpviewport.device.midi.SysexBuilder;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
@@ -124,9 +124,10 @@ public class LaunchpadMk2ProtocolClient implements LaunchpadProtocolClient {
 
   /** Sends the given message to the Launchpad. */
   private void send(SysexMessage message) {
-    System.out.println("sending: " + Arrays.toString(message.getMessage()));
+    //System.out.println("sending: " + Arrays.toString(message.getMessage()));
     receiver.send(message, -1);
 
+    /*
     try {
       ShortMessage m1 = new ShortMessage(ShortMessage.NOTE_ON, 81, 45);
       System.out.println("m1: " + Arrays.toString(m1.getMessage()));
@@ -134,15 +135,16 @@ public class LaunchpadMk2ProtocolClient implements LaunchpadProtocolClient {
     } catch (InvalidMidiDataException e) {
       System.err.println(e.getMessage());
     }
+    */
   }
 
   /** Sends the given sysex command to the Launchpad. */
   private void send(byte[] command) {
     send(SysexBuilder.newMessage(device.getSysexPreamble(), command));
 
+    /*
     byte[] command1 = {0x7e, 0x7f, 0x06, 0x01};
     send(SysexBuilder.newMessage(device.getSysexPreamble(), command1));
-    /*
     byte[] command1 = {10, 84, 45};
     send(SysexBuilder.newMessage(device.getSysexPreamble(), command1));
     byte[] command2= {13, 2, 45};

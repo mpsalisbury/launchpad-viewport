@@ -1,6 +1,6 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.launchpad.api.ViewExtent;
+import com.salisburyclan.lpviewport.api.ViewExtent;
 
 /** Describes the protocol details of a particular Launchpad device. */
 public interface LaunchpadDevice {

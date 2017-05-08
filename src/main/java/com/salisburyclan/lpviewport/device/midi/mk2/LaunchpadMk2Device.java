@@ -1,8 +1,8 @@
-package com.salisburyclan.launchpad.device.midi.mk2;
+package com.salisburyclan.lpviewport.device.midi.mk2;
 
-import com.salisburyclan.launchpad.api.ViewExtent;
-import com.salisburyclan.launchpad.device.midi.LaunchpadDevice;
-import com.salisburyclan.launchpad.device.midi.PositionCode;
+import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.device.midi.LaunchpadDevice;
+import com.salisburyclan.lpviewport.device.midi.PositionCode;
 
 public class LaunchpadMk2Device implements LaunchpadDevice {
 

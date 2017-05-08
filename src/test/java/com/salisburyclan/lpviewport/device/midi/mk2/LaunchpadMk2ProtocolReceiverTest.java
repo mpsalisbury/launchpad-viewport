@@ -1,7 +1,7 @@
-package com.salisburyclan.launchpad.device.midi.mk2;
+package com.salisburyclan.lpviewport.device.midi.mk2;
 
-import com.salisburyclan.launchpad.device.midi.mk2.LaunchpadMk2Constants.ButtonMapping;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolListener;
+import com.salisburyclan.lpviewport.device.midi.mk2.LaunchpadMk2Constants.ButtonMapping;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

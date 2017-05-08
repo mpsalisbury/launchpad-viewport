@@ -1,9 +1,9 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.launchpad.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.LaunchpadClient;
 
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolClient;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolListener;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
 
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiUnavailableException;
@@ -32,9 +32,6 @@ public class DeviceResources {
     this.protocolClient = spec.newProtocolClient(outputDevice.getReceiver());
     this.deviceListener = new DeviceListener();
     inputDevice.getTransmitter().setReceiver(spec.newProtocolReceiver(deviceListener));
-
-    System.out.println("Receivers: " + outputDevice.getReceivers().size());
-    System.out.println("Transmitters: " + inputDevice.getTransmitters().size());
   }
 
   public String getType() {

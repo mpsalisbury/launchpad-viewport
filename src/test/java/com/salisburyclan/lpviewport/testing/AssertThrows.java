@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.testing;
+package com.salisburyclan.lpviewport.testing;
 
 /** Copy of org.junit.jupiter.api.AssertThrows.  Deprecate when we move to junit5. */
 import junit.framework.AssertionFailedError;

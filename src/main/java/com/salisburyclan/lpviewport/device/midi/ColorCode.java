@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
 /**
  * Encodes an rgb color in a single int.

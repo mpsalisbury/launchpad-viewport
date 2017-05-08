@@ -1,14 +1,14 @@
-package com.salisburyclan.launchpad.device.midi;
+package com.salisburyclan.lpviewport.device.midi;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
-import com.salisburyclan.launchpad.api.LaunchpadClient;
-import com.salisburyclan.launchpad.api.Viewport;
-import com.salisburyclan.launchpad.midi.MidiDeviceProvider;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolClient;
-import com.salisburyclan.launchpad.protocol.LaunchpadProtocolListener;
-import com.salisburyclan.launchpad.protocol.ViewExtent;
+import com.salisburyclan.lpviewport.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.midi.MidiDeviceProvider;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
+import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -54,7 +54,7 @@ public class MidiLaunchpadClientProviderTest {
         new FakeDeviceProvider(ImmutableList.of("A", "C", "D", "E", "E", "E")),
         new FakeSpecProvider(ImmutableList.of("A", "B", "C", "E")));
 
-    when(mockProtocolClient.getOverallExtent()).thenReturn(new ViewExtent(0,10,0,10));
+    when(mockProtocolClient.getOverallExtent()).thenReturn(new ViewExtent(0,0,10,10));
   }
 
   @Test
@@ -65,8 +65,8 @@ public class MidiLaunchpadClientProviderTest {
     assertThat(client.getType()).isEqualTo("A");
 
     Viewport viewport = client.getViewport();
-    assertThat(viewport.getWidth()).isEqualTo(11);
-    assertThat(viewport.getHeight()).isEqualTo(11);
+    assertThat(viewport.getExtent().getWidth()).isEqualTo(11);
+    assertThat(viewport.getExtent().getHeight()).isEqualTo(11);
   }
 
   @Test

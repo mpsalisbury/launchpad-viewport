@@ -1,4 +1,4 @@
-package com.salisburyclan.launchpad.device.javafx;
+package com.salisburyclan.lpviewport.device.javafx;
 
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;

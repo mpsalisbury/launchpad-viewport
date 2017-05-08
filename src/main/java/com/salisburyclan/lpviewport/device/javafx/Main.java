@@ -1,6 +1,6 @@
-package com.salisburyclan.launchpad.device.javafx;
+package com.salisburyclan.lpviewport.device.javafx;
 
-import com.salisburyclan.launchpad.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.LaunchpadClient;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
