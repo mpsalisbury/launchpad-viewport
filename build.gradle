@@ -26,7 +26,7 @@ dependencies {
 
 task allBlue(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
-  main = 'com.salisburyclan.launchpad.apps.AllBlue'
+  main = 'com.salisburyclan.lpviewport.apps.AllBlue'
   if (project.hasProperty('lcs')) {
     args lcs
   }
@@ -34,7 +34,7 @@ task allBlue(type: JavaExec) {
 
 task rainbow(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
-  main = 'com.salisburyclan.launchpad.apps.Rainbow'
+  main = 'com.salisburyclan.lpviewport.apps.Rainbow'
   if (project.hasProperty('lcs')) {
     args lcs
   }
@@ -42,7 +42,7 @@ task rainbow(type: JavaExec) {
 
 task spark(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
-  main = 'com.salisburyclan.launchpad.apps.Spark'
+  main = 'com.salisburyclan.lpviewport.apps.Spark'
   if (project.hasProperty('lcs')) {
     args lcs
   }
@@ -50,7 +50,7 @@ task spark(type: JavaExec) {
 
 task sweep(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
-  main = 'com.salisburyclan.launchpad.apps.Sweep'
+  main = 'com.salisburyclan.lpviewport.apps.Sweep'
   if (project.hasProperty('lcs')) {
     args lcs
   }
