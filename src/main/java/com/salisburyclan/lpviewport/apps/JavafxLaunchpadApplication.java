@@ -2,6 +2,7 @@ package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.api.LaunchpadClient;
 import com.salisburyclan.lpviewport.api.LaunchpadClientProvider;
+import com.salisburyclan.lpviewport.device.AggregateLaunchpadClient;
 import com.salisburyclan.lpviewport.device.ProdLaunchpadClientProvider;
 
 import com.google.common.collect.ImmutableSet;
@@ -50,6 +51,8 @@ public abstract class JavafxLaunchpadApplication extends Application {
     List<LaunchpadClient> clients = clientProvider.getLaunchpadClients(ImmutableSet.of(typeSpec));
     if (clients.isEmpty()) {
       throw new IllegalArgumentException("Unavailable TypeSpec: " + typeSpec);
+    } else if (clients.size() == 2) {
+      return new AggregateLaunchpadClient(clients.get(0), clients.get(1));
     } else {
       System.out.println("Found client " + clients.get(0).getType());
       return clients.get(0);

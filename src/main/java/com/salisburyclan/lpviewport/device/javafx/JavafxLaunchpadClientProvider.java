@@ -19,6 +19,7 @@ public class JavafxLaunchpadClientProvider implements LaunchpadClientProvider {
   private final String TYPE = JavafxLaunchpadClient.TYPE;
   private final Pattern DEFAULT_PATTERN = Pattern.compile(TYPE);
   private final Pattern SIZE_PATTERN = Pattern.compile(TYPE+"\\.(\\d*)x(\\d*)");
+  private final Pattern LINE_SIZE_PATTERN = Pattern.compile(TYPE+"\\.(\\d*)x(\\d*)\\.(\\d*)");
 //  private final Pattern GRID_SIZE_PATTERN = Pattern.compile(TYPE+"\\.(\\d*)x(\\d*)\\.(\\d*)x(\\d*)");
 
 
@@ -30,7 +31,8 @@ public class JavafxLaunchpadClientProvider implements LaunchpadClientProvider {
   @Override
   public boolean supportsClientSpec(String clientSpec) {
     return DEFAULT_PATTERN.matcher(clientSpec).matches()
-        || SIZE_PATTERN.matcher(clientSpec).matches();
+        || SIZE_PATTERN.matcher(clientSpec).matches()
+        || LINE_SIZE_PATTERN.matcher(clientSpec).matches();
   }
 
   @Override
@@ -47,6 +49,15 @@ public class JavafxLaunchpadClientProvider implements LaunchpadClientProvider {
         int xSize = Integer.parseInt(sizeMatcher.group(1));
         int ySize = Integer.parseInt(sizeMatcher.group(2));
         clients.add(new JavafxLaunchpadClient(xSize, ySize));
+      }
+      Matcher lineSizeMatcher = LINE_SIZE_PATTERN.matcher(clientSpec);
+      if (lineSizeMatcher.matches()) {
+        int xSize = Integer.parseInt(lineSizeMatcher.group(1));
+        int ySize = Integer.parseInt(lineSizeMatcher.group(2));
+        int count = Integer.parseInt(lineSizeMatcher.group(3));
+        for (int i=0; i<count; ++i) {
+          clients.add(new JavafxLaunchpadClient(xSize, ySize));
+        }
       }
     });
     return clients;
