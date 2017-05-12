@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Listens to an entire device.
  */
-public class DeviceListener implements LaunchpadProtocolListener {
+public class MidiListener implements LaunchpadProtocolListener {
 
   private ListenerMultiplexer multiplexer = new ListenerMultiplexer();
 

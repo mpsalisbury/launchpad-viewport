@@ -16,7 +16,7 @@ buildscript {
 
 dependencies {
   implementation 'com.google.guava:guava:20.0'
-//  compile files('lib/coremidi4j-0.9.1.jar')
+  compile files('lib/coremidi4j-0.9.3.jar')
 //  compile 'uk.co.xfactory-librarians:coremidi4j:0.9'
   testCompile "com.google.truth:truth:0.31"
   testCompile "com.google.truth.extensions:truth-java8-extension:0.32"
@@ -54,5 +54,10 @@ task sweep(type: JavaExec) {
   if (project.hasProperty('lcs')) {
     args lcs
   }
+}
+
+task testcm(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.lpviewport.apps.TestCoreMidi'
 }
 

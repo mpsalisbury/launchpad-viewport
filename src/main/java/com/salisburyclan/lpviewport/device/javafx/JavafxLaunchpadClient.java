@@ -2,6 +2,7 @@ package com.salisburyclan.lpviewport.device.javafx;
 
 import com.salisburyclan.lpviewport.api.LaunchpadClient;
 import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.device.ViewportAdapter;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -34,7 +35,7 @@ public class JavafxLaunchpadClient implements LaunchpadClient {
 
   public Stage newWindow(int xSize, int ySize) {
     ColorButtonGrid buttonGrid = new ColorButtonGrid(xSize, ySize, 40);
-    viewport = new JavafxViewport(buttonGrid);
+    viewport = new ViewportAdapter(new JavafxViewport(buttonGrid));
 
     Stage stage = new Stage();
     stage.setScene(new Scene(buttonGrid.getParent()));

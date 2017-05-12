@@ -6,17 +6,16 @@ import com.salisburyclan.lpviewport.api.ViewButton;
 import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.api.ViewStrip;
-import com.salisburyclan.lpviewport.device.SubViewport;
-import com.salisburyclan.lpviewport.device.SubViewStrip;
+import com.salisburyclan.lpviewport.device.DeviceViewport;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 
-public class DeviceViewport implements Viewport {
+public class MidiViewport implements DeviceViewport {
 
   private LaunchpadProtocolClient client;
-  private DeviceListener listener;
+  private MidiListener listener;
   private ViewExtent extent;
 
-  public DeviceViewport(LaunchpadProtocolClient client, DeviceListener listener) {
+  public MidiViewport(LaunchpadProtocolClient client, MidiListener listener) {
     this.client = client;
     this.listener = listener;
     this.extent = client.getOverallExtent();
@@ -34,30 +33,9 @@ public class DeviceViewport implements Viewport {
     int colorNum = ColorCode.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
     client.setLight(pos, colorNum);
   }
-  //public void setLights(int xLow, int xHigh, int yLow, int yHigh, Color color);
-  //public void setAllLights(Color color);
 
-  // Adds a listener for the button at the given position.
-  //public void addListener(int x, int y, ButtonListener listener);
-
-  // Adds a listener for this viewport.
   @Override
   public void addListener(ViewportListener viewportListener) {
     listener.addListener(viewportListener);
-  }
-
-  // Returns a new viewport relative to this one.
-  public Viewport getSubViewport(ViewExtent extent) {
-    return new SubViewport(this, extent);
-  }
-
-  @Override
-  public ViewStrip getSubViewStrip(ViewExtent extent) {
-    return new SubViewStrip(this, extent);
-  }
-
-  @Override
-  public ViewButton getSubViewButton(int x, int y) {
-    return new SubViewport.SubViewButton(this, x, y);
   }
 }

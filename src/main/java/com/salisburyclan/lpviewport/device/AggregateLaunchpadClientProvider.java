@@ -26,6 +26,12 @@ public class AggregateLaunchpadClientProvider implements LaunchpadClientProvider
   }
 
   @Override
+  public boolean supportsClientSpec(String clientSpec) {
+    return providers.stream()
+        .anyMatch(provider -> provider.supportsClientSpec(clientSpec));
+  }
+
+  @Override
   public Set<String> getAvailableTypes() {
     return providers.stream()
         .map(LaunchpadClientProvider::getAvailableTypes)
@@ -34,10 +40,15 @@ public class AggregateLaunchpadClientProvider implements LaunchpadClientProvider
   }
 
   @Override
-  public List<LaunchpadClient> getLaunchpadClients(Set<String> typeSpecs) {
+  public List<LaunchpadClient> getLaunchpadClients(Set<String> requestedTypeSpecs) {
     List<LaunchpadClient> clients = new ArrayList<>();
     providers.forEach((provider) -> {
-      clients.addAll(provider.getLaunchpadClients(typeSpecs));
+      Set<String> supportedTypeSpecs = requestedTypeSpecs.stream()
+          .filter(provider::supportsClientSpec)
+          .collect(Collectors.toSet());
+      if (!supportedTypeSpecs.isEmpty()) {
+        clients.addAll(provider.getLaunchpadClients(supportedTypeSpecs));
+      }
     });
     return clients;
   }

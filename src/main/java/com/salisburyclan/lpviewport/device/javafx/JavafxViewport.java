@@ -1,16 +1,13 @@
 package com.salisburyclan.lpviewport.device.javafx;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewButton;
 import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
-import com.salisburyclan.lpviewport.api.ViewStrip;
 import com.salisburyclan.lpviewport.device.ListenerMultiplexer;
-import com.salisburyclan.lpviewport.device.SubViewport;
-import com.salisburyclan.lpviewport.device.SubViewStrip;
+import com.salisburyclan.lpviewport.device.DeviceViewport;
 
-public class JavafxViewport implements Viewport {
+public class JavafxViewport implements DeviceViewport {
   ColorButtonGrid buttonGrid;
   ListenerMultiplexer listenerMultiplexer;
   ViewExtent extent;
@@ -53,20 +50,5 @@ public class JavafxViewport implements Viewport {
   @Override
   public void addListener(ViewportListener listener) {
     listenerMultiplexer.addListener(listener);
-  }
-
-  @Override
-  public Viewport getSubViewport(ViewExtent extent) {
-    return new SubViewport(this, extent);
-  }
-
-  @Override
-  public ViewStrip getSubViewStrip(ViewExtent extent) {
-    return new SubViewStrip(this, extent);
-  }
-
-  @Override
-  public ViewButton getSubViewButton(int x, int y) {
-    return new SubViewport.SubViewButton(this, x, y);
   }
 }

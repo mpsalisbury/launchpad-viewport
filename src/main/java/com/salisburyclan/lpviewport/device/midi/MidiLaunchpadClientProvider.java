@@ -23,6 +23,12 @@ import javax.sound.midi.MidiUnavailableException;
 /** Provides LaunchpadClients for Midi devices. */
 public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
 
+  // Identifier for OSX
+  private final static String OSX_ID = "macosx";
+
+  // Label added to Midi device names for OSX CoreMIDI4J device wrappers.
+  private final static String CORE_MIDI_4J_NAME_TAG = "CoreMIDI4J";
+
   // Provides access to midi devices.
   private MidiDeviceProvider deviceProvider;
   private MidiDeviceSpecProvider specProvider;
@@ -36,6 +42,13 @@ public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
       MidiDeviceSpecProvider specProvider) {
     this.deviceProvider = deviceProvider;
     this.specProvider = specProvider;
+  }
+
+  @Override
+  public boolean supportsClientSpec(String clientSpec) {
+    return specProvider.getSpecs().stream()
+      .map(MidiDeviceSpec::getType)
+      .anyMatch(type -> type.equals(clientSpec));
   }
 
   @Override
@@ -65,12 +78,13 @@ public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
 
     public void collectDevices(Set<String> typeSpecs) {
       AtomicBoolean foundValidType = new AtomicBoolean(false);
-      specProvider.getSpecs().forEach((spec)->{
-        Arrays.stream(deviceProvider.getMidiDeviceInfo()).forEach((info)->{
+      specProvider.getSpecs().forEach(spec -> {
+        Arrays.stream(deviceProvider.getMidiDeviceInfo()).forEach(info -> {
           System.out.println(String.format("Got midi info %s / %s", info.getName(), info.getDescription()));
           if (typeSpecs.contains(spec.getType())) {
             foundValidType.set(true);
-            if (deviceMatchesSignature(spec.getSignature(), info)) {
+            if (isDeviceCompatibleWithPlatform(info)
+                && deviceMatchesSignature(spec.getSignature(), info)) {
               addDevice(spec, info);
             }
           }
@@ -78,6 +92,7 @@ public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
       });
       if (clients.isEmpty()) {
         if (foundValidType.get()) {
+          // TODO(mpsalisbury) Use logger rather than System.err
           System.err.println("Requested device(s) not connected");
         } else {
           System.err.println("Invalid TypeSpec requested");
@@ -91,6 +106,23 @@ public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
 
     private boolean deviceMatchesSignature(String signature, MidiDevice.Info info) {
       return info.getDescription().contains(signature);
+    }
+
+    private boolean isDeviceCompatibleWithPlatform(MidiDevice.Info info) {
+      if (isPlatformOsx()) {
+        // On OSX the Java's javax.sound.midi.MidiDevice doesn't send SysEx messages
+        // to the device.  To work around this, we include the CoreMidi4J library,
+        // which wraps the CoreMidi connections to the devices with a Java MidiDevice,
+        // prefixing the name with "CoreMIDI4J".  Here we identify only devices with
+        // that tag as being available on osx systems.
+        return info.getName().contains(CORE_MIDI_4J_NAME_TAG);
+      }
+      return true;
+    }
+
+    private boolean isPlatformOsx() {
+      final String os = System.getProperty("os.name").toLowerCase().replace(" ","");
+      return OSX_ID.equals(os);
     }
 
     /**
@@ -142,8 +174,8 @@ public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
 
     private void addClient(MidiDeviceSpec spec, MidiDevice inputDevice, MidiDevice outputDevice)
         throws MidiUnavailableException {
-      DeviceResources resources = new DeviceResources(spec, inputDevice, outputDevice);
-      clients.add(new DeviceLaunchpadClient(resources));
+      MidiResources resources = new MidiResources(spec, inputDevice, outputDevice);
+      clients.add(new MidiLaunchpadClient(resources));
     }
   }
 }

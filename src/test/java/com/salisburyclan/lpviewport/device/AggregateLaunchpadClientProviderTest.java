@@ -64,6 +64,12 @@ public class AggregateLaunchpadClientProviderTest {
     }
 
     @Override
+    public boolean supportsClientSpec(String clientSpec) {
+      // TODO test
+      return types.contains(clientSpec);
+    }
+
+    @Override
     public Set<String> getAvailableTypes() {
       return types;
     }

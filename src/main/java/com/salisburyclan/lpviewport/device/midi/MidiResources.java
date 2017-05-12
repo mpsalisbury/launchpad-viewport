@@ -9,15 +9,15 @@ import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 
-public class DeviceResources {
+public class MidiResources {
 
   private final MidiDevice inputDevice;
   private final MidiDevice outputDevice;
   private final String type;
   private final LaunchpadProtocolClient protocolClient;
-  private final DeviceListener deviceListener;
+  private final MidiListener midiListener;
 
-  public DeviceResources(MidiDeviceSpec spec,
+  public MidiResources(MidiDeviceSpec spec,
       MidiDevice inputDevice, MidiDevice outputDevice) throws MidiUnavailableException {
     // TODO: Require inputDevice has transmitters and outputDevice has receivers.
     this.inputDevice = inputDevice;
@@ -30,8 +30,8 @@ public class DeviceResources {
     }
     this.type = spec.getType();
     this.protocolClient = spec.newProtocolClient(outputDevice.getReceiver());
-    this.deviceListener = new DeviceListener();
-    inputDevice.getTransmitter().setReceiver(spec.newProtocolReceiver(deviceListener));
+    this.midiListener = new MidiListener();
+    inputDevice.getTransmitter().setReceiver(spec.newProtocolReceiver(midiListener));
   }
 
   public String getType() {
@@ -42,8 +42,8 @@ public class DeviceResources {
     return protocolClient;
   }
 
-  public DeviceListener getListener() {
-    return deviceListener;
+  public MidiListener getListener() {
+    return midiListener;
   }
 
   public void close() {

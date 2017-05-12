@@ -28,15 +28,21 @@ public class JavafxLaunchpadClientProvider implements LaunchpadClientProvider {
   }
 
   @Override
-  public List<LaunchpadClient> getLaunchpadClients(Set<String> types) {
+  public boolean supportsClientSpec(String clientSpec) {
+    return DEFAULT_PATTERN.matcher(clientSpec).matches()
+        || SIZE_PATTERN.matcher(clientSpec).matches();
+  }
+
+  @Override
+  public List<LaunchpadClient> getLaunchpadClients(Set<String> clientSpecs) {
     List<LaunchpadClient> clients = new ArrayList<>();
 
-    types.forEach((type) -> {
-      Matcher defaultMatcher = DEFAULT_PATTERN.matcher(type);
+    clientSpecs.forEach(clientSpec -> {
+      Matcher defaultMatcher = DEFAULT_PATTERN.matcher(clientSpec);
       if (defaultMatcher.matches()) {
         clients.add(new JavafxLaunchpadClient());
       }
-      Matcher sizeMatcher = SIZE_PATTERN.matcher(type);
+      Matcher sizeMatcher = SIZE_PATTERN.matcher(clientSpec);
       if (sizeMatcher.matches()) {
         int xSize = Integer.parseInt(sizeMatcher.group(1));
         int ySize = Integer.parseInt(sizeMatcher.group(2));

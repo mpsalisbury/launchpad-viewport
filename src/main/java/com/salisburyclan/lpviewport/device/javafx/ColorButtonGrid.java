@@ -33,7 +33,7 @@ public class ColorButtonGrid {
     vBox.setSpacing(5);
     vBox.setBackground(new Background(
           new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-    for (int y = 0; y < yCount; y++) {
+    for (int y = yCount - 1; y >= 0; y--) {  // Build y largest->smallest top->bottom
       HBox hBox = new HBox();
       hBox.setSpacing(5);
       for (int x = 0; x < xCount; x++) {

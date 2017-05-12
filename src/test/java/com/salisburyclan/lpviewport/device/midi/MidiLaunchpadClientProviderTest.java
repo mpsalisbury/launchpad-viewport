@@ -138,7 +138,8 @@ public class MidiLaunchpadClientProviderTest {
 
   private static class FakeDeviceInfo extends MidiDevice.Info {
     public FakeDeviceInfo(String name, String description) {
-      super(name, "", description, "");
+      // TODO(mpsalisbury) how to test for different platforms?
+      super("CoreMIDI4J - " + name, "", description, "");
     }
   }
 

@@ -13,14 +13,14 @@ import org.mockito.quality.Strictness;
 import static org.mockito.Mockito.verify;
 
 @RunWith(JUnit4.class)
-public class DeviceListenerTest {
+public class MidiListenerTest {
 
   @Rule public MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
   @Mock private ViewportListener mockViewportListener;
 
   @Test
   public void testMessageForwarding() throws Exception {
-    DeviceListener listener = new DeviceListener();
+    MidiListener listener = new MidiListener();
     listener.addListener(mockViewportListener);
 
     int testX = 4;
