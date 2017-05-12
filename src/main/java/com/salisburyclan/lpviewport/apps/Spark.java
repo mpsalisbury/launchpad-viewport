@@ -26,7 +26,7 @@ public class Spark extends JavafxLaunchpadApplication {
 
   @Override
   public void run() {
-    viewport = getLaunchpadClient().getViewport();
+    viewport = getViewport();
     viewport.addListener(new ViewportListener() {
       @Override
       public void onButtonPressed(int x, int y) {

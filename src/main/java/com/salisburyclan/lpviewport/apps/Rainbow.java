@@ -10,7 +10,7 @@ public class Rainbow extends JavafxLaunchpadApplication {
 
   @Override
   public void run() {
-    viewport = getLaunchpadClient().getViewport();
+    viewport = getViewport();
     setRainbow();
   }
 

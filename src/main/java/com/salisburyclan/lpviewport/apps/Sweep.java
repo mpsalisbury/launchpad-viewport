@@ -27,7 +27,7 @@ public class Sweep extends JavafxLaunchpadApplication {
 
   @Override
   public void run() {
-    viewport = getLaunchpadClient().getViewport();
+    viewport = getViewport();
     sweep(Color.RED);
   }
 

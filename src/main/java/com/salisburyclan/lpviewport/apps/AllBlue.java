@@ -16,7 +16,7 @@ public class AllBlue extends JavafxLaunchpadApplication {
 
   @Override
   public void run() {
-    viewport = getLaunchpadClient().getViewport();
+    viewport = getViewport();
     addStripListener(0, Color.GREEN, Color.BLUE);
     addStripListener(1, Color.YELLOW, Color.BLUE);
     addStripListener(2, Color.RED, Color.BLUE);

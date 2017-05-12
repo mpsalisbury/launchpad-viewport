@@ -2,7 +2,8 @@ package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.api.LaunchpadClient;
 import com.salisburyclan.lpviewport.api.LaunchpadClientProvider;
-import com.salisburyclan.lpviewport.device.AggregateLaunchpadClient;
+import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.device.AggregateViewport;
 import com.salisburyclan.lpviewport.device.ProdLaunchpadClientProvider;
 
 import com.google.common.collect.ImmutableSet;
@@ -35,8 +36,8 @@ public abstract class JavafxLaunchpadApplication extends Application {
 
   public abstract void run();
 
-  // Returns first client using clientSpec from args.
-  protected LaunchpadClient getLaunchpadClient() {
+  // Returns first viewport using clientSpec from args.
+  protected Viewport getViewport() {
     List<String> parameters = getParameters().getUnnamed();
     String clientSpec;
     if (parameters.isEmpty()) {
@@ -44,18 +45,19 @@ public abstract class JavafxLaunchpadApplication extends Application {
     } else {
       clientSpec = parameters.get(0);
     }
-    return getLaunchpadClient(clientSpec);
+    return getViewport(clientSpec);
   }
 
-  protected LaunchpadClient getLaunchpadClient(String typeSpec) {
+  protected Viewport getViewport(String typeSpec) {
     List<LaunchpadClient> clients = clientProvider.getLaunchpadClients(ImmutableSet.of(typeSpec));
+
     if (clients.isEmpty()) {
       throw new IllegalArgumentException("Unavailable TypeSpec: " + typeSpec);
     } else if (clients.size() == 2) {
-      return new AggregateLaunchpadClient(clients.get(0), clients.get(1));
+      return new AggregateViewport(clients.get(0).getViewport(), clients.get(1).getViewport());
     } else {
       System.out.println("Found client " + clients.get(0).getType());
-      return clients.get(0);
+      return clients.get(0).getViewport();
     }
   }
 }
