@@ -53,11 +53,17 @@ public abstract class JavafxLaunchpadApplication extends Application {
 
     if (clients.isEmpty()) {
       throw new IllegalArgumentException("Unavailable TypeSpec: " + typeSpec);
-    } else if (clients.size() == 2) {
-      return new AggregateViewport(clients.get(0).getViewport(), clients.get(1).getViewport());
-    } else {
+    } else if (clients.size() == 1) {
       System.out.println("Found client " + clients.get(0).getType());
       return clients.get(0).getViewport();
+    } else {
+      AggregateViewport.Builder builder = new AggregateViewport.Builder();
+      int nextX = 0;
+      for (LaunchpadClient client : clients) {
+        builder.add(client.getViewport(), nextX, 0);
+        nextX += client.getViewport().getExtent().getWidth();
+      }
+      return builder.build();
     }
   }
 }

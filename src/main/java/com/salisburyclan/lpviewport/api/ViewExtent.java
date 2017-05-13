@@ -80,4 +80,39 @@ public class ViewExtent {
     return isPointWithin(other.getXLow(), getYLow())
         && isPointWithin(other.getXHigh(), getYHigh());
   }
+
+  public ViewExtent shift(int xOffset, int yOffset) {
+    return new ViewExtent(xLow + xOffset, yLow + yOffset, xHigh + xOffset, yHigh + yOffset);
+  }
+
+  // Returns a new ViewExtent that includes the full range of both this and other.
+  public ViewExtent includeBoth(ViewExtent other) {
+    return new ViewExtent(
+        Math.min(xLow, other.xLow),
+        Math.min(yLow, other.yLow),
+        Math.max(xHigh, other.xHigh),
+        Math.max(yHigh, other.yHigh));
+  }
+
+  @Override
+  public String toString() {
+    return String.format("ViewExtent(%s,%s)-(%s,%s)", xLow, yLow, xHigh, yHigh);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (!(other instanceof ViewExtent)) {
+      return false;
+    }
+    ViewExtent o = (ViewExtent) other;
+    return xLow == o.getXLow()
+      && yLow == o.getYLow()
+      && xHigh == o.getXHigh()
+      && yHigh == o.getYHigh();
+  }
+
+  @Override
+  public int hashCode() {
+    return 41 * (41 * (41 * getXLow() + getYLow()) + getXHigh()) + getYHigh();
+  }
 }

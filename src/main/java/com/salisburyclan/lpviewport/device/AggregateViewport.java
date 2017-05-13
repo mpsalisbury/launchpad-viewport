@@ -8,27 +8,66 @@ import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.api.ViewStrip;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // A viewport that represents multiple viewports stitched together
 public class AggregateViewport implements Viewport {
-  // for now, just left-to-right
-  private Viewport leftViewport;
-  private Viewport rightViewport;
 
-  private ViewExtent leftExtent;
-  private ViewExtent rightExtent;
-  // offset of rightViewport from origin.
-  private int offset;
+  // Represents a viewport that composes part of this AggregateViewport.
+  private static class Viewpart {
+    public Viewport viewport;
+    // The extent of this viewport within the AggregateViewport.
+    public ViewExtent extent;
+    // viewport.exent + offset = this.extent
+    public int xOffset;
+    public int yOffset;
+
+    public Viewpart(Viewport viewport, ViewExtent extent, int xOffset, int yOffset) {
+      this.viewport = viewport;
+      this.extent = extent;
+      this.xOffset = xOffset;
+      this.yOffset = yOffset;
+    }
+  }
+  private List<Viewpart> viewparts;
   private ViewExtent extent;
 
-  public AggregateViewport(Viewport leftViewport, Viewport rightViewport) {
-    this.leftViewport = leftViewport;
-    this.rightViewport = rightViewport;
+  private AggregateViewport(List<Viewpart> viewparts, ViewExtent extent) {
+    this.viewparts = viewparts;
+    this.extent = extent;
+  }
 
-    // for now assume viewports have same dimensions
-    this.leftExtent = leftViewport.getExtent();
-    this.offset = leftExtent.getWidth();
-    this.extent = new ViewExtent(0, 0, leftExtent.getWidth() * 2 - 1, leftExtent.getHeight() - 1);
-    this.rightExtent = new ViewExtent(offset, 0, leftExtent.getWidth() * 2 - 1, leftExtent.getHeight() - 1);
+  // Builds an AggregateViewport
+  public static class Builder {
+    private List<Viewpart> viewparts;
+
+    public Builder() {
+      this.viewparts = new ArrayList<>();
+    }
+
+    // Adds the given viewport with the low corner placed at
+    // (xLow, yLow) in this aggregate viewport.
+    public void add(Viewport viewport, int targetXLow, int targetYLow) {
+      ViewExtent oldExtent = viewport.getExtent();
+      int xOffset = targetXLow - oldExtent.getXLow();
+      int yOffset = targetYLow - oldExtent.getYLow();
+      ViewExtent newExtent = viewport.getExtent().shift(xOffset, yOffset);
+      viewparts.add(new Viewpart(viewport, newExtent, xOffset, yOffset));
+    }
+
+    public AggregateViewport build() {
+      if (viewparts.isEmpty()) {
+        throw new IllegalArgumentException("Must add at least one Viewport to AggregateViewport");
+      }
+      return new AggregateViewport(viewparts, computeExtent());
+    }
+
+    private ViewExtent computeExtent() {
+      return viewparts.stream()
+        .map(viewpart -> viewpart.extent)
+        .reduce(viewparts.get(0).extent, (a, b) -> a.includeBoth(b));
+    }
   }
 
   @Override
@@ -38,30 +77,24 @@ public class AggregateViewport implements Viewport {
 
   @Override
   public void setLight(int x, int y, Color color) {
-    if (leftExtent.isPointWithin(x, y)) {
-      leftViewport.setLight(x, y, color);
-    } else if (rightExtent.isPointWithin(x, y)) {
-      rightViewport.setLight(x - offset, y, color);
-    }
+    viewparts.forEach(viewpart -> {
+      if (viewpart.extent.isPointWithin(x, y)) {
+        viewpart.viewport.setLight(x - viewpart.xOffset, y - viewpart.yOffset, color);
+      }
+    });
   }
 
   @Override
   public void addListener(ViewportListener listener) {
-    leftViewport.addListener(new ViewportListener() {
-      public void onButtonPressed(int x, int y) {
-        listener.onButtonPressed(x, y);
-      }
-      public void onButtonReleased(int x, int y) {
-        listener.onButtonReleased(x, y);
-      }
-    });
-    rightViewport.addListener(new ViewportListener() {
-      public void onButtonPressed(int x, int y) {
-        listener.onButtonPressed(x + offset, y);
-      }
-      public void onButtonReleased(int x, int y) {
-        listener.onButtonReleased(x + offset, y);
-      }
+    viewparts.forEach(viewpart -> {
+      viewpart.viewport.addListener(new ViewportListener() {
+        public void onButtonPressed(int x, int y) {
+          listener.onButtonPressed(x + viewpart.xOffset, y + viewpart.yOffset);
+        }
+        public void onButtonReleased(int x, int y) {
+          listener.onButtonReleased(x + viewpart.xOffset, y + viewpart.yOffset);
+        }
+      });
     });
   }
 
