@@ -6,6 +6,7 @@ import com.google.common.truth.Truth8;
 
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.device.AggregateViewport;
 
@@ -15,6 +16,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -34,6 +36,7 @@ public class AggregateViewportTest {
   @Rule public MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
   @Mock private Viewport mockViewport1;
   @Mock private Viewport mockViewport2;
+  @Mock private ViewportListener mockListener;
 
   private AggregateViewport viewport;
 
@@ -54,6 +57,8 @@ public class AggregateViewportTest {
     assertThat(viewport.getExtent()).isEqualTo(new ViewExtent(0, 0, 19, 19));
   }
 
+  // Test that when we set lights on the aggregate viewport, the correct
+  // sub-viewport lights get set.
   @Test
   public void testSetLight() throws Exception {
     Color color = Color.RED;
@@ -66,10 +71,36 @@ public class AggregateViewportTest {
     viewport.setLight(19, 19, color);
     verify(mockViewport2).setLight(10, 10, color);
     verify(mockViewport2).setLight(19, 29, color);
+
+    // TODO Check out of range
   }
 
+  // Test that when a sub-viewport button gets pressed, the correct
+  // aggregate viewport button location gets notified.
   @Test
   public void testAddListener() throws Exception {
-    // TODO(mpsalisbury): implement
+    ArgumentCaptor<ViewportListener> viewport1ListenerCaptor =
+      ArgumentCaptor.forClass(ViewportListener.class);
+    ArgumentCaptor<ViewportListener> viewport2ListenerCaptor =
+      ArgumentCaptor.forClass(ViewportListener.class);
+
+    viewport.addListener(mockListener);
+    verify(mockViewport1).addListener(viewport1ListenerCaptor.capture());
+    verify(mockViewport2).addListener(viewport2ListenerCaptor.capture());
+
+    ViewportListener viewport1Listener = viewport1ListenerCaptor.getValue();
+    ViewportListener viewport2Listener = viewport2ListenerCaptor.getValue();
+
+    viewport1Listener.onButtonPressed(0, 0);
+    viewport1Listener.onButtonPressed(9, 19);
+    verify(mockListener).onButtonPressed(0, 0);
+    verify(mockListener).onButtonPressed(9, 19);
+
+    viewport2Listener.onButtonPressed(10, 10);
+    viewport2Listener.onButtonPressed(19, 29);
+    verify(mockListener).onButtonPressed(10, 0);
+    verify(mockListener).onButtonPressed(19, 19);
+
+    // TODO Check out of range
   }
 }
