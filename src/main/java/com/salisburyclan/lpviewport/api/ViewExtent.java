@@ -81,6 +81,10 @@ public class ViewExtent {
         && isPointWithin(other.getXHigh(), getYHigh());
   }
 
+  public ViewExtent inset(int xLowInset, int yLowInset, int xHighInset, int yHighInset) {
+    return new ViewExtent(xLow + xLowInset, yLow + yLowInset, xHigh - xHighInset, yHigh - yHighInset);
+  }
+
   public ViewExtent shift(int xOffset, int yOffset) {
     return new ViewExtent(xLow + xOffset, yLow + yOffset, xHigh + xOffset, yHigh + yOffset);
   }

@@ -16,8 +16,7 @@ buildscript {
 
 dependencies {
   implementation 'com.google.guava:guava:20.0'
-  compile files('lib/coremidi4j-0.9.3.jar')
-//  compile 'uk.co.xfactory-librarians:coremidi4j:0.9'
+  compile 'uk.co.xfactory-librarians:coremidi4j:1.0'
   testCompile "com.google.truth:truth:0.31"
   testCompile "com.google.truth.extensions:truth-java8-extension:0.32"
   testCompile 'org.mockito:mockito-core:2.+'
@@ -51,6 +50,14 @@ task spark(type: JavaExec) {
 task sweep(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.Sweep'
+  if (project.hasProperty('lcs')) {
+    args lcs
+  }
+}
+
+task diagrotate(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.lpviewport.apps.DiagRotate'
   if (project.hasProperty('lcs')) {
     args lcs
   }
