@@ -1,8 +1,8 @@
 package com.salisburyclan.lpviewport.device;
 
 import com.google.common.collect.ImmutableSet;
-import com.salisburyclan.lpviewport.api.LaunchpadClient;
-import com.salisburyclan.lpviewport.api.LaunchpadClientProvider;
+import com.salisburyclan.lpviewport.api.Device;
+import com.salisburyclan.lpviewport.api.DeviceProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,16 +12,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/** Combines LaunchpadClientProviders. */
-public class AggregateLaunchpadClientProvider implements LaunchpadClientProvider {
+/** Combines DeviceProvider. */
+public class AggregateDeviceProvider implements DeviceProvider {
 
-  List<LaunchpadClientProvider> providers;
+  List<DeviceProvider> providers;
 
-  public AggregateLaunchpadClientProvider() {
+  public AggregateDeviceProvider() {
     providers = new ArrayList<>();
   }
 
-  protected void addProvider(LaunchpadClientProvider provider) {
+  protected void addProvider(DeviceProvider provider) {
     providers.add(provider);
   }
 
@@ -34,20 +34,20 @@ public class AggregateLaunchpadClientProvider implements LaunchpadClientProvider
   @Override
   public Set<String> getAvailableTypes() {
     return providers.stream()
-        .map(LaunchpadClientProvider::getAvailableTypes)
+        .map(DeviceProvider::getAvailableTypes)
 	      .flatMap(Set::stream)
 	      .collect(Collectors.toSet());
   }
 
   @Override
-  public List<LaunchpadClient> getLaunchpadClients(Set<String> requestedTypeSpecs) {
+  public List<LaunchpadClient> getDevices(Set<String> requestedTypeSpecs) {
     List<LaunchpadClient> clients = new ArrayList<>();
     providers.forEach((provider) -> {
       Set<String> supportedTypeSpecs = requestedTypeSpecs.stream()
           .filter(provider::supportsClientSpec)
           .collect(Collectors.toSet());
       if (!supportedTypeSpecs.isEmpty()) {
-        clients.addAll(provider.getLaunchpadClients(supportedTypeSpecs));
+        clients.addAll(provider.getDevices(supportedTypeSpecs));
       }
     });
     return clients;

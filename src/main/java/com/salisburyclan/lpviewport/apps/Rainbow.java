@@ -1,7 +1,6 @@
 package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LaunchpadClient;
 import com.salisburyclan.lpviewport.api.Viewport;
 
 public class Rainbow extends JavafxLaunchpadApplication {

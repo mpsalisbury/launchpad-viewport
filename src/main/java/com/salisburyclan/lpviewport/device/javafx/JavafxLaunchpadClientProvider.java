@@ -14,6 +14,15 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Produces JavaFX LaunchpadClients given a clientSpec.
+ * Supports clientSpecs of the form:
+ *   javafx - one client of default (8x8) size.
+ *   javafx.{x}x{y} - one client of the given (x by y) size.
+ *   javafx.{x}x{y}.{n} - n clients of the given (x by y) size.
+ *
+ * e.g. 'javafx.8x8.4' returns 4 8x8 javafx button grids.
+ */
 public class JavafxLaunchpadClientProvider implements LaunchpadClientProvider {
 
   private final String TYPE = JavafxLaunchpadClient.TYPE;

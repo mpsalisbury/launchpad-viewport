@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.device;
+package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.ViewportListener;
 import java.util.ArrayList;

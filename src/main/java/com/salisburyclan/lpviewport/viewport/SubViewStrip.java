@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.device;
+package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
@@ -64,10 +64,13 @@ public class SubViewStrip implements ViewStrip {
     });
   }
 
+  /**
+   * TODO remove
   @Override
   public ViewButton getSubViewButton(int x) {
     return new SubViewButton(this, x);
   }
+  */
 
   // Maps between 1-D strip index and 2-D Viewport index.
   private interface IndexMap {
@@ -153,39 +156,6 @@ public class SubViewStrip implements ViewStrip {
     @Override
     public ViewStripExtent getExtent() {
       return extent;
-    }
-  }
-
-  // A viewport that represents a one-button view of an existing viewport.
-  public static class SubViewButton implements ViewButton {
-    private ViewStrip baseViewStrip;
-    private int x;
-  
-    public SubViewButton(ViewStrip baseViewStrip, int x) {
-      baseViewStrip.getExtent().assertPointWithin(x);
-      this.baseViewStrip = baseViewStrip;
-      this.x = x;
-    }
-  
-    @Override
-    public void setLight(Color color) {
-      baseViewStrip.setLight(x, color);
-    }
-  
-    @Override
-    public void addListener(ViewButtonListener listener) {
-      baseViewStrip.addListener(new ViewStripListener() {
-        public void onButtonPressed(int buttonX) {
-          if (buttonX == x) {
-            listener.onButtonPressed();
-          }
-        }
-        public void onButtonReleased(int buttonX) {
-          if (buttonX == x) {
-            listener.onButtonReleased();
-          }
-        }
-      });
     }
   }
 }

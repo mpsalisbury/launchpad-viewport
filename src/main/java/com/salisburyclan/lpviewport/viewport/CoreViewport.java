@@ -1,11 +1,10 @@
-package com.salisburyclan.lpviewport.device;
+package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.ViewportListener;
 
-// TODO(mpsalisbury) devices should use this instead of Viewport
-public interface DeviceViewport {
+public interface CoreViewport {
   ViewExtent getExtent();
   void setLight(int x, int y, Color color);
   void addListener(ViewportListener viewportListener);

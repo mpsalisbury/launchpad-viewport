@@ -1,7 +1,7 @@
 package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.SubView;
 import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.ViewButton;
 import com.salisburyclan.lpviewport.api.ViewButtonListener;
@@ -27,7 +27,7 @@ public class AllBlue extends JavafxLaunchpadApplication {
   }
 
   private void addButtonListener(int x, int y, Color color) {
-    ViewButton button = viewport.getSubViewButton(x, y);
+    ViewButton button = SubView.getSubViewButton(viewport, x, y);
     button.addListener(new ViewButtonListener() {
       @Override
       public void onButtonPressed() {
@@ -42,9 +42,9 @@ public class AllBlue extends JavafxLaunchpadApplication {
 
   private void addButtonStripListener(int x, int y, Color color) {
     ViewExtent extent = viewport.getExtent();
-    ViewStrip rowViewStrip = viewport.getSubViewStrip(
+    ViewStrip rowViewStrip = SubView.getSubViewStrip(viewport,
         new ViewExtent(extent.getXLow(), y, extent.getXHigh(), y));
-    ViewButton button = rowViewStrip.getSubViewButton(x);
+    ViewButton button = SubView.getSubViewButton(rowViewStrip, x);
     button.addListener(new ViewButtonListener() {
       @Override
       public void onButtonPressed() {
@@ -59,7 +59,7 @@ public class AllBlue extends JavafxLaunchpadApplication {
 
   private void addStripListener(int row, Color colorOn, Color colorOff) {
     ViewExtent extent = viewport.getExtent();
-    ViewStrip rowViewStrip = viewport.getSubViewStrip(
+    ViewStrip rowViewStrip = SubView.getSubViewStrip(viewport,
         new ViewExtent(extent.getXLow(), row, extent.getXHigh(), row));
     rowViewStrip.addListener(new ViewStripListener() {
       @Override
@@ -76,7 +76,7 @@ public class AllBlue extends JavafxLaunchpadApplication {
 
   private void addExtentListener(int row1, int row2, Color color) {
     ViewExtent extent = viewport.getExtent();
-    Viewport rowViewport = viewport.getSubViewport(
+    Viewport rowViewport = SubView.getSubViewport(viewport,
         new ViewExtent(extent.getXLow(), row1, extent.getXHigh(), row2));
     rowViewport.addListener(new ViewportListener() {
       @Override

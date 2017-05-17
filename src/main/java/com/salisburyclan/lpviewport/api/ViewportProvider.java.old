@@ -1,0 +1,26 @@
+package com.salisburyclan.lpviewport.api;
+
+import java.util.List;
+
+public interface ViewportProvider {
+
+  // Returns a list of human-readable descriptions of the
+  // ViewportSpecs supported by this provider.
+  List<String> getViewportSpecDescriptions();
+
+  // Returns true if the given viewportSpec is valid for
+  // this provider.
+  boolean supportsSpec(String viewportSpec);
+
+  /**
+   * Returns a Viewport given the requested viewportSpec.
+   * This may block waiting for user configuration feedback
+   * before returning (for example, letting the user specify
+   * the desired layout amongst a set of sub-viewports.)
+   * See the descriptions from getViewportSpecDescriptions()
+   * for the supported forms of viewportSpecs.
+   *
+   * @throws IllegalArgumentException if spec is not valid.
+   */
+  Viewport createViewport(String viewportSpec);
+}

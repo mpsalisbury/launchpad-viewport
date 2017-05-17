@@ -1,13 +1,13 @@
 package com.salisburyclan.lpviewport.apps;
 
-import com.salisburyclan.lpviewport.api.LaunchpadClient;
-import com.salisburyclan.lpviewport.api.LaunchpadClientProvider;
+import com.salisburyclan.lpviewport.api.Device;
 import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.device.AggregateViewport;
-import com.salisburyclan.lpviewport.device.ProdLaunchpadClientProvider;
+import com.salisburyclan.lpviewport.device.ProdDeviceProvider;
+import com.salisburyclan.lpviewport.layout.LayoutProvider;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -15,12 +15,15 @@ import javafx.stage.Stage;
 
 public abstract class JavafxLaunchpadApplication extends Application {
 
-  private static final String DEFAULT_CLIENT_SPEC = "javafx";
-  private LaunchpadClientProvider clientProvider;
+  private static final String DEFAULT_DEVICE_SPEC = "javafx";
+  private static final String DEFAULT_LAYOUT_SPEC = "pickone";
+  private DeviceProvider deviceProvider;
+  private LayoutProvider layoutProvider;
 
   @Override
   public void init() {
-    clientProvider = ProdLaunchpadClientProvider.getEverythingProvider();
+    deviceProvider = ProdDeviceProvider.getEverythingProvider();
+    layoutProvider = ProdLayoutProvider.getProvider();
   }
 
   @Override
@@ -38,32 +41,19 @@ public abstract class JavafxLaunchpadApplication extends Application {
 
   // Returns first viewport using clientSpec from args.
   protected Viewport getViewport() {
-    List<String> parameters = getParameters().getUnnamed();
-    String clientSpec;
-    if (parameters.isEmpty()) {
-      clientSpec = DEFAULT_CLIENT_SPEC;
-    } else {
-      clientSpec = parameters.get(0);
-    }
-    return getViewport(clientSpec);
+    Map<String, String> parameters = getParameters().getNamed();
+    String deviceSpec = parameters.getOrDefault(DEFAULT_DEVICE_SPEC);
+    String layoutSpec = parameters.getOrDefault(DEFAULT_LAYOUT_SPEC);
+    return getViewport(layoutSpec, deviceSpec);
   }
 
-  protected Viewport getViewport(String typeSpec) {
-    List<LaunchpadClient> clients = clientProvider.getLaunchpadClients(ImmutableSet.of(typeSpec));
-
-    if (clients.isEmpty()) {
-      throw new IllegalArgumentException("Unavailable TypeSpec: " + typeSpec);
-    } else if (clients.size() == 1) {
-      System.out.println("Found client " + clients.get(0).getType());
-      return clients.get(0).getViewport();
-    } else {
-      AggregateViewport.Builder builder = new AggregateViewport.Builder();
-      int nextX = 0;
-      for (LaunchpadClient client : clients) {
-        builder.add(client.getViewport(), nextX, 0);
-        nextX += client.getViewport().getExtent().getWidth();
-      }
-      return builder.build();
+  protected Viewport getViewport(String layoutSpec, String deviceSpec) {
+    List<Device> devices = deviceProvider.getDevices(ImmutableSet.of(deviceSpec.split(",")));
+    if (devices.isEmpty()) {
+      throw new IllegalArgumentException("No Devices available for DeviceSpec: " + deviceSpec);
     }
+    // TODO: consider sending deviceSpec directly to layoutProvider, or combine into a prod
+    // ViewportProvider..
+    return layoutProvider.getViewport(layoutSpec, devices);
   }
 }

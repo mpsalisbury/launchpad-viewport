@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.device;
+package com.salisburyclan.lpviewport.viewport;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -8,7 +8,6 @@ import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.api.ViewExtent;
-import com.salisburyclan.lpviewport.device.AggregateViewport;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

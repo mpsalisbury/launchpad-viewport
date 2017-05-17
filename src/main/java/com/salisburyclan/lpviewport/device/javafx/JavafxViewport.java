@@ -4,10 +4,9 @@ import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
-import com.salisburyclan.lpviewport.device.ListenerMultiplexer;
-import com.salisburyclan.lpviewport.device.DeviceViewport;
+import com.salisburyclan.lpviewport.viewport.ListenerMultiplexer;
 
-public class JavafxViewport implements DeviceViewport {
+public class JavafxViewport implements Viewport {
   ColorButtonGrid buttonGrid;
   ListenerMultiplexer listenerMultiplexer;
   ViewExtent extent;

@@ -9,7 +9,4 @@ public interface ViewStrip {
 
   // Adds a listener for this viewstrip.
   void addListener(ViewStripListener listener);
-
-  // Returns a new ViewButton relative to this viewstrip.
-  ViewButton getSubViewButton(int x);
 }

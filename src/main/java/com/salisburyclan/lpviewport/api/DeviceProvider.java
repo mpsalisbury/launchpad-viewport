@@ -3,10 +3,12 @@ package com.salisburyclan.lpviewport.api;
 import java.util.List;
 import java.util.Set;
 
-public interface LaunchpadClientProvider {
+// Provides Devices given a deviceSpec.
+public interface DeviceProvider {
 
-  boolean supportsClientSpec(String clientSpec);
+  boolean supportsDeviceSpec(String deviceSpec);
 
+  // TODO: change to deviceSpecDescriptions?
   Set<String> getAvailableTypes();
 
   /**
@@ -17,5 +19,5 @@ public interface LaunchpadClientProvider {
    * clients of the given type to return.  e.g. 'javafx.4x2.8x8' returns
    * a 4x2 grid of 8x8 javafx button grids.
    */
-  List<LaunchpadClient> getLaunchpadClients(Set<String> clientSpecs);
+  List<Device> getDevices(String deviceSpec);
 }

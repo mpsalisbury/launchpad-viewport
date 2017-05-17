@@ -2,8 +2,8 @@ package com.salisburyclan.lpviewport.device.midi;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.salisburyclan.lpviewport.api.LaunchpadClient;
-import com.salisburyclan.lpviewport.api.LaunchpadClientProvider;
+import com.salisburyclan.lpviewport.api.Device;
+import com.salisburyclan.lpviewport.api.DeviceProvider;
 import com.salisburyclan.lpviewport.midi.MidiDeviceProvider;
 import com.salisburyclan.lpviewport.midi.SystemMidiDeviceProvider;
 
@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiUnavailableException;
 
-/** Provides LaunchpadClients for Midi devices. */
-public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
+/** Provides Devices for Midi devices. */
+public class MidiDeviceProvider implements DeviceProvider {
 
   // Identifier for OSX
   private final static String OSX_ID = "macosx";
@@ -33,12 +33,12 @@ public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
   private MidiDeviceProvider deviceProvider;
   private MidiDeviceSpecProvider specProvider;
 
-  public MidiLaunchpadClientProvider() {
+  public MidiDeviceProvider() {
     this.deviceProvider = new SystemMidiDeviceProvider();
     this.specProvider = new ProdMidiDeviceSpecProvider();
   }
 
-  public MidiLaunchpadClientProvider(MidiDeviceProvider deviceProvider,
+  public MidiDeviceProvider(MidiDeviceProvider deviceProvider,
       MidiDeviceSpecProvider specProvider) {
     this.deviceProvider = deviceProvider;
     this.specProvider = specProvider;
@@ -59,19 +59,19 @@ public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
   }
 
   @Override
-  public List<LaunchpadClient> getLaunchpadClients(Set<String> typeSpecs) {
+  public List<Device> getDevices(Set<String> typeSpecs) {
     DeviceFetcher fetcher = new DeviceFetcher();
     fetcher.collectDevices(typeSpecs);
-    return fetcher.getFoundClients();
+    return fetcher.getFoundDevices();
   }
 
   private class DeviceFetcher {
-    private List<LaunchpadClient> clients;
+    private List<Device> devices;
     private Map<String, MidiDevice> unmatchedInputs;
     private Map<String, MidiDevice> unmatchedOutputs;
 
     public DeviceFetcher() {
-      clients = new ArrayList<>();
+      devices = new ArrayList<>();
       unmatchedInputs = new HashMap<>();
       unmatchedOutputs = new HashMap<>();
     }
@@ -90,7 +90,7 @@ public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
           }
         });
       });
-      if (clients.isEmpty()) {
+      if (devices.isEmpty()) {
         if (foundValidType.get()) {
           // TODO(mpsalisbury) Use logger rather than System.err
           System.err.println("Requested device(s) not connected");
@@ -100,8 +100,8 @@ public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
       }
     }
 
-    private List<LaunchpadClient> getFoundClients() {
-      return clients;
+    private List<Device> getFoundDevices() {
+      return devices;
     }
 
     private boolean deviceMatchesSignature(String signature, MidiDevice.Info info) {
@@ -175,7 +175,7 @@ public class MidiLaunchpadClientProvider implements LaunchpadClientProvider {
     private void addClient(MidiDeviceSpec spec, MidiDevice inputDevice, MidiDevice outputDevice)
         throws MidiUnavailableException {
       MidiResources resources = new MidiResources(spec, inputDevice, outputDevice);
-      clients.add(new MidiLaunchpadClient(resources));
+      devices.add(new MidiDevice(resources));
     }
   }
 }

@@ -6,10 +6,9 @@ import com.salisburyclan.lpviewport.api.ViewButton;
 import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.api.ViewStrip;
-import com.salisburyclan.lpviewport.device.DeviceViewport;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 
-public class MidiViewport implements DeviceViewport {
+public class MidiViewport implements Viewport {
 
   private LaunchpadProtocolClient client;
   private MidiListener listener;

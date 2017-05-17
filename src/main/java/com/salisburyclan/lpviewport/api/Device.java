@@ -1,6 +1,7 @@
 package com.salisburyclan.lpviewport.api;
 
-public interface LaunchpadClient {
+// A connection to a Launchpad device.
+public interface Device {
   String getType();
   Viewport getViewport();
   void close();
