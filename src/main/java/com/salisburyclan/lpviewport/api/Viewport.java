@@ -22,17 +22,4 @@ public interface Viewport {
 
   // Adds a listener for this viewport.
   void addListener(ViewportListener listener);
-
-  /*
-   * TODO: remove
-  // Returns a new viewport relative to this one.
-  Viewport getSubViewport(ViewExtent extent);
-
-  // Returns a new ViewStrip relative to this viewport.
-  // extent must be one button wide or one button high.
-  ViewStrip getSubViewStrip(ViewExtent extent);
-
-  // Returns a new ViewButton relative to this viewport.
-  ViewButton getSubViewButton(int x, int y);
-  */
 }

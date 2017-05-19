@@ -20,8 +20,6 @@ public class SubViewport implements Viewport {
   }
 
   private void checkExtent(ViewExtent extent) {
-    // TODO add extent logic to ViewExtent instead.
-    // TODO add viewextent to Viewport
     if (!baseViewport.getExtent().isExtentWithin(extent)) {
       throw new IllegalArgumentException("Extent extends beyond base viewport: " + extent.toString());
     }
@@ -52,22 +50,4 @@ public class SubViewport implements Viewport {
       }
     });
   }
-
-  /**
-   * TODO: remove
-  @Override
-  public Viewport getSubViewport(ViewExtent extent) {
-    return new SubViewport(this, extent);
-  }
-
-  @Override
-  public ViewStrip getSubViewStrip(ViewExtent extent) {
-    return new SubViewStrip(this, extent);
-  }
-
-  @Override
-  public ViewButton getSubViewButton(int x, int y) {
-    return new SubViewButton(this, x, y);
-  }
-  */
 }

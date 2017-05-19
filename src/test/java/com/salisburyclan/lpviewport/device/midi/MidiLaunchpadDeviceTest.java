@@ -1,7 +1,7 @@
 package com.salisburyclan.lpviewport.device.midi;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.api.ViewExtent;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
-public class MidiLaunchpadClientTest {
+public class MidiLaunchpadDeviceTest {
 
   @Rule public MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
   @Mock private MidiResources mockResources;
@@ -36,8 +36,8 @@ public class MidiLaunchpadClientTest {
     when(mockResources.getListener()).thenReturn(mockMidiListener);
     when(mockClient.getOverallExtent()).thenReturn(testExtent);
 
-    LaunchpadClient client = new MidiLaunchpadClient(mockResources);
-    Viewport viewport = client.getViewport();
+    LaunchpadDevice device = new MidiLaunchpadDevice(mockResources);
+    Viewport viewport = device.getViewport();
 
     assertThat(viewport.getExtent().getWidth()).isEqualTo(testExtent.getWidth());
     assertThat(viewport.getExtent().getHeight()).isEqualTo(testExtent.getHeight());

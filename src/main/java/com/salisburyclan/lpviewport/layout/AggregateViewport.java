@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.viewport;
+package com.salisburyclan.lpviewport.layout;
 
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
@@ -97,23 +97,5 @@ public class AggregateViewport implements Viewport {
       });
     });
   }
-
-  /**
-   * TODO remove
-  @Override
-  public Viewport getSubViewport(ViewExtent extent) {
-    return new SubViewport(this, extent);
-  }
-
-  @Override
-  public ViewStrip getSubViewStrip(ViewExtent extent) {
-    return new SubViewStrip(this, extent);
-  }
-
-  @Override
-  public ViewButton getSubViewButton(int x, int y) {
-    return new SubViewport.SubViewButton(this, x, y);
-  }
-  */
 }
 

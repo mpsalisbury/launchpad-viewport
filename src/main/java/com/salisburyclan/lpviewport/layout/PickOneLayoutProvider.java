@@ -5,15 +5,15 @@ import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class HorizontalLayoutProvider implements LayoutProvider {
+public class PickOneLayoutProvider implements LayoutProvider {
 
-  private final static String TYPE = "horiz";
+  private final static String TYPE = "pickone";
   private final static String DESCRIPTION =
-    TYPE + " : combines the viewports specified by typespec horizontally left-to-right";
+    TYPE + " : Chooses one viewport of the specified devices";
 
   @Override
   public List<String> getLayoutSpecDescriptions() {
@@ -30,22 +30,11 @@ public class HorizontalLayoutProvider implements LayoutProvider {
     if (!TYPE.equals(layoutSpec)) {
       throw new IllegalArgumentException("Invalid viewportSpec for " + getClass().getName());
     }
-    List<Viewport> viewports = devices.stream()
-      .map(LaunchpadDevice::getViewport)
-      .collect(Collectors.toList());
-
-    if (viewports.isEmpty()) {
-      throw new IllegalArgumentException("Empty LayoutSpec: " + layoutSpec);
-    } else if (viewports.size() == 1) {
-      return viewports.get(0);
+    if (devices.isEmpty()) {
+      throw new IllegalArgumentException("No devices connected");
     } else {
-      AggregateViewport.Builder builder = new AggregateViewport.Builder();
-      int nextX = 0;
-      for (Viewport viewport : viewports) {
-        builder.add(viewport, nextX, 0);
-        nextX += viewport.getExtent().getWidth();
-      }
-      return builder.build();
+      // TODO: Interactively let user choose one of the available
+      return Iterables.getFirst(devices, null).getViewport();
     }
   }
 }

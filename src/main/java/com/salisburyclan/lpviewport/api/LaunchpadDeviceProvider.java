@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 // Provides Devices given a deviceSpec.
-public interface DeviceProvider {
+public interface LaunchpadDeviceProvider {
 
   boolean supportsDeviceSpec(String deviceSpec);
 
@@ -19,5 +19,5 @@ public interface DeviceProvider {
    * clients of the given type to return.  e.g. 'javafx.4x2.8x8' returns
    * a 4x2 grid of 8x8 javafx button grids.
    */
-  List<Device> getDevices(String deviceSpec);
+  List<LaunchpadDevice> getDevices(String deviceSpec);
 }

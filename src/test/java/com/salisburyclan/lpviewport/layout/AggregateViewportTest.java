@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.viewport;
+package com.salisburyclan.lpviewport.layout;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;

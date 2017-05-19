@@ -2,8 +2,8 @@ package com.salisburyclan.lpviewport.device.midi;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.salisburyclan.lpviewport.api.Device;
-import com.salisburyclan.lpviewport.api.DeviceProvider;
+import com.salisburyclan.lpviewport.api.LaunchpadDevice;
+import com.salisburyclan.lpviewport.api.LaunchpadDeviceProvider;
 import com.salisburyclan.lpviewport.midi.MidiDeviceProvider;
 import com.salisburyclan.lpviewport.midi.SystemMidiDeviceProvider;
 
@@ -21,7 +21,7 @@ import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiUnavailableException;
 
 /** Provides Devices for Midi devices. */
-public class MidiDeviceProvider implements DeviceProvider {
+public class MidiLaunchpadDeviceProvider implements LaunchpadDeviceProvider {
 
   // Identifier for OSX
   private final static String OSX_ID = "macosx";
@@ -33,22 +33,22 @@ public class MidiDeviceProvider implements DeviceProvider {
   private MidiDeviceProvider deviceProvider;
   private MidiDeviceSpecProvider specProvider;
 
-  public MidiDeviceProvider() {
+  public MidiLaunchpadDeviceProvider() {
     this.deviceProvider = new SystemMidiDeviceProvider();
     this.specProvider = new ProdMidiDeviceSpecProvider();
   }
 
-  public MidiDeviceProvider(MidiDeviceProvider deviceProvider,
+  public MidiLaunchpadDeviceProvider(MidiDeviceProvider deviceProvider,
       MidiDeviceSpecProvider specProvider) {
     this.deviceProvider = deviceProvider;
     this.specProvider = specProvider;
   }
 
   @Override
-  public boolean supportsClientSpec(String clientSpec) {
+  public boolean supportsDeviceSpec(String deviceSpec) {
     return specProvider.getSpecs().stream()
       .map(MidiDeviceSpec::getType)
-      .anyMatch(type -> type.equals(clientSpec));
+      .anyMatch(type -> type.equals(deviceSpec));
   }
 
   @Override
@@ -59,14 +59,14 @@ public class MidiDeviceProvider implements DeviceProvider {
   }
 
   @Override
-  public List<Device> getDevices(Set<String> typeSpecs) {
+  public List<LaunchpadDevice> getDevices(String deviceSpec) {
     DeviceFetcher fetcher = new DeviceFetcher();
-    fetcher.collectDevices(typeSpecs);
+    fetcher.collectDevices(deviceSpec);
     return fetcher.getFoundDevices();
   }
 
   private class DeviceFetcher {
-    private List<Device> devices;
+    private List<LaunchpadDevice> devices;
     private Map<String, MidiDevice> unmatchedInputs;
     private Map<String, MidiDevice> unmatchedOutputs;
 
@@ -76,12 +76,12 @@ public class MidiDeviceProvider implements DeviceProvider {
       unmatchedOutputs = new HashMap<>();
     }
 
-    public void collectDevices(Set<String> typeSpecs) {
+    public void collectDevices(String deviceSpec) {
       AtomicBoolean foundValidType = new AtomicBoolean(false);
       specProvider.getSpecs().forEach(spec -> {
         Arrays.stream(deviceProvider.getMidiDeviceInfo()).forEach(info -> {
           System.out.println(String.format("Got midi info %s / %s", info.getName(), info.getDescription()));
-          if (typeSpecs.contains(spec.getType())) {
+          if (deviceSpec.equals(spec.getType())) {
             foundValidType.set(true);
             if (isDeviceCompatibleWithPlatform(info)
                 && deviceMatchesSignature(spec.getSignature(), info)) {
@@ -100,7 +100,7 @@ public class MidiDeviceProvider implements DeviceProvider {
       }
     }
 
-    private List<Device> getFoundDevices() {
+    private List<LaunchpadDevice> getFoundDevices() {
       return devices;
     }
 
@@ -175,7 +175,7 @@ public class MidiDeviceProvider implements DeviceProvider {
     private void addClient(MidiDeviceSpec spec, MidiDevice inputDevice, MidiDevice outputDevice)
         throws MidiUnavailableException {
       MidiResources resources = new MidiResources(spec, inputDevice, outputDevice);
-      devices.add(new MidiDevice(resources));
+      devices.add(new MidiLaunchpadDevice(resources));
     }
   }
 }

@@ -3,7 +3,7 @@ package com.salisburyclan.lpviewport.device.midi;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
-import com.salisburyclan.lpviewport.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.midi.MidiDeviceProvider;
@@ -38,7 +38,7 @@ import static org.mockito.Mockito.when;
 // TODO: Cleanup entire class
 //
 @RunWith(JUnit4.class)
-public class MidiLaunchpadClientProviderTest {
+public class MidiLaunchpadDeviceProviderTest {
 
   @Rule public MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
   @Mock private Receiver mockReceiver;
@@ -46,11 +46,11 @@ public class MidiLaunchpadClientProviderTest {
   @Mock private LaunchpadProtocolClient mockProtocolClient;
   @Mock private Receiver mockProtocolReceiver;
 
-  private MidiLaunchpadClientProvider clientProvider;
+  private MidiLaunchpadDeviceProvider deviceProvider;
 
   @Before
   public void setUp() {
-    clientProvider = new MidiLaunchpadClientProvider(
+    deviceProvider = new MidiLaunchpadDeviceProvider(
         new FakeDeviceProvider(ImmutableList.of("A", "C", "D", "E", "E", "E")),
         new FakeSpecProvider(ImmutableList.of("A", "B", "C", "E")));
 
@@ -58,29 +58,22 @@ public class MidiLaunchpadClientProviderTest {
   }
 
   @Test
-  public void testGetLaunchpadClientsOneType() throws Exception {
-    List<LaunchpadClient> clients = clientProvider.getLaunchpadClients(ImmutableSet.of("A"));
-    assertThat(clients.size()).isEqualTo(1);
-    LaunchpadClient client = clients.get(0);
-    assertThat(client.getType()).isEqualTo("A");
+  public void testGetDevicesOneType() throws Exception {
+    List<LaunchpadDevice> devices = deviceProvider.getDevices("A");
+    assertThat(devices.size()).isEqualTo(1);
+    LaunchpadDevice device = devices.get(0);
+    assertThat(device.getType()).isEqualTo("A");
 
-    Viewport viewport = client.getViewport();
+    Viewport viewport = device.getViewport();
     assertThat(viewport.getExtent().getWidth()).isEqualTo(11);
     assertThat(viewport.getExtent().getHeight()).isEqualTo(11);
   }
 
   @Test
-  public void testGetLaunchpadClientsMultipleTypes() throws Exception {
-    List<LaunchpadClient> clients = clientProvider.getLaunchpadClients(ImmutableSet.of("A", "C", "D"));
-    List<String> clientTypes = clients.stream().map(LaunchpadClient::getType).collect(Collectors.toList());
-    assertThat(clientTypes).containsExactly("A", "C");
-  }
-
-  @Test
-  public void testGetLaunchpadClientsOneTypeMultipleInstances() throws Exception {
-    List<LaunchpadClient> clients = clientProvider.getLaunchpadClients(ImmutableSet.of("E"));
-    List<String> clientTypes = clients.stream().map(LaunchpadClient::getType).collect(Collectors.toList());
-    assertThat(clientTypes).containsExactly("E", "E", "E");
+  public void testGetDevicesMultipleInstances() throws Exception {
+    List<LaunchpadDevice> devices = deviceProvider.getDevices("E");
+    List<String> deviceTypes = devices.stream().map(LaunchpadDevice::getType).collect(Collectors.toList());
+    assertThat(deviceTypes).containsExactly("E", "E", "E");
   }
 
 

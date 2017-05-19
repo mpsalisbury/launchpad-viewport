@@ -1,6 +1,6 @@
 package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.lpviewport.api.Device;
+import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LaunchpadException;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewExtent;
@@ -12,12 +12,12 @@ import javax.sound.midi.MidiUnavailableException;
 /**
  * Represents a physical MIDI Launchpad device.
  */
-public class MidiDevice implements Device {
+public class MidiLaunchpadDevice implements LaunchpadDevice {
 
   private final Viewport viewport;
   private MidiResources resources;
 
-  public MidiDevice(MidiResources resources) throws MidiUnavailableException {
+  public MidiLaunchpadDevice(MidiResources resources) throws MidiUnavailableException {
     if (resources == null) {
       throw new IllegalArgumentException("Resources must not be null");
     }

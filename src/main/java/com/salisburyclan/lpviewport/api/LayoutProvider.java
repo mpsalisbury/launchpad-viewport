@@ -23,5 +23,5 @@ public interface LayoutProvider {
    *
    * @throws IllegalArgumentException if spec is not valid.
    */
-  Viewport createLayout(String layoutSpec, Collection<Device> devices);
+  Viewport createLayout(String layoutSpec, Collection<LaunchpadDevice> devices);
 }

@@ -1,6 +1,6 @@
 package com.salisburyclan.lpviewport.device.javafx;
 
-import com.salisburyclan.lpviewport.api.LaunchpadClient;
+import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.Viewport;
 
 import javafx.application.Application;
@@ -18,17 +18,17 @@ import javafx.stage.StageStyle;
 import java.util.ArrayList;
 import java.util.List;
  
-public class JavafxLaunchpadClient implements LaunchpadClient {
+public class JavafxDevice implements LaunchpadDevice {
 
   public static final String TYPE = "javafx";
   private static final int DEFAULT_SIZE = 8;
   private Viewport viewport;
 
-  public JavafxLaunchpadClient() {
+  public JavafxDevice() {
     Stage stage = newWindow(DEFAULT_SIZE, DEFAULT_SIZE);
   }
 
-  public JavafxLaunchpadClient(int xSize, int ySize) {
+  public JavafxDevice(int xSize, int ySize) {
     Stage stage = newWindow(xSize, ySize);
   }
 

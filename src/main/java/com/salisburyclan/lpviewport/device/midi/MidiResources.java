@@ -1,7 +1,5 @@
 package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.lpviewport.api.LaunchpadClient;
-
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
 

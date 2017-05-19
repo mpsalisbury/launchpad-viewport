@@ -1,28 +1,28 @@
 package com.salisburyclan.lpviewport.device;
 
-import com.salisburyclan.lpviewport.api.DeviceProvider;
-import com.salisburyclan.lpviewport.device.midi.MidiDeviceProvider;
+import com.salisburyclan.lpviewport.api.LaunchpadDeviceProvider;
+import com.salisburyclan.lpviewport.device.midi.MidiLaunchpadDeviceProvider;
 import com.salisburyclan.lpviewport.device.javafx.JavafxDeviceProvider;
 
 public class ProdDeviceProvider extends AggregateDeviceProvider {
 
   private ProdDeviceProvider() {}
 
-  public static DeviceProvider getMidiProvider() {
+  public static LaunchpadDeviceProvider getMidiProvider() {
     AggregateDeviceProvider provider = new AggregateDeviceProvider();
-    provider.addProvider(new MidiDeviceProvider());
+    provider.addProvider(new MidiLaunchpadDeviceProvider());
     return provider;
   }
 
-  public static DeviceProvider getJavafxProvider() {
+  public static LaunchpadDeviceProvider getJavafxProvider() {
     AggregateDeviceProvider provider = new AggregateDeviceProvider();
     provider.addProvider(new JavafxDeviceProvider());
     return provider;
   }
 
-  public static DeviceProvider getEverythingProvider() {
+  public static LaunchpadDeviceProvider getEverythingProvider() {
     AggregateDeviceProvider provider = new AggregateDeviceProvider();
-    provider.addProvider(new MidiDeviceProvider());
+    provider.addProvider(new MidiLaunchpadDeviceProvider());
     provider.addProvider(new JavafxDeviceProvider());
     return provider;
   }

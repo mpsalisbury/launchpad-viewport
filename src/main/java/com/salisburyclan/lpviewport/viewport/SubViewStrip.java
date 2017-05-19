@@ -64,14 +64,6 @@ public class SubViewStrip implements ViewStrip {
     });
   }
 
-  /**
-   * TODO remove
-  @Override
-  public ViewButton getSubViewButton(int x) {
-    return new SubViewButton(this, x);
-  }
-  */
-
   // Maps between 1-D strip index and 2-D Viewport index.
   private interface IndexMap {
     int getX(int index);

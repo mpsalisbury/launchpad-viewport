@@ -26,45 +26,54 @@ dependencies {
 task allBlue(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.AllBlue'
-  if (project.hasProperty('lcs')) {
-    args lcs
+  if (project.hasProperty('layout')) {
+    args = ["--layout=${layout}"]
+  }
+  if (project.hasProperty('device')) {
+    args += ["--device=${device}"]
   }
 }
 
 task rainbow(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.Rainbow'
-  if (project.hasProperty('lcs')) {
-    args lcs
+  if (project.hasProperty('layout')) {
+    args = ["--layout=${layout}"]
+  }
+  if (project.hasProperty('device')) {
+    args += ["--device=${device}"]
   }
 }
 
 task spark(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.Spark'
-  if (project.hasProperty('lcs')) {
-    args lcs
+  if (project.hasProperty('layout')) {
+    args = ["--layout=${layout}"]
+  }
+  if (project.hasProperty('device')) {
+    args += ["--device=${device}"]
   }
 }
 
 task sweep(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.Sweep'
-  if (project.hasProperty('lcs')) {
-    args lcs
+  if (project.hasProperty('layout')) {
+    args = ["--layout=${layout}"]
+  }
+  if (project.hasProperty('device')) {
+    args += ["--device=${device}"]
   }
 }
 
 task diagrotate(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.DiagRotate'
-  if (project.hasProperty('lcs')) {
-    args lcs
+  if (project.hasProperty('layout')) {
+    args = ["--layout=${layout}"]
+  }
+  if (project.hasProperty('device')) {
+    args += ["--device=${device}"]
   }
 }
-
-task testcm(type: JavaExec) {
-  classpath = sourceSets.main.runtimeClasspath
-  main = 'com.salisburyclan.lpviewport.apps.TestCoreMidi'
-}
-
