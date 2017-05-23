@@ -40,4 +40,8 @@ public class SubViewButton implements ViewButton {
       }
     });
   }
+  @Override
+  public void removeListener(ViewButtonListener listener) {
+	  // TODO
+  }
 }

@@ -1,11 +1,9 @@
-package com.salisburyclan.lpviewport.apps;
+package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewExtent;
-import com.salisburyclan.lpviewport.api.ViewportListener;
 
-import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -14,35 +12,29 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.util.Duration;
 
-import java.util.stream.IntStream;
+public class Sweep extends Animation {
 
-public class Sweep extends JavafxLaunchpadApplication {
+  private Color color;
 
-  private Viewport viewport;
+  public Sweep(Viewport viewport, Color color) {
+    super(viewport);
+    this.color = color;
+  }
 
   @Override
-  public void run() {
-    getViewport(this::setupViewport);
-  }
-
-  private void setupViewport(Viewport viewport) {
-    this.viewport = viewport;
-    sweep(Color.RED);
-  }
-
-  private void sweep(Color color) {
+  protected void init() {
     IntegerProperty barLocation = new SimpleIntegerProperty();
     Timeline timeline = new Timeline();
     timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.setAutoReverse(true);
+
+    ViewExtent extent = getViewport().getExtent();
     timeline.getKeyFrames().addAll(
-        new KeyFrame(Duration.ZERO, new KeyValue(barLocation, viewport.getExtent().getXLow(), Interpolator.EASE_BOTH)),
-        new KeyFrame(Duration.seconds(1), new KeyValue(barLocation, viewport.getExtent().getXHigh(), Interpolator.EASE_BOTH)));
-    timeline.play();
+        new KeyFrame(Duration.ZERO, new KeyValue(barLocation, extent.getXLow(), Interpolator.EASE_BOTH)),
+        new KeyFrame(Duration.seconds(1), new KeyValue(barLocation, extent.getXHigh(), Interpolator.EASE_BOTH)));
+    addTimeline(timeline);
 
     barLocation.addListener(new ChangeListener() {
       @Override
@@ -53,7 +45,8 @@ public class Sweep extends JavafxLaunchpadApplication {
     });
   }
 
-  public void renderBar(int x, Color color) {
+  protected void renderBar(int x, Color color) {
+    Viewport viewport = getViewport();
     viewport.getExtent().getYRange().forEach(y -> {
       viewport.setLight(x, y, color);
     });

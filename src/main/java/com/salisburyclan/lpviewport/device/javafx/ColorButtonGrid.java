@@ -42,11 +42,11 @@ public class ColorButtonGrid {
         setButtonColor(button, Color.BLACK);
         int capturedX = x;
         int capturedY = y;
-        button.setOnMousePressed((event) -> {
-          listeners.forEach((listener) -> { listener.onButtonPressed(capturedX, capturedY); });
+        button.setOnMousePressed(event -> {
+          listeners.forEach(listener -> { listener.onButtonPressed(capturedX, capturedY); });
         });
-        button.setOnMouseReleased((event) -> {
-          listeners.forEach((listener) -> { listener.onButtonReleased(capturedX, capturedY); });
+        button.setOnMouseReleased(event -> {
+          listeners.forEach(listener -> { listener.onButtonReleased(capturedX, capturedY); });
         });
         hBox.getChildren().add(button);
         buttons[x][y] = button;
@@ -91,6 +91,11 @@ public class ColorButtonGrid {
 
   public void addListener(ButtonGridListener listener) {
     listeners.add(listener);
+  }
+
+  public void removeListener(ButtonGridListener listener) {
+    // TODO implement
+    throw new UnsupportedOperationException();
   }
 
 }

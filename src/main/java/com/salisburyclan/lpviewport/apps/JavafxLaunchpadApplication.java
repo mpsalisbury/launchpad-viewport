@@ -8,9 +8,14 @@ import com.salisburyclan.lpviewport.device.ProdDeviceProvider;
 import com.salisburyclan.lpviewport.layout.ProdLayoutProvider;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import javafx.application.Application;
@@ -45,15 +50,25 @@ public abstract class JavafxLaunchpadApplication extends Application {
 
   public abstract void run();
 
+  protected void getViewport(Consumer<Viewport> viewportCallback) {
+    Futures.addCallback(getViewport(), new FutureCallback<Viewport>() {
+      public void onSuccess(Viewport viewport) {
+        viewportCallback.accept(viewport);
+      }
+      public void onFailure(Throwable t) {
+      }
+    });
+  }
+
   // Returns first viewport using clientSpec from args.
-  protected Viewport getViewport() {
+  private ListenableFuture<Viewport> getViewport() {
     Map<String, String> parameters = getParameters().getNamed();
     String deviceSpec = parameters.getOrDefault(DEVICE_SPEC_FLAG_NAME, DEFAULT_DEVICE_SPEC);
     String layoutSpec = parameters.getOrDefault(LAYOUT_SPEC_FLAG_NAME, DEFAULT_LAYOUT_SPEC);
     return getViewport(layoutSpec, deviceSpec);
   }
 
-  protected Viewport getViewport(String layoutSpec, String deviceSpec) {
+  private ListenableFuture<Viewport> getViewport(String layoutSpec, String deviceSpec) {
     List<LaunchpadDevice> devices = Arrays.stream(deviceSpec.split(","))
       .flatMap(spec -> deviceProvider.getDevices(spec).stream())
       .collect(Collectors.toList());

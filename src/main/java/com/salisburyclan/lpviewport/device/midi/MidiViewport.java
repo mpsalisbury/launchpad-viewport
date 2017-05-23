@@ -34,7 +34,18 @@ public class MidiViewport implements Viewport {
   }
 
   @Override
+  public void setAllLights(Color color) {
+    int colorNum = ColorCode.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
+    client.setLights(extent, colorNum);
+  }
+
+  @Override
   public void addListener(ViewportListener viewportListener) {
     listener.addListener(viewportListener);
+  }
+
+  @Override
+  public void removeListener(ViewportListener viewportListener) {
+    listener.removeListener(viewportListener);
   }
 }

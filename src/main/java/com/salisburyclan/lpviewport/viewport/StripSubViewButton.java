@@ -37,4 +37,8 @@ public class StripSubViewButton implements ViewButton {
       }
     });
   }
+  @Override
+  public void removeListener(ViewButtonListener listener) {
+	  // TODO
+  }
 }

@@ -29,7 +29,11 @@ public class DiagRotate extends JavafxLaunchpadApplication {
 
   @Override
   public void run() {
-    viewport = getViewport();
+    getViewport(this::setupViewport);
+  }
+
+  private void setupViewport(Viewport viewport) {
+    this.viewport = viewport;
     barExtent = viewport.getExtent().inset(1,1,1,1);
     rotate();
   }

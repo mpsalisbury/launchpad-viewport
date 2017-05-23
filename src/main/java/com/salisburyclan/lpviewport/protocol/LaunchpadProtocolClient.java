@@ -9,6 +9,6 @@ public interface LaunchpadProtocolClient {
   void setLight(int pos, int color);
 //  void setLights(int extent, int[] colors);
 //  void setLights(long[] poscolors);
-//  void setLights(int extent, int color);
+  void setLights(ViewExtent extent, int color);
 //  void clearLights();
 }

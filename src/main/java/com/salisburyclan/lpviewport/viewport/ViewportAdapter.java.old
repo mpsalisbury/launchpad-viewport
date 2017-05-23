@@ -30,6 +30,10 @@ public class ViewportAdapter implements Viewport {
   public void addListener(ViewportListener viewportListener) {
     deviceViewport.addListener(viewportListener);
   }
+  @Override
+  public void removeListener(ViewportListener listener) {
+	  // TODO
+  }
 
   @Override
   public Viewport getSubViewport(ViewExtent extent) {

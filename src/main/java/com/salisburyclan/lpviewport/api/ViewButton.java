@@ -6,4 +6,7 @@ public interface ViewButton {
 
   // Adds a listener for this viewbutton.
   void addListener(ViewButtonListener listener);
+
+  // Removes a listener from this viewbutton.
+  void removeListener(ViewButtonListener listener);
 }

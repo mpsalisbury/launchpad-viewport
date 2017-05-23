@@ -39,6 +39,16 @@ public class JavafxViewport implements Viewport {
     buttonGrid.setButtonColor(x, y, launchpadColorToJavafxColor(color));
   }
 
+  @Override
+  public void setAllLights(Color color) {
+    javafx.scene.paint.Color javafxColor = launchpadColorToJavafxColor(color);
+    extent.getXRange().forEach(x -> {
+      extent.getYRange().forEach( y -> {
+        buttonGrid.setButtonColor(x, y, javafxColor);
+      });
+    });
+  }
+
   private javafx.scene.paint.Color launchpadColorToJavafxColor(Color color) {
     int red = color.getRed() * 255 / Color.MAX_INTENSITY;
     int green = color.getGreen() * 255 / Color.MAX_INTENSITY;
@@ -49,5 +59,10 @@ public class JavafxViewport implements Viewport {
   @Override
   public void addListener(ViewportListener listener) {
     listenerMultiplexer.addListener(listener);
+  }
+
+  @Override
+  public void removeListener(ViewportListener listener) {
+    listenerMultiplexer.removeListener(listener);
   }
 }

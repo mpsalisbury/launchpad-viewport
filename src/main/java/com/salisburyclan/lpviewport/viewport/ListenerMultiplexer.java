@@ -15,15 +15,17 @@ public class ListenerMultiplexer implements ViewportListener {
     listeners.add(listener);
   }
 
+  public void removeListener(ViewportListener listener) {
+    listeners.remove(listener);
+  }
+
   public void onButtonPressed(int xpos, int ypos) {
-    for (ViewportListener listener : listeners) {
-      listener.onButtonPressed(xpos, ypos);
-    }
+    List<ViewportListener> listenersDefensiveCopy = new ArrayList<>(listeners);
+    listenersDefensiveCopy.forEach(listener -> listener.onButtonPressed(xpos, ypos));
   }
 
   public void onButtonReleased(int xpos, int ypos) {
-    for (ViewportListener listener : listeners) {
-      listener.onButtonReleased(xpos, ypos);
-    }
+    List<ViewportListener> listenersDefensiveCopy = new ArrayList<>(listeners);
+    listenersDefensiveCopy.forEach(listener -> listener.onButtonReleased(xpos, ypos));
   }
 }

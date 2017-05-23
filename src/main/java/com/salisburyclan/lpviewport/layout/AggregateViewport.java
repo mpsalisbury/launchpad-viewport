@@ -85,6 +85,13 @@ public class AggregateViewport implements Viewport {
   }
 
   @Override
+  public void setAllLights(Color color) {
+    viewparts.forEach(viewpart -> {
+      viewpart.viewport.setAllLights(color);
+    });
+  }
+
+  @Override
   public void addListener(ViewportListener listener) {
     viewparts.forEach(viewpart -> {
       viewpart.viewport.addListener(new ViewportListener() {
@@ -96,6 +103,12 @@ public class AggregateViewport implements Viewport {
         }
       });
     });
+  }
+
+  @Override
+  public void removeListener(ViewportListener listener) {
+    // TODO implement
+    throw new UnsupportedOperationException("AggregateViewport::removeListener");
   }
 }
 

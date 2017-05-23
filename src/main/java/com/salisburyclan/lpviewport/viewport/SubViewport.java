@@ -36,6 +36,15 @@ public class SubViewport implements Viewport {
   }
 
   @Override
+  public void setAllLights(Color color) {
+    extent.getXRange().forEach(x -> {
+      extent.getYRange().forEach(y -> {
+        baseViewport.setLight(x, y, color);
+      });
+    });
+  }
+
+  @Override
   public void addListener(ViewportListener listener) {
     baseViewport.addListener(new ViewportListener() {
       public void onButtonPressed(int x, int y) {
@@ -49,5 +58,10 @@ public class SubViewport implements Viewport {
         }
       }
     });
+  }
+  @Override
+  public void removeListener(ViewportListener listener) {
+	  // TODO implement
+    throw new UnsupportedOperationException("SubViewport::removeListener");
   }
 }

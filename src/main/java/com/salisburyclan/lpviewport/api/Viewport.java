@@ -15,11 +15,12 @@ public interface Viewport {
 //  void setLights(int x, int y, ViewportBuffer pixels);
 
   // Sets all lights in this viewport to a single color.
-//  void setAllLights(Color color);
+  void setAllLights(Color color);
 
   // Adds a listener for the button at the given position.
 //  void addListener(int x, int y, ButtonListener listener);
 
   // Adds a listener for this viewport.
   void addListener(ViewportListener listener);
+  void removeListener(ViewportListener listener);
 }

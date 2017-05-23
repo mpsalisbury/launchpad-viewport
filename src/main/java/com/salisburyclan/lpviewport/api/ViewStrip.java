@@ -9,4 +9,7 @@ public interface ViewStrip {
 
   // Adds a listener for this viewstrip.
   void addListener(ViewStripListener listener);
+
+  // Removes a listener from this viewstrip.
+  void removeListener(ViewStripListener listener);
 }

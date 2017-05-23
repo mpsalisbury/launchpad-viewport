@@ -90,16 +90,17 @@ public class LaunchpadMk2ProtocolClient implements LaunchpadProtocolClient {
     }
     send(builder.build());
   }
+  */
 
   @Override
-  public void setLights(int extent, int color) {
-    int xLow = ViewExtent.getXLow(extent);
-    int xHigh = ViewExtent.getXHigh(extent);
-    int yLow = ViewExtent.getYLow(extent);
-    int yHigh = ViewExtent.getYHigh(extent);
-    byte red = Color.getRed(color);
-    byte green = Color.getGreen(color);
-    byte blue = Color.getBlue(color);
+  public void setLights(ViewExtent extent, int color) {
+    int xLow = extent.getXLow();
+    int xHigh = extent.getXHigh();
+    int yLow = extent.getYLow();
+    int yHigh = extent.getYHigh();
+    byte red = ColorCode.getRed(color);
+    byte green = ColorCode.getGreen(color);
+    byte blue = ColorCode.getBlue(color);
 
     SysexBuilder builder = newSysexBuilder();
     builder.add((byte)0x0b);
@@ -111,6 +112,7 @@ public class LaunchpadMk2ProtocolClient implements LaunchpadProtocolClient {
     send(builder.build());
   }
 
+  /*
   @Override
   public void clearLights() {
     byte[] command = {0x0e, 0x00};
@@ -124,34 +126,11 @@ public class LaunchpadMk2ProtocolClient implements LaunchpadProtocolClient {
 
   /** Sends the given message to the Launchpad. */
   private void send(SysexMessage message) {
-    //System.out.println("sending: " + Arrays.toString(message.getMessage()));
     receiver.send(message, -1);
-
-    /*
-    try {
-      ShortMessage m1 = new ShortMessage(ShortMessage.NOTE_ON, 81, 45);
-      System.out.println("m1: " + Arrays.toString(m1.getMessage()));
-      receiver.send(m1, -1);
-    } catch (InvalidMidiDataException e) {
-      System.err.println(e.getMessage());
-    }
-    */
   }
 
   /** Sends the given sysex command to the Launchpad. */
   private void send(byte[] command) {
     send(SysexBuilder.newMessage(device.getSysexPreamble(), command));
-
-    /*
-    byte[] command1 = {0x7e, 0x7f, 0x06, 0x01};
-    send(SysexBuilder.newMessage(device.getSysexPreamble(), command1));
-    byte[] command1 = {10, 84, 45};
-    send(SysexBuilder.newMessage(device.getSysexPreamble(), command1));
-    byte[] command2= {13, 2, 45};
-    send(SysexBuilder.newMessage(device.getSysexPreamble(), command2));
-    byte[] command3 = {12, 2, 45};
-    send(SysexBuilder.newMessage(device.getSysexPreamble(), command3));
-    */
-
   }
 }

@@ -63,6 +63,11 @@ public class SubViewStrip implements ViewStrip {
       }
     });
   }
+  @Override
+  public void removeListener(ViewStripListener listener) {
+	  // TODO implement
+    throw new UnsupportedOperationException("SubViewStrip::removeListener");
+  }
 
   // Maps between 1-D strip index and 2-D Viewport index.
   private interface IndexMap {

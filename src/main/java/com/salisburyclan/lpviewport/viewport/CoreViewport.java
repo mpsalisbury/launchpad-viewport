@@ -8,4 +8,5 @@ public interface CoreViewport {
   ViewExtent getExtent();
   void setLight(int x, int y, Color color);
   void addListener(ViewportListener viewportListener);
+  void removeListener(ViewportListener viewportListener);
 }

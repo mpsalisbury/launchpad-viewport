@@ -1,5 +1,6 @@
 package com.salisburyclan.lpviewport.api;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,14 +15,14 @@ public interface LayoutProvider {
   boolean supportsSpec(String layoutSpec);
 
   /**
-   * Returns a Viewport composed of the provided Devices.
-   * This may block waiting for user configuration feedback
-   * before returning (for example, letting the user specify
+   * Returns a Future Viewport composed of the provided Devices.
+   * Future may wait for user configuration feedback before 
+   * populating the value (for example, letting the user specify
    * the desired layout amongst the set of sub-viewports.)
    * See the descriptions from getLayoutSpecDescriptions()
    * for the supported forms of layoutSpecs.
    *
    * @throws IllegalArgumentException if spec is not valid.
    */
-  Viewport createLayout(String layoutSpec, Collection<LaunchpadDevice> devices);
+  ListenableFuture<Viewport> createLayout(String layoutSpec, Collection<LaunchpadDevice> devices);
 }

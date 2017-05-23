@@ -4,6 +4,7 @@ import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -37,7 +38,7 @@ public class AggregateLayoutProvider implements LayoutProvider {
   }
 
   @Override
-  public Viewport createLayout(String layoutSpec, Collection<LaunchpadDevice> devices) {
+  public ListenableFuture<Viewport> createLayout(String layoutSpec, Collection<LaunchpadDevice> devices) {
     List<LayoutProvider> supportingProviders = providers.stream()
       .filter(provider -> provider.supportsSpec(layoutSpec))
       .collect(Collectors.toList());
