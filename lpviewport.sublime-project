@@ -1,0 +1,13 @@
+{
+	"folders":
+	[
+		{
+			"name": "main",
+			"path": "src/main/java/com/salisburyclan/lpviewport"
+		},
+		{
+			"name": "test",
+			"path": "src/test/java/com/salisburyclan/lpviewport"
+		}
+	]
+}
