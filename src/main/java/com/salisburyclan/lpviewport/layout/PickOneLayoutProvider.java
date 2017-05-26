@@ -6,6 +6,8 @@ import com.salisburyclan.lpviewport.api.LayoutProvider;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.animation.Animation;
+import com.salisburyclan.lpviewport.animation.AnimationProvider;
+import com.salisburyclan.lpviewport.animation.Spark;
 import com.salisburyclan.lpviewport.animation.Sweep;
 
 import javafx.animation.Interpolator;
@@ -35,6 +37,8 @@ public class PickOneLayoutProvider implements LayoutProvider {
   private final static String TYPE = "pickone";
   private final static String DESCRIPTION =
     TYPE + " : Chooses one viewport of the specified devices";
+  private final static AnimationProvider AWAITING_SELECTION_ANIMATION =
+    Sweep.newProvider(Color.RED, true);
 
   @Override
   public List<String> getLayoutSpecDescriptions() {
@@ -81,10 +85,11 @@ public class PickOneLayoutProvider implements LayoutProvider {
     }
 
     private void setupViewport(Viewport viewport) {
-      Animation animation = new Sweep(viewport, Color.RED);
+      Animation animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport);
       ViewportListener listener = new ViewportListener() {
         public void onButtonPressed(int x, int y) {
           shutDownChooser();
+          new Spark(viewport, x, y, Color.BLUE).play();
           futureViewport.set(viewport);
         }
         public void onButtonReleased(int x, int y) {

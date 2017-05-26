@@ -47,11 +47,11 @@ public class AggregateViewport implements Viewport {
     }
 
     // Adds the given viewport with the low corner placed at
-    // (xLow, yLow) in this aggregate viewport.
-    public void add(Viewport viewport, int targetXLow, int targetYLow) {
+    // (originX, originY) in this aggregate viewport.
+    public void add(Viewport viewport, int originX, int originY) {
       ViewExtent oldExtent = viewport.getExtent();
-      int xOffset = targetXLow - oldExtent.getXLow();
-      int yOffset = targetYLow - oldExtent.getYLow();
+      int xOffset = originX - oldExtent.getXLow();
+      int yOffset = originY - oldExtent.getYLow();
       ViewExtent newExtent = viewport.getExtent().shift(xOffset, yOffset);
       viewparts.add(new Viewpart(viewport, newExtent, xOffset, yOffset));
     }
@@ -60,6 +60,7 @@ public class AggregateViewport implements Viewport {
       if (viewparts.isEmpty()) {
         throw new IllegalArgumentException("Must add at least one Viewport to AggregateViewport");
       }
+      // TODO defensive copy of viewparts in case of multiple calls to build()
       return new AggregateViewport(viewparts, computeExtent());
     }
 

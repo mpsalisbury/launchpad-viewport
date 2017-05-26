@@ -9,17 +9,19 @@ public abstract class Animation {
 
   private Viewport viewport;
   private List<Timeline> timelines;
+  // TODO: handle multiple callbacks?
+  private Runnable onFinishedCallback;
 
   public Animation(Viewport viewport) {
     this.viewport = viewport;
     this.timelines = new ArrayList<>();
-    init();
   }
-
-  protected abstract void init();
 
   protected void addTimeline(Timeline timeline) {
     timelines.add(timeline);
+    timeline.setOnFinished(event -> {
+      callOnFinishedCallback();
+    });
   }
 
   protected Viewport getViewport() {
@@ -36,5 +38,15 @@ public abstract class Animation {
 
   public void stop() {
     timelines.forEach(Timeline::stop);
+  }
+
+  public void setOnFinished(Runnable callback) {
+    this.onFinishedCallback = callback;
+  }
+
+  private void callOnFinishedCallback() {
+    if (onFinishedCallback != null) {
+      onFinishedCallback.run();
+    }
   }
 }

@@ -8,6 +8,7 @@ public class ProdLayoutProvider {
     AggregateLayoutProvider provider = new AggregateLayoutProvider();
     provider.addProvider(new PickOneLayoutProvider());
     provider.addProvider(new HorizontalLayoutProvider());
+    provider.addProvider(new LinkedPairsLayoutProvider());
     return provider;
   }
 }

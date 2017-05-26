@@ -6,6 +6,8 @@ import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
 import com.salisburyclan.lpviewport.animation.Animation;
+import com.salisburyclan.lpviewport.animation.AnimationProvider;
+import com.salisburyclan.lpviewport.animation.Spark;
 import com.salisburyclan.lpviewport.animation.Sweep;
 
 import com.google.common.collect.ImmutableList;
@@ -21,6 +23,10 @@ public class HorizontalLayoutProvider implements LayoutProvider {
   private final static String TYPE = "horiz";
   private final static String DESCRIPTION =
     TYPE + " : combines the viewports specified by typespec horizontally left-to-right";
+  private final static AnimationProvider AWAITING_SELECTION_ANIMATION =
+    Sweep.newProvider(Color.RED, true);
+  private final static AnimationProvider SELECTED_VIEWPORT_ANIMATION =
+    Sweep.newProvider(Color.BLUE, true);
 
   @Override
   public List<String> getLayoutSpecDescriptions() {
@@ -74,7 +80,7 @@ public class HorizontalLayoutProvider implements LayoutProvider {
 
     private void setupViewport(Viewport viewport) {
       remainingViewportCount++;
-      Animation animation = new Sweep(viewport, Color.RED);
+      Animation animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport);
       animation.play();
       viewport.addListener(new ViewportListener() {
         public void onButtonPressed(int x, int y) {
@@ -100,14 +106,16 @@ public class HorizontalLayoutProvider implements LayoutProvider {
 
       if (remainingViewportCount > 0) {
         Viewport temporaryViewport = viewportBuilder.build();
-        Animation animation = new Sweep(temporaryViewport, Color.BLUE);
+        Animation animation = SELECTED_VIEWPORT_ANIMATION.newAnimation(temporaryViewport);
         animation.play();
         teardownTemporaryViewport = (() -> {
           animation.stop();
           temporaryViewport.setAllLights(Color.BLACK);
         });
       } else {
-        futureViewport.set(viewportBuilder.build());
+	Viewport chosenViewport = viewportBuilder.build();
+	new Spark(chosenViewport, Color.BLUE).play();
+        futureViewport.set(chosenViewport);
       }
     }
 

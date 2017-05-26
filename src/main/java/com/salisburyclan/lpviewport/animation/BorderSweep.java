@@ -14,52 +14,67 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class Sweep extends Animation {
+public class BorderSweep extends Animation {
 
   private Color color;
 
-  public Sweep(Viewport viewport, Color color, boolean forever) {
+  public BorderSweep(Viewport viewport, Color color) {
     super(viewport);
     this.color = color;
-    init(forever);
+    init();
   }
 
-  public static AnimationProvider newProvider(Color color, boolean forever) {
+  public static AnimationProvider newProvider(Color color) {
     return new AnimationProvider() {
       @Override
       public Animation newAnimation(Viewport viewport) {
-        return new Sweep(viewport, color, forever);
+        return new BorderSweep(viewport, color);
       }
     };
   }
 
-  protected void init(boolean forever) {
+  protected void init() {
     IntegerProperty barLocation = new SimpleIntegerProperty();
     Timeline timeline = new Timeline();
-    if (forever) {
-      timeline.setCycleCount(Timeline.INDEFINITE);
-      timeline.setAutoReverse(true);
-    }
+    timeline.setCycleCount(Timeline.INDEFINITE);
+    timeline.setAutoReverse(true);
 
     ViewExtent extent = getViewport().getExtent();
     timeline.getKeyFrames().addAll(
-        new KeyFrame(Duration.ZERO, new KeyValue(barLocation, extent.getXLow(), Interpolator.EASE_BOTH)),
-        new KeyFrame(Duration.seconds(1), new KeyValue(barLocation, extent.getXHigh(), Interpolator.EASE_BOTH)));
+        new KeyFrame(Duration.ZERO, new KeyValue(barLocation, 0)),
+        new KeyFrame(Duration.seconds(1),
+          new KeyValue(barLocation, extent.getWidth() + extent.getHeight())));
     addTimeline(timeline);
 
     barLocation.addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-        renderBar((Integer)oldLocation, Color.BLACK);
-        renderBar((Integer)newLocation, color);
+        renderDots((Integer)oldLocation, Color.BLACK);
+        renderDots((Integer)newLocation, color);
       }
     });
   }
 
-  protected void renderBar(int x, Color color) {
+  protected void renderDots(int location, Color color) {
     Viewport viewport = getViewport();
-    viewport.getExtent().getYRange().forEach(y -> {
-      viewport.setLight(x, y, color);
-    });
+    ViewExtent extent = viewport.getExtent();
+
+    int x = location;
+    int y = 0;
+    if (x >= extent.getWidth()) {
+      int diff = location - extent.getWidth() + 1;
+      x -= diff;
+      y += diff;
+    }
+    viewport.setLight(x + extent.getXLow(), y + extent.getYLow(), color);
+
+    x = 0;
+    y = location;
+    if (y >= extent.getHeight()) {
+      int diff = location - extent.getHeight() + 1;
+      x += diff;
+      y -= diff;
+    }
+    viewport.setLight(x + extent.getXLow(), y + extent.getYLow(), color);
   }
 }
