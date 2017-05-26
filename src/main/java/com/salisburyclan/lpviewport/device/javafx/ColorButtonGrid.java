@@ -1,7 +1,8 @@
 package com.salisburyclan.lpviewport.device.javafx;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.geometry.Insets;
-import javafx.scene.paint.Color;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
@@ -9,10 +10,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-import java.util.List;
- 
 public class ColorButtonGrid {
   private Parent parent;
   private Button[][] buttons;
@@ -31,9 +30,9 @@ public class ColorButtonGrid {
   private Parent initializeButtons(int xCount, int yCount, int size) {
     VBox vBox = new VBox();
     vBox.setSpacing(5);
-    vBox.setBackground(new Background(
-          new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
-    for (int y = yCount - 1; y >= 0; y--) {  // Build y largest->smallest top->bottom
+    vBox.setBackground(
+        new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+    for (int y = yCount - 1; y >= 0; y--) { // Build y largest->smallest top->bottom
       HBox hBox = new HBox();
       hBox.setSpacing(5);
       for (int x = 0; x < xCount; x++) {
@@ -42,12 +41,20 @@ public class ColorButtonGrid {
         setButtonColor(button, Color.BLACK);
         int capturedX = x;
         int capturedY = y;
-        button.setOnMousePressed(event -> {
-          listeners.forEach(listener -> { listener.onButtonPressed(capturedX, capturedY); });
-        });
-        button.setOnMouseReleased(event -> {
-          listeners.forEach(listener -> { listener.onButtonReleased(capturedX, capturedY); });
-        });
+        button.setOnMousePressed(
+            event -> {
+              listeners.forEach(
+                  listener -> {
+                    listener.onButtonPressed(capturedX, capturedY);
+                  });
+            });
+        button.setOnMouseReleased(
+            event -> {
+              listeners.forEach(
+                  listener -> {
+                    listener.onButtonReleased(capturedX, capturedY);
+                  });
+            });
         hBox.getChildren().add(button);
         buttons[x][y] = button;
       }
@@ -82,10 +89,10 @@ public class ColorButtonGrid {
 
   private void setButtonColor(Button button, Color color) {
     if (button != null) {
-      button.setStyle(String.format("-fx-base: rgb(%s,%s,%s);",
-          color.getRed() * 255,
-          color.getGreen() * 255,
-          color.getBlue() * 255));
+      button.setStyle(
+          String.format(
+              "-fx-base: rgb(%s,%s,%s);",
+              color.getRed() * 255, color.getGreen() * 255, color.getBlue() * 255));
     }
   }
 
@@ -97,5 +104,4 @@ public class ColorButtonGrid {
     // TODO implement
     throw new UnsupportedOperationException();
   }
-
 }

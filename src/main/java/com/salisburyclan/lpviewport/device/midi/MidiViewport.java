@@ -1,11 +1,9 @@
 package com.salisburyclan.lpviewport.device.midi;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.api.ViewButton;
 import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
-import com.salisburyclan.lpviewport.api.ViewStrip;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 
 public class MidiViewport implements Viewport {

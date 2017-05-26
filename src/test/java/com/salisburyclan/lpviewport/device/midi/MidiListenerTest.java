@@ -1,16 +1,16 @@
 package com.salisburyclan.lpviewport.device.midi;
 
+import static org.mockito.Mockito.verify;
+
 import com.salisburyclan.lpviewport.api.ViewportListener;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.quality.Strictness;
-
-import static org.mockito.Mockito.verify;
 
 @RunWith(JUnit4.class)
 public class MidiListenerTest {
@@ -32,5 +32,4 @@ public class MidiListenerTest {
     verify(mockViewportListener).onButtonPressed(testX, testY);
     verify(mockViewportListener).onButtonReleased(testX, testY);
   }
-
 }

@@ -1,13 +1,9 @@
 package com.salisburyclan.lpviewport.layout;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.api.ViewButton;
-import com.salisburyclan.lpviewport.api.ViewButtonListener;
 import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
-import com.salisburyclan.lpviewport.api.ViewStrip;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +26,7 @@ public class AggregateViewport implements Viewport {
       this.yOffset = yOffset;
     }
   }
+
   private List<Viewpart> viewparts;
   private ViewExtent extent;
 
@@ -65,9 +62,10 @@ public class AggregateViewport implements Viewport {
     }
 
     private ViewExtent computeExtent() {
-      return viewparts.stream()
-        .map(viewpart -> viewpart.extent)
-        .reduce(viewparts.get(0).extent, (a, b) -> a.includeBoth(b));
+      return viewparts
+          .stream()
+          .map(viewpart -> viewpart.extent)
+          .reduce(viewparts.get(0).extent, (a, b) -> a.includeBoth(b));
     }
   }
 
@@ -78,32 +76,37 @@ public class AggregateViewport implements Viewport {
 
   @Override
   public void setLight(int x, int y, Color color) {
-    viewparts.forEach(viewpart -> {
-      if (viewpart.extent.isPointWithin(x, y)) {
-        viewpart.viewport.setLight(x - viewpart.xOffset, y - viewpart.yOffset, color);
-      }
-    });
+    viewparts.forEach(
+        viewpart -> {
+          if (viewpart.extent.isPointWithin(x, y)) {
+            viewpart.viewport.setLight(x - viewpart.xOffset, y - viewpart.yOffset, color);
+          }
+        });
   }
 
   @Override
   public void setAllLights(Color color) {
-    viewparts.forEach(viewpart -> {
-      viewpart.viewport.setAllLights(color);
-    });
+    viewparts.forEach(
+        viewpart -> {
+          viewpart.viewport.setAllLights(color);
+        });
   }
 
   @Override
   public void addListener(ViewportListener listener) {
-    viewparts.forEach(viewpart -> {
-      viewpart.viewport.addListener(new ViewportListener() {
-        public void onButtonPressed(int x, int y) {
-          listener.onButtonPressed(x + viewpart.xOffset, y + viewpart.yOffset);
-        }
-        public void onButtonReleased(int x, int y) {
-          listener.onButtonReleased(x + viewpart.xOffset, y + viewpart.yOffset);
-        }
-      });
-    });
+    viewparts.forEach(
+        viewpart -> {
+          viewpart.viewport.addListener(
+              new ViewportListener() {
+                public void onButtonPressed(int x, int y) {
+                  listener.onButtonPressed(x + viewpart.xOffset, y + viewpart.yOffset);
+                }
+
+                public void onButtonReleased(int x, int y) {
+                  listener.onButtonReleased(x + viewpart.xOffset, y + viewpart.yOffset);
+                }
+              });
+        });
   }
 
   @Override
@@ -112,4 +115,3 @@ public class AggregateViewport implements Viewport {
     throw new UnsupportedOperationException("AggregateViewport::removeListener");
   }
 }
-

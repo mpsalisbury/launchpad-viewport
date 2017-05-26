@@ -1,11 +1,8 @@
 package com.salisburyclan.lpviewport.device.midi;
 
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
-import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
-
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Receiver;
 
 public class MidiResources {
 
@@ -15,8 +12,8 @@ public class MidiResources {
   private final LaunchpadProtocolClient protocolClient;
   private final MidiListener midiListener;
 
-  public MidiResources(MidiDeviceSpec spec,
-      MidiDevice inputDevice, MidiDevice outputDevice) throws MidiUnavailableException {
+  public MidiResources(MidiDeviceSpec spec, MidiDevice inputDevice, MidiDevice outputDevice)
+      throws MidiUnavailableException {
     // TODO: Require inputDevice has transmitters and outputDevice has receivers.
     this.inputDevice = inputDevice;
     if (!inputDevice.isOpen()) {

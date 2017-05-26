@@ -1,9 +1,6 @@
 package com.salisburyclan.lpviewport.device.midi;
 
-/**
- * Encodes an rgb color in a single int.
- * r, g, and b must be in range 0..63.
- */
+/** Encodes an rgb color in a single int. r, g, and b must be in range 0..63. */
 public class ColorCode {
   private ColorCode() {}
 
@@ -17,17 +14,17 @@ public class ColorCode {
 
   // Extracts the R component from a color.
   public static byte getRed(int color) {
-    return (byte)((color >> 16) & 0x3f);
+    return (byte) ((color >> 16) & 0x3f);
   }
 
   // Extracts the G component from a color.
   public static byte getGreen(int color) {
-    return (byte)((color >> 8) & 0x3f);
+    return (byte) ((color >> 8) & 0x3f);
   }
 
   // Extracts the B component from a color.
   public static byte getBlue(int color) {
-    return (byte)(color & 0x3f);
+    return (byte) (color & 0x3f);
   }
 
   private static void checkRange(int component) {

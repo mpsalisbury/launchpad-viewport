@@ -1,12 +1,9 @@
 package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.api.ViewButton;
-import com.salisburyclan.lpviewport.api.ViewButtonListener;
 import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
-import com.salisburyclan.lpviewport.api.ViewStrip;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
 public class SubViewport implements Viewport {
@@ -21,7 +18,8 @@ public class SubViewport implements Viewport {
 
   private void checkExtent(ViewExtent extent) {
     if (!baseViewport.getExtent().isExtentWithin(extent)) {
-      throw new IllegalArgumentException("Extent extends beyond base viewport: " + extent.toString());
+      throw new IllegalArgumentException(
+          "Extent extends beyond base viewport: " + extent.toString());
     }
   }
 
@@ -37,31 +35,40 @@ public class SubViewport implements Viewport {
 
   @Override
   public void setAllLights(Color color) {
-    extent.getXRange().forEach(x -> {
-      extent.getYRange().forEach(y -> {
-        baseViewport.setLight(x, y, color);
-      });
-    });
+    extent
+        .getXRange()
+        .forEach(
+            x -> {
+              extent
+                  .getYRange()
+                  .forEach(
+                      y -> {
+                        baseViewport.setLight(x, y, color);
+                      });
+            });
   }
 
   @Override
   public void addListener(ViewportListener listener) {
-    baseViewport.addListener(new ViewportListener() {
-      public void onButtonPressed(int x, int y) {
-        if (extent.isPointWithin(x, y)) {
-          listener.onButtonPressed(x - extent.getXLow(), y - extent.getYLow());
-        }
-      }
-      public void onButtonReleased(int x, int y) {
-        if (extent.isPointWithin(x, y)) {
-          listener.onButtonReleased(x - extent.getXLow(), y - extent.getYLow());
-        }
-      }
-    });
+    baseViewport.addListener(
+        new ViewportListener() {
+          public void onButtonPressed(int x, int y) {
+            if (extent.isPointWithin(x, y)) {
+              listener.onButtonPressed(x - extent.getXLow(), y - extent.getYLow());
+            }
+          }
+
+          public void onButtonReleased(int x, int y) {
+            if (extent.isPointWithin(x, y)) {
+              listener.onButtonReleased(x - extent.getXLow(), y - extent.getYLow());
+            }
+          }
+        });
   }
+
   @Override
   public void removeListener(ViewportListener listener) {
-	  // TODO implement
+    // TODO implement
     throw new UnsupportedOperationException("SubViewport::removeListener");
   }
 }

@@ -15,12 +15,10 @@ public interface LayoutProvider {
   boolean supportsSpec(String layoutSpec);
 
   /**
-   * Returns a Future Viewport composed of the provided Devices.
-   * Future may wait for user configuration feedback before 
-   * populating the value (for example, letting the user specify
-   * the desired layout amongst the set of sub-viewports.)
-   * See the descriptions from getLayoutSpecDescriptions()
-   * for the supported forms of layoutSpecs.
+   * Returns a Future Viewport composed of the provided Devices. Future may wait for user
+   * configuration feedback before populating the value (for example, letting the user specify the
+   * desired layout amongst the set of sub-viewports.) See the descriptions from
+   * getLayoutSpecDescriptions() for the supported forms of layoutSpecs.
    *
    * @throws IllegalArgumentException if spec is not valid.
    */

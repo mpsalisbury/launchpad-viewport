@@ -5,25 +5,20 @@ import com.salisburyclan.lpviewport.device.midi.ColorCode;
 import com.salisburyclan.lpviewport.device.midi.LaunchpadDevice;
 import com.salisburyclan.lpviewport.device.midi.SysexBuilder;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
-import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Receiver;
-import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
-
-import java.util.Arrays;
 
 public class LaunchpadMk2ProtocolClient implements LaunchpadProtocolClient {
 
   /** The Launchpad's Receiver, to which commands are sent. */
   private final Receiver receiver;
+
   private final LaunchpadDevice device = new LaunchpadMk2Device();
 
-  /**
-   * @param receiver The Launchpad's MIDI Receiver. Must not be null.
-   */
+  /** @param receiver The Launchpad's MIDI Receiver. Must not be null. */
   public LaunchpadMk2ProtocolClient(Receiver receiver) {
     if (receiver == null) {
-        throw new IllegalArgumentException("Receiver must not be null.");
+      throw new IllegalArgumentException("Receiver must not be null.");
     }
     // TODO(mike): Ensure that receiver is in fact a LaunchpadMk2
     this.receiver = receiver;
@@ -103,7 +98,7 @@ public class LaunchpadMk2ProtocolClient implements LaunchpadProtocolClient {
     byte blue = ColorCode.getBlue(color);
 
     SysexBuilder builder = newSysexBuilder();
-    builder.add((byte)0x0b);
+    builder.add((byte) 0x0b);
     for (int x = xLow; x <= xHigh; ++x) {
       for (int y = yLow; y <= yHigh; ++y) {
         builder.add(device.posToIndex(x, y), red, green, blue);

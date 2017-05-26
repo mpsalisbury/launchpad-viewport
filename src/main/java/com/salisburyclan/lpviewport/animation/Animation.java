@@ -1,9 +1,9 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Viewport;
-import javafx.animation.Timeline;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.Timeline;
 
 public abstract class Animation {
 
@@ -19,9 +19,10 @@ public abstract class Animation {
 
   protected void addTimeline(Timeline timeline) {
     timelines.add(timeline);
-    timeline.setOnFinished(event -> {
-      callOnFinishedCallback();
-    });
+    timeline.setOnFinished(
+        event -> {
+          callOnFinishedCallback();
+        });
   }
 
   protected Viewport getViewport() {

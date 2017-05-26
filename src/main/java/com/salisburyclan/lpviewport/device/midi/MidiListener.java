@@ -3,12 +3,8 @@ package com.salisburyclan.lpviewport.device.midi;
 import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
 import com.salisburyclan.lpviewport.viewport.ListenerMultiplexer;
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Listens to an entire device.
- */
+/** Listens to an entire device. */
 public class MidiListener implements LaunchpadProtocolListener {
 
   private ListenerMultiplexer multiplexer = new ListenerMultiplexer();

@@ -1,33 +1,23 @@
 package com.salisburyclan.lpviewport.layout;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import com.google.common.truth.Truth8;
+import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
-import com.salisburyclan.lpviewport.api.ViewExtent;
-
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.quality.Strictness;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
 public class AggregateViewportTest {
@@ -79,9 +69,9 @@ public class AggregateViewportTest {
   @Test
   public void testAddListener() throws Exception {
     ArgumentCaptor<ViewportListener> viewport1ListenerCaptor =
-      ArgumentCaptor.forClass(ViewportListener.class);
+        ArgumentCaptor.forClass(ViewportListener.class);
     ArgumentCaptor<ViewportListener> viewport2ListenerCaptor =
-      ArgumentCaptor.forClass(ViewportListener.class);
+        ArgumentCaptor.forClass(ViewportListener.class);
 
     viewport.addListener(mockListener);
     verify(mockViewport1).addListener(viewport1ListenerCaptor.capture());

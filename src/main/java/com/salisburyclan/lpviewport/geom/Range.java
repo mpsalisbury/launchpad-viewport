@@ -9,5 +9,6 @@ public abstract class Range {
   }
 
   public abstract int low();
+
   public abstract int high();
 }

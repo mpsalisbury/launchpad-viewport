@@ -1,23 +1,19 @@
 package com.salisburyclan.lpviewport.apps;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LaunchpadDeviceProvider;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.device.ProdDeviceProvider;
 import com.salisburyclan.lpviewport.layout.ProdLayoutProvider;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.ListenableFuture;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -51,13 +47,15 @@ public abstract class JavafxLaunchpadApplication extends Application {
   public abstract void run();
 
   protected void getViewport(Consumer<Viewport> viewportCallback) {
-    Futures.addCallback(getViewport(), new FutureCallback<Viewport>() {
-      public void onSuccess(Viewport viewport) {
-        viewportCallback.accept(viewport);
-      }
-      public void onFailure(Throwable t) {
-      }
-    });
+    Futures.addCallback(
+        getViewport(),
+        new FutureCallback<Viewport>() {
+          public void onSuccess(Viewport viewport) {
+            viewportCallback.accept(viewport);
+          }
+
+          public void onFailure(Throwable t) {}
+        });
   }
 
   // Returns first viewport using clientSpec from args.
@@ -69,9 +67,10 @@ public abstract class JavafxLaunchpadApplication extends Application {
   }
 
   private ListenableFuture<Viewport> getViewport(String layoutSpec, String deviceSpec) {
-    List<LaunchpadDevice> devices = Arrays.stream(deviceSpec.split(","))
-      .flatMap(spec -> deviceProvider.getDevices(spec).stream())
-      .collect(Collectors.toList());
+    List<LaunchpadDevice> devices =
+        Arrays.stream(deviceSpec.split(","))
+            .flatMap(spec -> deviceProvider.getDevices(spec).stream())
+            .collect(Collectors.toList());
     if (devices.isEmpty()) {
       throw new IllegalArgumentException("No Devices available for DeviceSpec: " + deviceSpec);
     }

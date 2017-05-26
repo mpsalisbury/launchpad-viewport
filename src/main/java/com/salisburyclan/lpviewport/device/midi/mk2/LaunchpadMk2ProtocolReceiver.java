@@ -2,21 +2,18 @@ package com.salisburyclan.lpviewport.device.midi.mk2;
 
 import com.salisburyclan.lpviewport.device.midi.LaunchpadDevice;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
-
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
-import javax.sound.midi.SysexMessage;
 
 public class LaunchpadMk2ProtocolReceiver implements Receiver {
 
   /** The listener to notify when commands are received. */
   private final LaunchpadProtocolListener listener;
+
   private final LaunchpadDevice device = new LaunchpadMk2Device();
 
-  /**
-   * @param listener The listener to to notify when commands are received. Must not be null.
-   */
+  /** @param listener The listener to to notify when commands are received. Must not be null. */
   public LaunchpadMk2ProtocolReceiver(LaunchpadProtocolListener listener) {
     if (listener == null) {
       throw new IllegalArgumentException("Listener must not be null.");
@@ -28,8 +25,8 @@ public class LaunchpadMk2ProtocolReceiver implements Receiver {
   public void send(MidiMessage message, long timestamp) {
     if (message instanceof ShortMessage) {
       handleShortMessage((ShortMessage) message, timestamp);
-//    } else {
-//      listener.onUnhandledMessageReceived(message, timestamp);
+      //    } else {
+      //      listener.onUnhandledMessageReceived(message, timestamp);
     }
   }
 
@@ -43,12 +40,12 @@ public class LaunchpadMk2ProtocolReceiver implements Receiver {
     int status = message.getStatus();
     int note = message.getData1();
     int velocity = message.getData2();
-//    System.out.println("Got message " + status + ", " + note + ", " + velocity + ", " + timestamp);
+    //    System.out.println("Got message " + status + ", " + note + ", " + velocity + ", " + timestamp);
 
     if (status == ShortMessage.NOTE_ON || status == ShortMessage.CONTROL_CHANGE) {
       handleButtonPress(note, velocity, timestamp);
-//    } else {
-//      listener.onUnhandledMessageReceived(message, timestamp);
+      //    } else {
+      //      listener.onUnhandledMessageReceived(message, timestamp);
     }
   }
 
@@ -60,7 +57,7 @@ public class LaunchpadMk2ProtocolReceiver implements Receiver {
    * @param timestamp When the note was activated.
    */
   protected void handleButtonPress(int note, int velocity, long timestamp) {
-    int position = device.indexToPos((byte)note);
+    int position = device.indexToPos((byte) note);
     if (velocity == 0) {
       listener.onButtonReleased(position, timestamp);
     } else {
@@ -69,6 +66,5 @@ public class LaunchpadMk2ProtocolReceiver implements Receiver {
   }
 
   @Override
-  public void close() {
-  }
+  public void close() {}
 }

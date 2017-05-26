@@ -1,10 +1,9 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewExtent;
-import com.salisburyclan.lpviewport.animation.Animation;
-
+import com.salisburyclan.lpviewport.api.Viewport;
+import java.util.stream.IntStream;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -13,8 +12,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
-
-import java.util.stream.IntStream;
 
 public class Spark extends Animation {
 
@@ -55,28 +52,31 @@ public class Spark extends Animation {
     final int maxDistance = getMaxDistanceToEdge() + TAIL_LENGTH;
     IntegerProperty sparkDistance = new SimpleIntegerProperty();
     Timeline timeline = new Timeline();
-    timeline.getKeyFrames().addAll(
-        new KeyFrame(Duration.ZERO, new KeyValue(sparkDistance, 0)),
-        new KeyFrame(Duration.seconds(1), new KeyValue(sparkDistance, maxDistance)));
+    timeline
+        .getKeyFrames()
+        .addAll(
+            new KeyFrame(Duration.ZERO, new KeyValue(sparkDistance, 0)),
+            new KeyFrame(Duration.seconds(1), new KeyValue(sparkDistance, maxDistance)));
     addTimeline(timeline);
 
-    sparkDistance.addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue o, Object distance, Object newVal) {
-        renderSparkFrame((Integer)distance);
-      }
-    });
+    sparkDistance.addListener(
+        new ChangeListener() {
+          @Override
+          public void changed(ObservableValue o, Object distance, Object newVal) {
+            renderSparkFrame((Integer) distance);
+          }
+        });
   }
 
   private int getMaxDistanceToEdge() {
     ViewExtent extent = getViewport().getExtent();
     return IntStream.of(
-        centerX - extent.getXLow(),
-        extent.getXHigh() - centerX,
-        centerY - extent.getYLow(),
-        extent.getYHigh() - centerY)
-      .max()
-      .getAsInt();
+            centerX - extent.getXLow(),
+            extent.getXHigh() - centerX,
+            centerY - extent.getYLow(),
+            extent.getYHigh() - centerY)
+        .max()
+        .getAsInt();
   }
 
   // Spark runs in all four directions from the centerpoint.
@@ -119,7 +119,7 @@ public class Spark extends Animation {
   }
 
   private Color moderateColor(int numerator, int denominator, Color color) {
-    double percent = (double)numerator / denominator;
+    double percent = (double) numerator / denominator;
     if (percent > 1.0) {
       percent = 0.0;
     }
@@ -127,8 +127,8 @@ public class Spark extends Animation {
       percent = 0.0;
     }
     return Color.of(
-        (int)(color.getRed() * percent),
-        (int)(color.getGreen() * percent),
-        (int)(color.getBlue() * percent));
+        (int) (color.getRed() * percent),
+        (int) (color.getGreen() * percent),
+        (int) (color.getBlue() * percent));
   }
 }

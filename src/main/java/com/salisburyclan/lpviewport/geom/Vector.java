@@ -9,5 +9,6 @@ public abstract class Vector {
   }
 
   public abstract int dx();
+
   public abstract int dy();
 }

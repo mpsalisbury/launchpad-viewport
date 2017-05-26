@@ -5,7 +5,7 @@ public class LaunchpadMk2Constants {
   // ButtonMapping encodes correspondences between the Position(x,y) of a button and
   // the encoded midi note location for this device.
   public static class ButtonMapping {
-    public int pos;  // encoded x,y position
+    public int pos; // encoded x,y position
     public int note; // midi note for position
 
     public ButtonMapping(int pos, int note) {
@@ -30,10 +30,10 @@ public class LaunchpadMk2Constants {
   // ColorMapping encodes correspondences between an encoded Color(r,g,b) and
   // the encoded individual r, g, b values for this device.
   public static class ColorMapping {
-    public int color;  // encoded r,g,b
-    public int red;    // device red
-    public int green;  // device green
-    public int blue;   // device blue
+    public int color; // encoded r,g,b
+    public int red; // device red
+    public int green; // device green
+    public int blue; // device blue
 
     public ColorMapping(int color, int red, int green, int blue) {
       this.color = color;

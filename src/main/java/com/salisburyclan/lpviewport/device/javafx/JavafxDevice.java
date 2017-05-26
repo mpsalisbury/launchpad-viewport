@@ -2,22 +2,10 @@ package com.salisburyclan.lpviewport.device.javafx;
 
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.Viewport;
-
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.paint.Color;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.ArrayList;
-import java.util.List;
- 
 public class JavafxDevice implements LaunchpadDevice {
 
   public static final String TYPE = "javafx";
@@ -41,7 +29,7 @@ public class JavafxDevice implements LaunchpadDevice {
     stage.sizeToScene();
     stage.setResizable(false);
     stage.initStyle(StageStyle.UTILITY);
-//    stage.setTitle("foo");
+    //    stage.setTitle("foo");
     stage.show();
     return stage;
   }

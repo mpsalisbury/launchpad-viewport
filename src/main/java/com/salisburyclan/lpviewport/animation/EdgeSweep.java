@@ -1,13 +1,11 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.viewport.Edge;
 import com.salisburyclan.lpviewport.viewport.Point;
 import com.salisburyclan.lpviewport.viewport.Range;
-
-import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -37,18 +35,21 @@ public class EdgeSweep extends Animation {
 
     ViewExtent extent = getViewport().getExtent();
     Range range = edge.getRange(extent);
-    timeline.getKeyFrames().addAll(
-        new KeyFrame(Duration.ZERO, new KeyValue(dotLocation, range.low)),
-        new KeyFrame(Duration.seconds(1), new KeyValue(dotLocation, range.high)));
+    timeline
+        .getKeyFrames()
+        .addAll(
+            new KeyFrame(Duration.ZERO, new KeyValue(dotLocation, range.low)),
+            new KeyFrame(Duration.seconds(1), new KeyValue(dotLocation, range.high)));
     addTimeline(timeline);
 
-    dotLocation.addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-        renderDot((Integer)oldLocation, Color.BLACK);
-        renderDot((Integer)newLocation, color);
-      }
-    });
+    dotLocation.addListener(
+        new ChangeListener() {
+          @Override
+          public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
+            renderDot((Integer) oldLocation, Color.BLACK);
+            renderDot((Integer) newLocation, color);
+          }
+        });
   }
 
   protected void renderDot(int location, Color color) {

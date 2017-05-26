@@ -1,10 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewExtent;
-
-import javafx.animation.Interpolator;
+import com.salisburyclan.lpviewport.api.Viewport;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -40,19 +38,23 @@ public class BorderSweep extends Animation {
     timeline.setAutoReverse(true);
 
     ViewExtent extent = getViewport().getExtent();
-    timeline.getKeyFrames().addAll(
-        new KeyFrame(Duration.ZERO, new KeyValue(barLocation, 0)),
-        new KeyFrame(Duration.seconds(1),
-          new KeyValue(barLocation, extent.getWidth() + extent.getHeight())));
+    timeline
+        .getKeyFrames()
+        .addAll(
+            new KeyFrame(Duration.ZERO, new KeyValue(barLocation, 0)),
+            new KeyFrame(
+                Duration.seconds(1),
+                new KeyValue(barLocation, extent.getWidth() + extent.getHeight())));
     addTimeline(timeline);
 
-    barLocation.addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-        renderDots((Integer)oldLocation, Color.BLACK);
-        renderDots((Integer)newLocation, color);
-      }
-    });
+    barLocation.addListener(
+        new ChangeListener() {
+          @Override
+          public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
+            renderDots((Integer) oldLocation, Color.BLACK);
+            renderDots((Integer) newLocation, color);
+          }
+        });
   }
 
   protected void renderDots(int location, Color color) {

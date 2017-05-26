@@ -1,9 +1,6 @@
 package com.salisburyclan.lpviewport.device.midi;
 
-/**
- * Encodes a 2-D x,y position in a single int.
- * x and y must be in range 0..15.
- */
+/** Encodes a 2-D x,y position in a single int. x and y must be in range 0..15. */
 public class PositionCode {
   private PositionCode() {}
 

@@ -1,29 +1,28 @@
 package com.salisburyclan.lpviewport.device.midi.mk2;
 
+import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import com.google.common.primitives.Bytes;
 import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.device.midi.mk2.LaunchpadMk2Constants.ButtonMapping;
 import com.salisburyclan.lpviewport.device.midi.mk2.LaunchpadMk2Constants.ColorMapping;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
-
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import java.util.ArrayList;
+import java.util.List;
+import javax.sound.midi.Receiver;
+import javax.sound.midi.SysexMessage;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.quality.Strictness;
-import java.util.ArrayList;
-import java.util.List;
-import javax.sound.midi.Receiver;
-import javax.sound.midi.SysexMessage;
-
-import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 @RunWith(JUnit4.class)
 public class LaunchpadMk2ProtocolClientTest {
@@ -59,20 +58,30 @@ public class LaunchpadMk2ProtocolClientTest {
     // Try different buttons
     ColorMapping sampleColorMapping = LaunchpadMk2Constants.colorMappings[0];
     for (ButtonMapping buttonMapping : LaunchpadMk2Constants.buttonMappings) {
-      testSetLight(buttonMapping.pos, buttonMapping.note,
-          sampleColorMapping.color, sampleColorMapping.red,
-	  sampleColorMapping.green, sampleColorMapping.blue);
+      testSetLight(
+          buttonMapping.pos,
+          buttonMapping.note,
+          sampleColorMapping.color,
+          sampleColorMapping.red,
+          sampleColorMapping.green,
+          sampleColorMapping.blue);
     }
     // Try different colors
     ButtonMapping sampleButtonMapping = LaunchpadMk2Constants.buttonMappings[0];
     for (ColorMapping colorMapping : LaunchpadMk2Constants.colorMappings) {
-      testSetLight(sampleButtonMapping.pos, sampleButtonMapping.note,
-          colorMapping.color, colorMapping.red, colorMapping.green, colorMapping.blue);
+      testSetLight(
+          sampleButtonMapping.pos,
+          sampleButtonMapping.note,
+          colorMapping.color,
+          colorMapping.red,
+          colorMapping.green,
+          colorMapping.blue);
     }
     verifyExpectedCommands();
   }
 
-  private void testSetLight(int xyPosition, int midiNote, int color, int red, int green, int blue) throws Exception {
+  private void testSetLight(int xyPosition, int midiNote, int color, int red, int green, int blue)
+      throws Exception {
     LaunchpadProtocolClient client = new LaunchpadMk2ProtocolClient(mockDevice);
     client.setLight(xyPosition, color);
     recordExpectedCommand(getSetLightCommand(midiNote, red, green, blue));
@@ -101,15 +110,12 @@ public class LaunchpadMk2ProtocolClientTest {
 
   private void verifyExpectedCommands() throws Exception {
     ArgumentCaptor<SysexMessage> sysexArgument = ArgumentCaptor.forClass(SysexMessage.class);
-    verify(mockDevice, times(expectedCommands.size()))
-        .send(sysexArgument.capture(), eq(-1L));
+    verify(mockDevice, times(expectedCommands.size())).send(sysexArgument.capture(), eq(-1L));
     List<SysexMessage> observedCommands = sysexArgument.getAllValues();
 
     for (int i = 0; i < expectedCommands.size(); ++i) {
-      assertThat(observedCommands.get(i).getMessage())
-        .isEqualTo(expectedCommands.get(i));
+      assertThat(observedCommands.get(i).getMessage()).isEqualTo(expectedCommands.get(i));
     }
     expectedCommands.clear();
   }
-
 }

@@ -1,22 +1,17 @@
 package com.salisburyclan.lpviewport.device.midi;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LaunchpadDeviceProvider;
 import com.salisburyclan.lpviewport.midi.MidiDeviceProvider;
 import com.salisburyclan.lpviewport.midi.SystemMidiDeviceProvider;
-
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
-
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiUnavailableException;
 
@@ -24,10 +19,10 @@ import javax.sound.midi.MidiUnavailableException;
 public class MidiLaunchpadDeviceProvider implements LaunchpadDeviceProvider {
 
   // Identifier for OSX
-  private final static String OSX_ID = "macosx";
+  private static final String OSX_ID = "macosx";
 
   // Label added to Midi device names for OSX CoreMIDI4J device wrappers.
-  private final static String CORE_MIDI_4J_NAME_TAG = "CoreMIDI4J";
+  private static final String CORE_MIDI_4J_NAME_TAG = "CoreMIDI4J";
 
   // Provides access to midi devices.
   private MidiDeviceProvider deviceProvider;
@@ -38,24 +33,28 @@ public class MidiLaunchpadDeviceProvider implements LaunchpadDeviceProvider {
     this.specProvider = new ProdMidiDeviceSpecProvider();
   }
 
-  public MidiLaunchpadDeviceProvider(MidiDeviceProvider deviceProvider,
-      MidiDeviceSpecProvider specProvider) {
+  public MidiLaunchpadDeviceProvider(
+      MidiDeviceProvider deviceProvider, MidiDeviceSpecProvider specProvider) {
     this.deviceProvider = deviceProvider;
     this.specProvider = specProvider;
   }
 
   @Override
   public boolean supportsDeviceSpec(String deviceSpec) {
-    return specProvider.getSpecs().stream()
-      .map(MidiDeviceSpec::getType)
-      .anyMatch(type -> type.equals(deviceSpec));
+    return specProvider
+        .getSpecs()
+        .stream()
+        .map(MidiDeviceSpec::getType)
+        .anyMatch(type -> type.equals(deviceSpec));
   }
 
   @Override
   public Set<String> getAvailableTypes() {
-    return specProvider.getSpecs().stream()
-      .map(MidiDeviceSpec::getType)
-      .collect(Collectors.toSet());
+    return specProvider
+        .getSpecs()
+        .stream()
+        .map(MidiDeviceSpec::getType)
+        .collect(Collectors.toSet());
   }
 
   @Override
@@ -78,18 +77,25 @@ public class MidiLaunchpadDeviceProvider implements LaunchpadDeviceProvider {
 
     public void collectDevices(String deviceSpec) {
       AtomicBoolean foundValidType = new AtomicBoolean(false);
-      specProvider.getSpecs().forEach(spec -> {
-        Arrays.stream(deviceProvider.getMidiDeviceInfo()).forEach(info -> {
-          System.out.println(String.format("Got midi info %s / %s", info.getName(), info.getDescription()));
-          if (deviceSpec.equals(spec.getType())) {
-            foundValidType.set(true);
-            if (isDeviceCompatibleWithPlatform(info)
-                && deviceMatchesSignature(spec.getSignature(), info)) {
-              addDevice(spec, info);
-            }
-          }
-        });
-      });
+      specProvider
+          .getSpecs()
+          .forEach(
+              spec -> {
+                Arrays.stream(deviceProvider.getMidiDeviceInfo())
+                    .forEach(
+                        info -> {
+                          System.out.println(
+                              String.format(
+                                  "Got midi info %s / %s", info.getName(), info.getDescription()));
+                          if (deviceSpec.equals(spec.getType())) {
+                            foundValidType.set(true);
+                            if (isDeviceCompatibleWithPlatform(info)
+                                && deviceMatchesSignature(spec.getSignature(), info)) {
+                              addDevice(spec, info);
+                            }
+                          }
+                        });
+              });
       if (devices.isEmpty()) {
         if (foundValidType.get()) {
           // TODO(mpsalisbury) Use logger rather than System.err
@@ -121,14 +127,11 @@ public class MidiLaunchpadDeviceProvider implements LaunchpadDeviceProvider {
     }
 
     private boolean isPlatformOsx() {
-      final String os = System.getProperty("os.name").toLowerCase().replace(" ","");
+      final String os = System.getProperty("os.name").toLowerCase().replace(" ", "");
       return OSX_ID.equals(os);
     }
 
-    /**
-     * Adds the specified device as a client.
-     * Returns true upon success.
-     */
+    /** Adds the specified device as a client. Returns true upon success. */
     private boolean addDevice(MidiDeviceSpec spec, MidiDevice.Info info) {
       try {
         MidiDevice device = deviceProvider.getMidiDevice(info);
@@ -144,8 +147,8 @@ public class MidiLaunchpadDeviceProvider implements LaunchpadDeviceProvider {
         return false;
       } catch (MidiUnavailableException e) {
         System.err.println(
-            String.format("Unable to access midi device %s\n%s",
-                info.getDescription(), e.getMessage()));
+            String.format(
+                "Unable to access midi device %s\n%s", info.getDescription(), e.getMessage()));
         return false;
       }
     }

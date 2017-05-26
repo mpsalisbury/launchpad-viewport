@@ -3,7 +3,6 @@ package com.salisburyclan.lpviewport.device.midi.mk2;
 import com.salisburyclan.lpviewport.device.midi.MidiDeviceSpec;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
-
 import javax.sound.midi.Receiver;
 
 /** Launchpad MK2 device specs. */

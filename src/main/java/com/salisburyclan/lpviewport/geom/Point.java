@@ -9,5 +9,6 @@ public abstract class Point {
   }
 
   public abstract int x();
+
   public abstract int y();
 }

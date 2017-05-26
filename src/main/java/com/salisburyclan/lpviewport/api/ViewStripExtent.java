@@ -2,9 +2,7 @@ package com.salisburyclan.lpviewport.api;
 
 import java.util.stream.IntStream;
 
-/**
- * Encodes a 1-D range.
- */
+/** Encodes a 1-D range. */
 public class ViewStripExtent {
   private int low;
   private int high;

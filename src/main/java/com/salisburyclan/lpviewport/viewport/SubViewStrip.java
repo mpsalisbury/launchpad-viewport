@@ -1,14 +1,12 @@
 package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.api.ViewButton;
-import com.salisburyclan.lpviewport.api.ViewButtonListener;
 import com.salisburyclan.lpviewport.api.ViewExtent;
-import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.api.ViewStrip;
 import com.salisburyclan.lpviewport.api.ViewStripExtent;
 import com.salisburyclan.lpviewport.api.ViewStripListener;
+import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.ViewportListener;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
 public class SubViewStrip implements ViewStrip {
@@ -34,7 +32,8 @@ public class SubViewStrip implements ViewStrip {
 
   private void checkExtent(ViewExtent extent) {
     if (!baseViewport.getExtent().isExtentWithin(extent)) {
-      throw new IllegalArgumentException("Extent extends beyond base viewport: " + extent.toString());
+      throw new IllegalArgumentException(
+          "Extent extends beyond base viewport: " + extent.toString());
     }
   }
 
@@ -50,31 +49,38 @@ public class SubViewStrip implements ViewStrip {
 
   @Override
   public void addListener(ViewStripListener listener) {
-    baseViewport.addListener(new ViewportListener() {
-      public void onButtonPressed(int x, int y) {
-        if (indexMap.isPointWithin(x, y)) {
-          listener.onButtonPressed(indexMap.getIndex(x, y));
-        }
-      }
-      public void onButtonReleased(int x, int y) {
-        if (indexMap.isPointWithin(x, y)) {
-          listener.onButtonReleased(indexMap.getIndex(x, y));
-        }
-      }
-    });
+    baseViewport.addListener(
+        new ViewportListener() {
+          public void onButtonPressed(int x, int y) {
+            if (indexMap.isPointWithin(x, y)) {
+              listener.onButtonPressed(indexMap.getIndex(x, y));
+            }
+          }
+
+          public void onButtonReleased(int x, int y) {
+            if (indexMap.isPointWithin(x, y)) {
+              listener.onButtonReleased(indexMap.getIndex(x, y));
+            }
+          }
+        });
   }
+
   @Override
   public void removeListener(ViewStripListener listener) {
-	  // TODO implement
+    // TODO implement
     throw new UnsupportedOperationException("SubViewStrip::removeListener");
   }
 
   // Maps between 1-D strip index and 2-D Viewport index.
   private interface IndexMap {
     int getX(int index);
+
     int getY(int index);
+
     boolean isPointWithin(int x, int y);
+
     int getIndex(int x, int y);
+
     ViewStripExtent getExtent();
   }
 
@@ -156,4 +162,3 @@ public class SubViewStrip implements ViewStrip {
     }
   }
 }
-

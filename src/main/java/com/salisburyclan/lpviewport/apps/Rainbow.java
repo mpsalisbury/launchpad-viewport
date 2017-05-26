@@ -18,9 +18,13 @@ public class Rainbow extends JavafxLaunchpadApplication {
   }
 
   private void setRainbow() {
-    viewport.getExtent().getXRange().forEach(x -> {
-      setBar(x, getColor(x));
-    });
+    viewport
+        .getExtent()
+        .getXRange()
+        .forEach(
+            x -> {
+              setBar(x, getColor(x));
+            });
   }
 
   // Returns a color for the given index.
@@ -36,7 +40,7 @@ public class Rainbow extends JavafxLaunchpadApplication {
       Color.MAGENTA,
       Color.PURPLE,
     };
-      
+
     int cycleLength = (colors.length - 1) * 2;
     int indexWithinCycle = index % cycleLength;
     if (indexWithinCycle >= colors.length) {
@@ -47,8 +51,12 @@ public class Rainbow extends JavafxLaunchpadApplication {
   }
 
   private void setBar(int x, Color color) {
-    viewport.getExtent().getYRange().forEach(y -> {
-      viewport.setLight(x, y, color);
-    });
+    viewport
+        .getExtent()
+        .getYRange()
+        .forEach(
+            y -> {
+              viewport.setLight(x, y, color);
+            });
   }
 }

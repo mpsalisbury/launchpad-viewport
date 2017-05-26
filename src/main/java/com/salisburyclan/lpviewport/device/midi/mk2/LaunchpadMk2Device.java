@@ -41,9 +41,9 @@ public class LaunchpadMk2Device implements LaunchpadDevice {
       throw new IllegalArgumentException("y position out of range: " + y);
     }
     if (y == 8) {
-      return (byte)(104 + x);
+      return (byte) (104 + x);
     }
-    return (byte)((x + 1) + 10 * (y + 1));
+    return (byte) ((x + 1) + 10 * (y + 1));
   }
 
   @Override

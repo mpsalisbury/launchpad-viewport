@@ -1,11 +1,10 @@
 package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewButton;
 import com.salisburyclan.lpviewport.api.ViewButtonListener;
+import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
-import com.salisburyclan.lpviewport.api.ViewStrip;
 
 // A viewport that represents a one-button view of an existing viewport.
 public class SubViewButton implements ViewButton {
@@ -27,21 +26,24 @@ public class SubViewButton implements ViewButton {
 
   @Override
   public void addListener(ViewButtonListener listener) {
-    baseViewport.addListener(new ViewportListener() {
-      public void onButtonPressed(int buttonX, int buttonY) {
-        if (buttonX == x && buttonY == y) {
-          listener.onButtonPressed();
-        }
-      }
-      public void onButtonReleased(int buttonX, int buttonY) {
-        if (buttonX == x && buttonY == y) {
-          listener.onButtonReleased();
-        }
-      }
-    });
+    baseViewport.addListener(
+        new ViewportListener() {
+          public void onButtonPressed(int buttonX, int buttonY) {
+            if (buttonX == x && buttonY == y) {
+              listener.onButtonPressed();
+            }
+          }
+
+          public void onButtonReleased(int buttonX, int buttonY) {
+            if (buttonX == x && buttonY == y) {
+              listener.onButtonReleased();
+            }
+          }
+        });
   }
+
   @Override
   public void removeListener(ViewButtonListener listener) {
-	  // TODO
+    // TODO
   }
 }

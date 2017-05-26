@@ -1,39 +1,33 @@
 package com.salisburyclan.lpviewport.device.midi;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
+import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.when;
 
+import com.google.common.collect.ImmutableList;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.midi.MidiDeviceProvider;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
-
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-import org.mockito.quality.Strictness;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
-
-import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.Mockito.when;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+import org.mockito.quality.Strictness;
 
 // TODO: Cleanup entire class
 //
@@ -50,11 +44,12 @@ public class MidiLaunchpadDeviceProviderTest {
 
   @Before
   public void setUp() {
-    deviceProvider = new MidiLaunchpadDeviceProvider(
-        new FakeDeviceProvider(ImmutableList.of("A", "C", "D", "E", "E", "E")),
-        new FakeSpecProvider(ImmutableList.of("A", "B", "C", "E")));
+    deviceProvider =
+        new MidiLaunchpadDeviceProvider(
+            new FakeDeviceProvider(ImmutableList.of("A", "C", "D", "E", "E", "E")),
+            new FakeSpecProvider(ImmutableList.of("A", "B", "C", "E")));
 
-    when(mockProtocolClient.getOverallExtent()).thenReturn(new ViewExtent(0,0,10,10));
+    when(mockProtocolClient.getOverallExtent()).thenReturn(new ViewExtent(0, 0, 10, 10));
   }
 
   @Test
@@ -72,20 +67,21 @@ public class MidiLaunchpadDeviceProviderTest {
   @Test
   public void testGetDevicesMultipleInstances() throws Exception {
     List<LaunchpadDevice> devices = deviceProvider.getDevices("E");
-    List<String> deviceTypes = devices.stream().map(LaunchpadDevice::getType).collect(Collectors.toList());
+    List<String> deviceTypes =
+        devices.stream().map(LaunchpadDevice::getType).collect(Collectors.toList());
     assertThat(deviceTypes).containsExactly("E", "E", "E");
   }
 
-
   // Test instances of Midi devices, info, and specs.
- 
+
   private class FakeSpecProvider implements MidiDeviceSpecProvider {
     private List<MidiDeviceSpec> specs = new ArrayList<>();
 
     public FakeSpecProvider(List<String> types) {
-      types.forEach((type) -> {
-        addSpec(type, "Description" + type);
-      });
+      types.forEach(
+          (type) -> {
+            addSpec(type, "Description" + type);
+          });
     }
 
     private void addSpec(String type, String signature) {
@@ -102,9 +98,10 @@ public class MidiLaunchpadDeviceProviderTest {
     public Map<MidiDevice.Info, MidiDevice> devices = new HashMap<>();
 
     public FakeDeviceProvider(List<String> types) {
-      types.forEach((type) -> {
-        addDevice("FakeDevice" + type, "TestDescription" + type);
-      });
+      types.forEach(
+          (type) -> {
+            addDevice("FakeDevice" + type, "TestDescription" + type);
+          });
     }
 
     private void addDevice(String name, String description) {
@@ -123,8 +120,7 @@ public class MidiLaunchpadDeviceProviderTest {
       return infos.toArray(new MidiDevice.Info[0]);
     }
 
-    public MidiDevice getMidiDevice(MidiDevice.Info info)
-        throws MidiUnavailableException {
+    public MidiDevice getMidiDevice(MidiDevice.Info info) throws MidiUnavailableException {
       return devices.get(info);
     }
   }
@@ -136,7 +132,7 @@ public class MidiLaunchpadDeviceProviderTest {
     }
   }
 
-  private static abstract class FakeDevice implements MidiDevice {
+  private abstract static class FakeDevice implements MidiDevice {
     private MidiDevice.Info info;
     private boolean isOpen = false;
 
@@ -181,12 +177,15 @@ public class MidiLaunchpadDeviceProviderTest {
     public int getMaxReceivers() {
       return -1;
     }
+
     public int getMaxTransmitters() {
       return 0;
     }
+
     public Receiver getReceiver() {
       return mockReceiver;
     }
+
     public Transmitter getTransmitter() {
       return null;
     }
@@ -200,12 +199,15 @@ public class MidiLaunchpadDeviceProviderTest {
     public int getMaxReceivers() {
       return 0;
     }
+
     public int getMaxTransmitters() {
       return -1;
     }
+
     public Receiver getReceiver() {
       return null;
     }
+
     public Transmitter getTransmitter() {
       return mockTransmitter;
     }
@@ -236,5 +238,4 @@ public class MidiLaunchpadDeviceProviderTest {
       return mockProtocolReceiver;
     }
   }
-
 }

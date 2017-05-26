@@ -1,23 +1,19 @@
 package com.salisburyclan.lpviewport.device.midi.mk2;
 
+import static org.mockito.Mockito.verify;
+
 import com.salisburyclan.lpviewport.device.midi.mk2.LaunchpadMk2Constants.ButtonMapping;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
-
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import javax.sound.midi.Receiver;
+import javax.sound.midi.ShortMessage;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.quality.Strictness;
-
-import javax.sound.midi.MidiMessage;
-import javax.sound.midi.Receiver;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.SysexMessage;
-
-import static org.mockito.Mockito.verify;
 
 @RunWith(JUnit4.class)
 public class LaunchpadMk2ProtocolReceiverTest {

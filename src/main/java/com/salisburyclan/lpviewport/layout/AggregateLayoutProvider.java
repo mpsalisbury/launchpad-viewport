@@ -1,10 +1,9 @@
 package com.salisburyclan.lpviewport.layout;
 
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.api.LayoutProvider;
-
 import com.google.common.util.concurrent.ListenableFuture;
+import com.salisburyclan.lpviewport.api.LaunchpadDevice;
+import com.salisburyclan.lpviewport.api.LayoutProvider;
+import com.salisburyclan.lpviewport.api.Viewport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,23 +24,26 @@ public class AggregateLayoutProvider implements LayoutProvider {
 
   @Override
   public boolean supportsSpec(String layoutSpec) {
-    return providers.stream()
-        .anyMatch(provider -> provider.supportsSpec(layoutSpec));
+    return providers.stream().anyMatch(provider -> provider.supportsSpec(layoutSpec));
   }
 
   @Override
   public List<String> getLayoutSpecDescriptions() {
-    return providers.stream()
+    return providers
+        .stream()
         .map(LayoutProvider::getLayoutSpecDescriptions)
-	      .flatMap(List::stream)
-	      .collect(Collectors.toList());
+        .flatMap(List::stream)
+        .collect(Collectors.toList());
   }
 
   @Override
-  public ListenableFuture<Viewport> createLayout(String layoutSpec, Collection<LaunchpadDevice> devices) {
-    List<LayoutProvider> supportingProviders = providers.stream()
-      .filter(provider -> provider.supportsSpec(layoutSpec))
-      .collect(Collectors.toList());
+  public ListenableFuture<Viewport> createLayout(
+      String layoutSpec, Collection<LaunchpadDevice> devices) {
+    List<LayoutProvider> supportingProviders =
+        providers
+            .stream()
+            .filter(provider -> provider.supportsSpec(layoutSpec))
+            .collect(Collectors.toList());
     if (supportingProviders.isEmpty()) {
       throw new IllegalArgumentException("No provider supports layoutSpec " + layoutSpec);
     }

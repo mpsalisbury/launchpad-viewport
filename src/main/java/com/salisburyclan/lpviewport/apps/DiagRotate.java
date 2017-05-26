@@ -1,12 +1,8 @@
 package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewExtent;
-import com.salisburyclan.lpviewport.api.ViewportListener;
-
-import javafx.animation.Animation;
-import javafx.animation.Interpolator;
+import com.salisburyclan.lpviewport.api.Viewport;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -14,11 +10,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.util.Duration;
-
-import java.util.stream.IntStream;
 
 public class DiagRotate extends JavafxLaunchpadApplication {
 
@@ -34,7 +26,7 @@ public class DiagRotate extends JavafxLaunchpadApplication {
 
   private void setupViewport(Viewport viewport) {
     this.viewport = viewport;
-    barExtent = viewport.getExtent().inset(1,1,1,1);
+    barExtent = viewport.getExtent().inset(1, 1, 1, 1);
     rotate();
   }
 
@@ -42,31 +34,40 @@ public class DiagRotate extends JavafxLaunchpadApplication {
     IntegerProperty barLocation = new SimpleIntegerProperty();
     Timeline timeline = new Timeline();
     timeline.setCycleCount(Timeline.INDEFINITE);
-    timeline.getKeyFrames().addAll(
-//        new KeyFrame(Duration.ZERO, new KeyValue(barLocation, 0)),
-        new KeyFrame(Duration.seconds(1), new KeyValue(barLocation, 3)));
+    timeline
+        .getKeyFrames()
+        .addAll(
+            //        new KeyFrame(Duration.ZERO, new KeyValue(barLocation, 0)),
+            new KeyFrame(Duration.seconds(1), new KeyValue(barLocation, 3)));
     timeline.play();
 
     renderBox();
-    barLocation.addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-        renderBars((Integer)newLocation, BAR_COLOR);
-        renderBars((Integer)oldLocation, Color.BLACK);
-      }
-    });
+    barLocation.addListener(
+        new ChangeListener() {
+          @Override
+          public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
+            renderBars((Integer) newLocation, BAR_COLOR);
+            renderBars((Integer) oldLocation, Color.BLACK);
+          }
+        });
   }
 
   private void renderBox() {
     ViewExtent extent = viewport.getExtent();
-    extent.getXRange().forEach(x -> {
-      viewport.setLight(x, extent.getYLow(), BOX_COLOR);
-      viewport.setLight(x, extent.getYHigh(), BOX_COLOR);
-    });
-    extent.getYRange().forEach(y -> {
-      viewport.setLight(extent.getXLow(), y, BOX_COLOR);
-      viewport.setLight(extent.getXHigh(), y, BOX_COLOR);
-    });
+    extent
+        .getXRange()
+        .forEach(
+            x -> {
+              viewport.setLight(x, extent.getYLow(), BOX_COLOR);
+              viewport.setLight(x, extent.getYHigh(), BOX_COLOR);
+            });
+    extent
+        .getYRange()
+        .forEach(
+            y -> {
+              viewport.setLight(extent.getXLow(), y, BOX_COLOR);
+              viewport.setLight(extent.getXHigh(), y, BOX_COLOR);
+            });
   }
 
   private void renderBars(int linePosition, Color color) {

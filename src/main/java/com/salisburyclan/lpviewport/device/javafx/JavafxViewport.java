@@ -15,16 +15,18 @@ public class JavafxViewport implements Viewport {
     this.buttonGrid = buttonGrid;
     listenerMultiplexer = new ListenerMultiplexer();
 
-    buttonGrid.addListener(new ButtonGridListener() {
-      @Override
-      public void onButtonPressed(int x, int y) {
-        listenerMultiplexer.onButtonPressed(x, y);
-      }
-      @Override
-      public void onButtonReleased(int x, int y) {
-        listenerMultiplexer.onButtonReleased(x, y);
-      }
-    });
+    buttonGrid.addListener(
+        new ButtonGridListener() {
+          @Override
+          public void onButtonPressed(int x, int y) {
+            listenerMultiplexer.onButtonPressed(x, y);
+          }
+
+          @Override
+          public void onButtonReleased(int x, int y) {
+            listenerMultiplexer.onButtonReleased(x, y);
+          }
+        });
 
     extent = new ViewExtent(0, 0, buttonGrid.getWidth() - 1, buttonGrid.getHeight() - 1);
   }
@@ -42,11 +44,17 @@ public class JavafxViewport implements Viewport {
   @Override
   public void setAllLights(Color color) {
     javafx.scene.paint.Color javafxColor = launchpadColorToJavafxColor(color);
-    extent.getXRange().forEach(x -> {
-      extent.getYRange().forEach( y -> {
-        buttonGrid.setButtonColor(x, y, javafxColor);
-      });
-    });
+    extent
+        .getXRange()
+        .forEach(
+            x -> {
+              extent
+                  .getYRange()
+                  .forEach(
+                      y -> {
+                        buttonGrid.setButtonColor(x, y, javafxColor);
+                      });
+            });
   }
 
   private javafx.scene.paint.Color launchpadColorToJavafxColor(Color color) {

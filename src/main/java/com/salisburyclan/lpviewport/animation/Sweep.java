@@ -1,9 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewExtent;
-
+import com.salisburyclan.lpviewport.api.Viewport;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -42,24 +41,34 @@ public class Sweep extends Animation {
     }
 
     ViewExtent extent = getViewport().getExtent();
-    timeline.getKeyFrames().addAll(
-        new KeyFrame(Duration.ZERO, new KeyValue(barLocation, extent.getXLow(), Interpolator.EASE_BOTH)),
-        new KeyFrame(Duration.seconds(1), new KeyValue(barLocation, extent.getXHigh(), Interpolator.EASE_BOTH)));
+    timeline
+        .getKeyFrames()
+        .addAll(
+            new KeyFrame(
+                Duration.ZERO, new KeyValue(barLocation, extent.getXLow(), Interpolator.EASE_BOTH)),
+            new KeyFrame(
+                Duration.seconds(1),
+                new KeyValue(barLocation, extent.getXHigh(), Interpolator.EASE_BOTH)));
     addTimeline(timeline);
 
-    barLocation.addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-        renderBar((Integer)oldLocation, Color.BLACK);
-        renderBar((Integer)newLocation, color);
-      }
-    });
+    barLocation.addListener(
+        new ChangeListener() {
+          @Override
+          public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
+            renderBar((Integer) oldLocation, Color.BLACK);
+            renderBar((Integer) newLocation, color);
+          }
+        });
   }
 
   protected void renderBar(int x, Color color) {
     Viewport viewport = getViewport();
-    viewport.getExtent().getYRange().forEach(y -> {
-      viewport.setLight(x, y, color);
-    });
+    viewport
+        .getExtent()
+        .getYRange()
+        .forEach(
+            y -> {
+              viewport.setLight(x, y, color);
+            });
   }
 }

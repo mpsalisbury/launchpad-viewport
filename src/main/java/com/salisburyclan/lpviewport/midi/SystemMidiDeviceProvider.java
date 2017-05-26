@@ -5,9 +5,7 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import uk.co.xfactorylibrarians.coremidi4j.CoreMidiDeviceProvider;
 
-/**
- * System implementation for Midi methods.
- */
+/** System implementation for Midi methods. */
 public class SystemMidiDeviceProvider implements MidiDeviceProvider {
   public MidiDevice getMidiDevice(MidiDevice.Info info) throws MidiUnavailableException {
     return MidiSystem.getMidiDevice(info);

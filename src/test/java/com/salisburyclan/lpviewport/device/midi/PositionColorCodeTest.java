@@ -1,22 +1,22 @@
 package com.salisburyclan.lpviewport.device.midi;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.salisburyclan.lpviewport.testing.AssertThrows.assertThrows;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import static com.google.common.truth.Truth.assertThat;
-import static com.salisburyclan.lpviewport.testing.AssertThrows.assertThrows;
 
 @RunWith(JUnit4.class)
 public class PositionColorCodeTest {
 
   @Test
   public void testPositionAndColor() {
-    testPositionAndColor(1,2,3,4,5);
+    testPositionAndColor(1, 2, 3, 4, 5);
   }
 
   public void testPositionAndColor(int x, int y, int r, int g, int b) {
-    int positionCode  = PositionCode.fromXY(x, y);
+    int positionCode = PositionCode.fromXY(x, y);
     int colorCode = ColorCode.fromRGB(r, g, b);
 
     long positionColor = PositionColorCode.fromPositionAndColor(positionCode, colorCode);
@@ -27,8 +27,8 @@ public class PositionColorCodeTest {
 
   @Test
   public void testXYRGB() {
-    testFromXYRGB(0,0,0,0,0);
-    testFromXYRGB(1,2,3,4,5);
+    testFromXYRGB(0, 0, 0, 0, 0);
+    testFromXYRGB(1, 2, 3, 4, 5);
     testFromXYRGB(0x0f, 0x0f, 0x3f, 0x3f, 0x3f);
   }
 
@@ -43,20 +43,20 @@ public class PositionColorCodeTest {
 
   @Test
   public void testFromXYRGBOutOfRange() {
-    testFromXYRGBOutOfRange(0,0,0,0,-1);
-    testFromXYRGBOutOfRange(0,0,0,-1,0);
-    testFromXYRGBOutOfRange(0,0,-1,0,0);
-    testFromXYRGBOutOfRange(0,-1,0,0,0);
-    testFromXYRGBOutOfRange(-1,0,0,0,0);
+    testFromXYRGBOutOfRange(0, 0, 0, 0, -1);
+    testFromXYRGBOutOfRange(0, 0, 0, -1, 0);
+    testFromXYRGBOutOfRange(0, 0, -1, 0, 0);
+    testFromXYRGBOutOfRange(0, -1, 0, 0, 0);
+    testFromXYRGBOutOfRange(-1, 0, 0, 0, 0);
 
-    testFromXYRGBOutOfRange(0x10,0,0,0,0);
-    testFromXYRGBOutOfRange(0,0x10,0,0,0);
-    testFromXYRGBOutOfRange(0,0,0x40,0,0);
-    testFromXYRGBOutOfRange(0,0,0,0x40,0);
-    testFromXYRGBOutOfRange(0,0,0,0,0x40);
+    testFromXYRGBOutOfRange(0x10, 0, 0, 0, 0);
+    testFromXYRGBOutOfRange(0, 0x10, 0, 0, 0);
+    testFromXYRGBOutOfRange(0, 0, 0x40, 0, 0);
+    testFromXYRGBOutOfRange(0, 0, 0, 0x40, 0);
+    testFromXYRGBOutOfRange(0, 0, 0, 0, 0x40);
   }
 
   public void testFromXYRGBOutOfRange(int x, int y, int r, int g, int b) {
-    assertThrows(IllegalArgumentException.class, () -> PositionColorCode.fromXYRGB(x,y,r,g,b));
+    assertThrows(IllegalArgumentException.class, () -> PositionColorCode.fromXYRGB(x, y, r, g, b));
   }
 }

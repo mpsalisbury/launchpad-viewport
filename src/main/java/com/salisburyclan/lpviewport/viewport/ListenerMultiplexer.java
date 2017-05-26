@@ -4,9 +4,7 @@ import com.salisburyclan.lpviewport.api.ViewportListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Forwards ViewportListener calls to a set of ViewportListeners.
- */
+/** Forwards ViewportListener calls to a set of ViewportListeners. */
 public class ListenerMultiplexer implements ViewportListener {
 
   private List<ViewportListener> listeners = new ArrayList<>();

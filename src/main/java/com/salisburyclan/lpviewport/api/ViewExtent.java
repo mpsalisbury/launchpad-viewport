@@ -2,9 +2,7 @@ package com.salisburyclan.lpviewport.api;
 
 import java.util.stream.IntStream;
 
-/**
- * Encodes a 2-D xrange and yrange.
- */
+/** Encodes a 2-D xrange and yrange. */
 public class ViewExtent {
   private int xLow;
   private int yLow;
@@ -64,25 +62,25 @@ public class ViewExtent {
   public void assertPointWithin(int x, int y) {
     if (!isPointWithin(x, y)) {
       throw new IllegalArgumentException(
-          String.format("point(%s, %s) out of extent range (%s, %s, %s, %s)",
-            x, y, xLow, yLow, xHigh, yHigh));
+          String.format(
+              "point(%s, %s) out of extent range (%s, %s, %s, %s)",
+              x, y, xLow, yLow, xHigh, yHigh));
     }
   }
 
   // Returns true iff given point is within this extent.
   public boolean isPointWithin(int x, int y) {
-    return (x >= xLow) && (x <= xHigh)
-      && (y >= yLow) && (y <= yHigh);
+    return (x >= xLow) && (x <= xHigh) && (y >= yLow) && (y <= yHigh);
   }
 
   // Returns true iff other extent is within this extent.
   public boolean isExtentWithin(ViewExtent other) {
-    return isPointWithin(other.getXLow(), getYLow())
-        && isPointWithin(other.getXHigh(), getYHigh());
+    return isPointWithin(other.getXLow(), getYLow()) && isPointWithin(other.getXHigh(), getYHigh());
   }
 
   public ViewExtent inset(int xLowInset, int yLowInset, int xHighInset, int yHighInset) {
-    return new ViewExtent(xLow + xLowInset, yLow + yLowInset, xHigh - xHighInset, yHigh - yHighInset);
+    return new ViewExtent(
+        xLow + xLowInset, yLow + yLowInset, xHigh - xHighInset, yHigh - yHighInset);
   }
 
   public ViewExtent shift(int xOffset, int yOffset) {
@@ -110,9 +108,9 @@ public class ViewExtent {
     }
     ViewExtent o = (ViewExtent) other;
     return xLow == o.getXLow()
-      && yLow == o.getYLow()
-      && xHigh == o.getXHigh()
-      && yHigh == o.getYHigh();
+        && yLow == o.getYLow()
+        && xHigh == o.getXHigh()
+        && yHigh == o.getYHigh();
   }
 
   @Override

@@ -24,21 +24,24 @@ public class StripSubViewButton implements ViewButton {
 
   @Override
   public void addListener(ViewButtonListener listener) {
-    baseViewStrip.addListener(new ViewStripListener() {
-      public void onButtonPressed(int buttonX) {
-        if (buttonX == x) {
-          listener.onButtonPressed();
-        }
-      }
-      public void onButtonReleased(int buttonX) {
-        if (buttonX == x) {
-          listener.onButtonReleased();
-        }
-      }
-    });
+    baseViewStrip.addListener(
+        new ViewStripListener() {
+          public void onButtonPressed(int buttonX) {
+            if (buttonX == x) {
+              listener.onButtonPressed();
+            }
+          }
+
+          public void onButtonReleased(int buttonX) {
+            if (buttonX == x) {
+              listener.onButtonReleased();
+            }
+          }
+        });
   }
+
   @Override
   public void removeListener(ViewButtonListener listener) {
-	  // TODO
+    // TODO
   }
 }

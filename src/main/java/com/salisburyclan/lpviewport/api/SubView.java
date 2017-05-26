@@ -1,9 +1,9 @@
 package com.salisburyclan.lpviewport.api;
 
 import com.salisburyclan.lpviewport.viewport.StripSubViewButton;
-import com.salisburyclan.lpviewport.viewport.SubViewport;
 import com.salisburyclan.lpviewport.viewport.SubViewButton;
 import com.salisburyclan.lpviewport.viewport.SubViewStrip;
+import com.salisburyclan.lpviewport.viewport.SubViewport;
 
 // Utility to generate SubViews of a given Viewport.
 public class SubView {

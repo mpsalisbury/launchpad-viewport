@@ -4,6 +4,7 @@ package com.salisburyclan.lpviewport.protocol;
 
 public interface LaunchpadProtocolListener {
   void onButtonPressed(int pos, long timestamp);
+
   void onButtonReleased(int pos, long timestamp);
-//  void onUnhandledMessageReceived(MidiMessage message, long timestamp);
+  //  void onUnhandledMessageReceived(MidiMessage message, long timestamp);
 }
