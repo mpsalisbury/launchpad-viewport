@@ -25,10 +25,11 @@ public class MidiViewport implements Viewport {
 
   @Override
   public void setLight(int x, int y, Color color) {
-    extent.assertPointWithin(x, y);
-    int pos = PositionCode.fromXY(x, y);
-    int colorNum = ColorCode.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
-    client.setLight(pos, colorNum);
+    if (extent.isPointWithin(x, y)) {
+      int pos = PositionCode.fromXY(x, y);
+      int colorNum = ColorCode.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
+      client.setLight(pos, colorNum);
+    }
   }
 
   @Override
