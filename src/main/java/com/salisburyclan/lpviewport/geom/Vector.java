@@ -11,4 +11,12 @@ public abstract class Vector {
   public abstract int dx();
 
   public abstract int dy();
+
+  public Point add(Point p) {
+    return Point.create(p.x() + dx(), p.y() + dy());
+  }
+
+  public Vector add(Vector v) {
+    return Vector.create(v.dx() + dx(), v.dy() + dy());
+  }
 }

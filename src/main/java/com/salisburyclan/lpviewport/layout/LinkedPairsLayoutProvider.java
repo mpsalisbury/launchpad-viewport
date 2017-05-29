@@ -235,7 +235,7 @@ public class LinkedPairsLayoutProvider implements LayoutProvider {
 
     private void finalizeViewport() {
       Viewport finalViewport = linkAssembler.build();
-      SELECTED_VIEWPORT_ANIMATION.newAnimation(finalViewport).play();
+      //      SELECTED_VIEWPORT_ANIMATION.newAnimation(finalViewport).play();
       futureViewport.set(finalViewport);
     }
 

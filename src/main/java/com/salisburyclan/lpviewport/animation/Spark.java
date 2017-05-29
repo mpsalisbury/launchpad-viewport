@@ -49,7 +49,7 @@ public class Spark extends Animation {
   }
 
   protected void init() {
-    final int maxDistance = getMaxDistanceToEdge() + TAIL_LENGTH;
+    final int maxDistance = getMaxDistanceToEdge() + TAIL_LENGTH + 1;
     IntegerProperty sparkDistance = new SimpleIntegerProperty();
     Timeline timeline = new Timeline();
     timeline

@@ -44,7 +44,7 @@ public class BorderSweep extends Animation {
             new KeyFrame(Duration.ZERO, new KeyValue(barLocation, 0)),
             new KeyFrame(
                 Duration.seconds(1),
-                new KeyValue(barLocation, extent.getWidth() + extent.getHeight())));
+                new KeyValue(barLocation, extent.getWidth() + extent.getHeight() - 2)));
     addTimeline(timeline);
 
     barLocation.addListener(
