@@ -80,6 +80,17 @@ task spark(type: JavaExec) {
   }
 }
 
+task explode(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.lpviewport.apps.ExplodeApp'
+  if (project.hasProperty('layout')) {
+    args = ["--layout=${layout}"]
+  }
+  if (project.hasProperty('device')) {
+    args += ["--device=${device}"]
+  }
+}
+
 task sweep(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.SweepApp'
