@@ -121,7 +121,7 @@ public class Spark extends Animation {
   private Color moderateColor(int numerator, int denominator, Color color) {
     double percent = (double) numerator / denominator;
     if (percent > 1.0) {
-      percent = 0.0;
+      percent = 1.0;
     }
     if (percent < 0.0) {
       percent = 0.0;
