@@ -45,6 +45,18 @@ public class Range2Test {
   }
 
   @Test
+  public void testXRange() {
+    Range2 range = Range2.create(1, 2, 4, 7);
+    assertThat(range.xRange()).isEqualTo(Range.create(1, 4));
+  }
+
+  @Test
+  public void testYRange() {
+    Range2 range = Range2.create(1, 2, 4, 7);
+    assertThat(range.yRange()).isEqualTo(Range.create(2, 7));
+  }
+
+  @Test
   public void testWidth() {
     Range2 range = Range2.create(1, 2, 4, 7);
     assertThat(range.getWidth()).isEqualTo(4);
@@ -118,42 +130,18 @@ public class Range2Test {
     assertThat(range.shift(1, -1)).isEqualTo(Range2.create(2, 1, 5, 6));
   }
 
-  /*
-    // Returns a new ViewExtent that includes the full range of both this and other.
-    public Range2 includeBoth(Range2 other) {
-      return create(xRange().includeBoth(other.xRange()), yRange().includeBoth(other.yRange()));
-    }
   @Test
   public void testIncludeBoth() {
-    Range2 r13 = Range2.create(1, 3, 1, 3);
-    Range2 r24 = Range2.create(2, 4, 2, 4);
-    Range r24 = Range.create(2, 4);
-    Range r35 = Range.create(3, 5);
-    Range r57 = Range.create(5, 7);
-    // adjacent
-    assertThat(r13.includeBoth(r35)).isEqualTo(Range.create(1, 5));
-    assertThat(r35.includeBoth(r13)).isEqualTo(Range.create(1, 5));
     // separate
-    assertThat(r13.includeBoth(r57)).isEqualTo(Range.create(1, 7));
-    assertThat(r57.includeBoth(r13)).isEqualTo(Range.create(1, 7));
+    assertThat(Range2.create(1, 2, 3, 4).includeBoth(Range2.create(4, 5, 7, 8)))
+        .isEqualTo(Range2.create(1, 2, 7, 8));
+    assertThat(Range2.create(1, 5, 3, 8).includeBoth(Range2.create(4, 2, 7, 4)))
+        .isEqualTo(Range2.create(1, 2, 7, 8));
+    // contained
+    assertThat(Range2.create(1, 2, 7, 8).includeBoth(Range2.create(2, 2, 5, 5)))
+        .isEqualTo(Range2.create(1, 2, 7, 8));
     // overlapping
-    assertThat(r13.includeBoth(r24)).isEqualTo(Range.create(1, 4));
-    assertThat(r24.includeBoth(r13)).isEqualTo(Range.create(1, 4));
+    assertThat(Range2.create(1, 2, 3, 4).includeBoth(Range2.create(2, 3, 5, 6)))
+        .isEqualTo(Range2.create(1, 2, 5, 6));
   }
-
-  @Test
-  public void testStream() {
-    Truth8.assertThat(Range.create(1, 4).stream().boxed()).containsExactly(1, 2, 3, 4).inOrder();
-    Truth8.assertThat(Range.create(1, 1).stream().boxed()).containsExactly(1).inOrder();
-  }
-  */
-
-  /*
-    // Throws IllegalArgumentException if given point is not within this extent.
-    public void assertPointWithin(Point p) {
-      if (!isPointWithin(p)) {
-        throw new IllegalArgumentException(String.format("%s out of extent range %s", p, this));
-      }
-    }
-  */
 }
