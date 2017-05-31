@@ -33,7 +33,7 @@ public abstract class Range1 {
   public void assertPointWithin(int p) {
     if (!isPointWithin(p)) {
       throw new IllegalArgumentException(
-          String.format("point(%s) out of extent range (%s, %s)", x, low, high));
+          String.format("point(%s) out of extent range (%s, %s)", p, low(), high()));
     }
   }
 

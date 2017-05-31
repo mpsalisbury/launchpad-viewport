@@ -19,7 +19,7 @@ public class Range2Test {
   private void testValidRange(int xLow, int yLow, int xHigh, int yHigh) {
     Range2.create(xLow, yLow, xHigh, yHigh);
     Range2.create(Point.create(xLow, yLow), Point.create(xHigh, yHigh));
-    Range2.create(Range.create(xLow, xHigh), Range.create(yLow, yHigh));
+    Range2.create(Range1.create(xLow, xHigh), Range1.create(yLow, yHigh));
   }
 
   @Test
@@ -31,7 +31,7 @@ public class Range2Test {
   private void testInvalidRange(int xLow, int yLow, int xHigh, int yHigh) {
     assertInvalid(() -> Range2.create(xLow, yLow, xHigh, yHigh));
     assertInvalid(() -> Range2.create(Point.create(xLow, yLow), Point.create(xHigh, yHigh)));
-    assertInvalid(() -> Range2.create(Range.create(xLow, xHigh), Range.create(yLow, yHigh)));
+    assertInvalid(() -> Range2.create(Range1.create(xLow, xHigh), Range1.create(yLow, yHigh)));
   }
 
   private void assertInvalid(Runnable throwingTest) {
@@ -47,13 +47,13 @@ public class Range2Test {
   @Test
   public void testXRange() {
     Range2 range = Range2.create(1, 2, 4, 7);
-    assertThat(range.xRange()).isEqualTo(Range.create(1, 4));
+    assertThat(range.xRange()).isEqualTo(Range1.create(1, 4));
   }
 
   @Test
   public void testYRange() {
     Range2 range = Range2.create(1, 2, 4, 7);
-    assertThat(range.yRange()).isEqualTo(Range.create(2, 7));
+    assertThat(range.yRange()).isEqualTo(Range1.create(2, 7));
   }
 
   @Test
