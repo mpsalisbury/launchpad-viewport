@@ -1,6 +1,4 @@
-package com.salisburyclan.lpviewport.viewport;
-
-import com.salisburyclan.lpviewport.api.ViewExtent;
+package com.salisburyclan.lpviewport.geom;
 
 public enum Edge {
   LEFT,
@@ -24,63 +22,63 @@ public enum Edge {
     }
   }
 
-  public Range getRange(ViewExtent extent) {
+  public Range1 getRange(Range2 extent) {
     switch (this) {
       case LEFT:
       case RIGHT:
-        return new Range(extent.getYLow(), extent.getYHigh());
+        return extent.yRange();
       case TOP:
       case BOTTOM:
-        return new Range(extent.getXLow(), extent.getXHigh());
+        return extent.xRange();
       default:
         throw new IllegalArgumentException("Can't getRange with INVALID edge");
     }
   }
 
-  public Point getPoint(ViewExtent extent, int location) {
+  public Point getPoint(Range2 extent, int location) {
     switch (this) {
       case LEFT:
-        return new Point(extent.getXLow(), location);
+        return Point.create(extent.xRange().low(), location);
       case RIGHT:
-        return new Point(extent.getXHigh(), location);
+        return Point.create(extent.xRange().high(), location);
       case TOP:
-        return new Point(location, extent.getYHigh());
+        return Point.create(location, extent.yRange().high());
       case BOTTOM:
-        return new Point(location, extent.getYLow());
+        return Point.create(location, extent.yRange().low());
       default:
         throw new IllegalArgumentException("Can't getPoint with INVALID edge");
     }
   }
 
-  public boolean isEdge(ViewExtent extent, int x, int y) {
+  public boolean isEdge(Range2 extent, int x, int y) {
     switch (this) {
       case LEFT:
-        return x == extent.getXLow();
+        return x == extent.xRange().low();
       case RIGHT:
-        return x == extent.getXHigh();
+        return x == extent.xRange().high();
       case TOP:
-        return y == extent.getYHigh();
+        return y == extent.yRange().high();
       case BOTTOM:
-        return y == extent.getYLow();
+        return y == extent.yRange().low();
       default:
         return false;
     }
   }
 
-  public static Edge getEdge(ViewExtent extent, int x, int y) {
-    if (x > extent.getXLow() && x < extent.getXHigh()) {
-      if (y == extent.getYLow()) {
+  public static Edge getEdge(Range2 extent, int x, int y) {
+    if (x > extent.xRange().low() && x < extent.xRange().high()) {
+      if (y == extent.yRange().low()) {
         return Edge.BOTTOM;
-      } else if (y == extent.getYHigh()) {
+      } else if (y == extent.yRange().high()) {
         return Edge.TOP;
       } else {
         return Edge.INVALID;
       }
     }
-    if (y > extent.getYLow() && y < extent.getYHigh()) {
-      if (x == extent.getXLow()) {
+    if (y > extent.yRange().low() && y < extent.yRange().high()) {
+      if (x == extent.xRange().low()) {
         return Edge.LEFT;
-      } else if (x == extent.getXHigh()) {
+      } else if (x == extent.xRange().high()) {
         return Edge.RIGHT;
       } else {
         return Edge.INVALID;

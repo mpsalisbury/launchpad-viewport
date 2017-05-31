@@ -1,8 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.geom.Range2;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -40,15 +40,16 @@ public class Sweep extends Animation {
       timeline.setAutoReverse(true);
     }
 
-    ViewExtent extent = getViewport().getExtent();
+    Range2 extent = getViewport().getExtent();
     timeline
         .getKeyFrames()
         .addAll(
             new KeyFrame(
-                Duration.ZERO, new KeyValue(barLocation, extent.getXLow(), Interpolator.EASE_BOTH)),
+                Duration.ZERO,
+                new KeyValue(barLocation, extent.xRange().low(), Interpolator.EASE_BOTH)),
             new KeyFrame(
                 Duration.seconds(1),
-                new KeyValue(barLocation, extent.getXHigh(), Interpolator.EASE_BOTH)));
+                new KeyValue(barLocation, extent.xRange().high(), Interpolator.EASE_BOTH)));
     addTimeline(timeline);
 
     barLocation.addListener(
@@ -65,7 +66,8 @@ public class Sweep extends Animation {
     Viewport viewport = getViewport();
     viewport
         .getExtent()
-        .getYRange()
+        .yRange()
+        .stream()
         .forEach(
             y -> {
               viewport.setLight(x, y, color);

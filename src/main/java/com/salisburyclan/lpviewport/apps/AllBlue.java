@@ -4,11 +4,12 @@ import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.SubView;
 import com.salisburyclan.lpviewport.api.ViewButton;
 import com.salisburyclan.lpviewport.api.ViewButtonListener;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.ViewStrip;
 import com.salisburyclan.lpviewport.api.ViewStripListener;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Range1;
+import com.salisburyclan.lpviewport.geom.Range2;
 
 public class AllBlue extends JavafxLaunchpadApplication {
 
@@ -47,10 +48,8 @@ public class AllBlue extends JavafxLaunchpadApplication {
   }
 
   private void addButtonStripListener(int x, int y, Color color) {
-    ViewExtent extent = viewport.getExtent();
-    ViewStrip rowViewStrip =
-        SubView.getSubViewStrip(
-            viewport, new ViewExtent(extent.getXLow(), y, extent.getXHigh(), y));
+    Range2 extent = viewport.getExtent();
+    ViewStrip rowViewStrip = SubView.getSubViewStrip(viewport, Range2.create(extent.xRange(), y));
     ViewButton button = SubView.getSubViewButton(rowViewStrip, x);
     button.addListener(
         new ViewButtonListener() {
@@ -67,10 +66,8 @@ public class AllBlue extends JavafxLaunchpadApplication {
   }
 
   private void addStripListener(int row, Color colorOn, Color colorOff) {
-    ViewExtent extent = viewport.getExtent();
-    ViewStrip rowViewStrip =
-        SubView.getSubViewStrip(
-            viewport, new ViewExtent(extent.getXLow(), row, extent.getXHigh(), row));
+    Range2 extent = viewport.getExtent();
+    ViewStrip rowViewStrip = SubView.getSubViewStrip(viewport, Range2.create(extent.xRange(), row));
     rowViewStrip.addListener(
         new ViewStripListener() {
           @Override
@@ -87,10 +84,9 @@ public class AllBlue extends JavafxLaunchpadApplication {
   }
 
   private void addExtentListener(int row1, int row2, Color color) {
-    ViewExtent extent = viewport.getExtent();
+    Range2 extent = viewport.getExtent();
     Viewport rowViewport =
-        SubView.getSubViewport(
-            viewport, new ViewExtent(extent.getXLow(), row1, extent.getXHigh(), row2));
+        SubView.getSubViewport(viewport, Range2.create(extent.xRange(), Range1.create(row1, row2)));
     rowViewport.addListener(
         new ViewportListener() {
           @Override

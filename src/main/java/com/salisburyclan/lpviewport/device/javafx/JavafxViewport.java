@@ -1,15 +1,15 @@
 package com.salisburyclan.lpviewport.device.javafx;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.viewport.ListenerMultiplexer;
 
 public class JavafxViewport implements Viewport {
   ColorButtonGrid buttonGrid;
   ListenerMultiplexer listenerMultiplexer;
-  ViewExtent extent;
+  Range2 extent;
 
   public JavafxViewport(ColorButtonGrid buttonGrid) {
     this.buttonGrid = buttonGrid;
@@ -28,11 +28,11 @@ public class JavafxViewport implements Viewport {
           }
         });
 
-    extent = new ViewExtent(0, 0, buttonGrid.getWidth() - 1, buttonGrid.getHeight() - 1);
+    extent = Range2.create(0, 0, buttonGrid.getWidth() - 1, buttonGrid.getHeight() - 1);
   }
 
   @Override
-  public ViewExtent getExtent() {
+  public Range2 getExtent() {
     return extent;
   }
 
@@ -45,11 +45,13 @@ public class JavafxViewport implements Viewport {
   public void setAllLights(Color color) {
     javafx.scene.paint.Color javafxColor = launchpadColorToJavafxColor(color);
     extent
-        .getXRange()
+        .xRange()
+        .stream()
         .forEach(
             x -> {
               extent
-                  .getYRange()
+                  .yRange()
+                  .stream()
                   .forEach(
                       y -> {
                         buttonGrid.setButtonColor(x, y, javafxColor);

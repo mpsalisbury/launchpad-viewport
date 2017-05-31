@@ -5,6 +5,7 @@ import com.salisburyclan.lpviewport.api.ViewButton;
 import com.salisburyclan.lpviewport.api.ViewButtonListener;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Point;
 
 // A viewport that represents a one-button view of an existing viewport.
 public class SubViewButton implements ViewButton {
@@ -13,7 +14,7 @@ public class SubViewButton implements ViewButton {
   private int y;
 
   public SubViewButton(Viewport baseViewport, int x, int y) {
-    baseViewport.getExtent().assertPointWithin(x, y);
+    baseViewport.getExtent().assertPointWithin(Point.create(x, y));
     this.baseViewport = baseViewport;
     this.x = x;
     this.y = y;

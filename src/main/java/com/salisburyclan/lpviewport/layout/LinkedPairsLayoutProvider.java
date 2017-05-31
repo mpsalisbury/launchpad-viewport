@@ -12,11 +12,11 @@ import com.salisburyclan.lpviewport.animation.Sweep;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
-import com.salisburyclan.lpviewport.viewport.Edge;
-import com.salisburyclan.lpviewport.viewport.Point;
+import com.salisburyclan.lpviewport.geom.Edge;
+import com.salisburyclan.lpviewport.geom.Point;
+import com.salisburyclan.lpviewport.geom.Range2;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -104,28 +104,28 @@ public class LinkedPairsLayoutProvider implements LayoutProvider {
       // Returns the offset between the origin of fromViewport and the origin of toViewport
       // in absolute space.
       public Point getOriginOffset() {
-        ViewExtent toExtent = toViewport.getExtent();
-        int normalToX = toX - toExtent.getXLow();
-        int normalToY = toY - toExtent.getYLow();
+        Range2 toExtent = toViewport.getExtent();
+        int normalToX = toX - toExtent.xRange().low();
+        int normalToY = toY - toExtent.yRange().low();
         Point linkTarget = fromLinkTarget();
-        return new Point(linkTarget.x - normalToX, linkTarget.y - normalToY);
+        return Point.create(linkTarget.x() - normalToX, linkTarget.y() - normalToY);
       }
 
       // Returns the point of the button in the toViewport that should connect to
       // the fromLinked button, in normalized fromViewport space.
       private Point fromLinkTarget() {
-        ViewExtent fromExtent = fromViewport.getExtent();
-        int normalFromX = fromX - fromExtent.getXLow();
-        int normalFromY = fromY - fromExtent.getYLow();
+        Range2 fromExtent = fromViewport.getExtent();
+        int normalFromX = fromX - fromExtent.xRange().low();
+        int normalFromY = fromY - fromExtent.yRange().low();
         switch (fromEdge) {
           case LEFT:
-            return new Point(normalFromX - 1, normalFromY);
+            return Point.create(normalFromX - 1, normalFromY);
           case RIGHT:
-            return new Point(normalFromX + 1, normalFromY);
+            return Point.create(normalFromX + 1, normalFromY);
           case TOP:
-            return new Point(normalFromX, normalFromY + 1);
+            return Point.create(normalFromX, normalFromY + 1);
           case BOTTOM:
-            return new Point(normalFromX, normalFromY - 1);
+            return Point.create(normalFromX, normalFromY - 1);
           default:
             throw new IllegalStateException("Invalid edge type");
         }
@@ -255,21 +255,21 @@ public class LinkedPairsLayoutProvider implements LayoutProvider {
 
       public void addLink(Link link) {
         if (viewportOrigins.isEmpty()) {
-          addViewport(link.fromViewport, new Point(0, 0));
+          addViewport(link.fromViewport, Point.create(0, 0));
         }
         Point toViewportOrigin = computeToViewportOrigin(link);
         addViewport(link.toViewport, toViewportOrigin);
       }
 
       private void addViewport(Viewport viewport, Point origin) {
-        viewportBuilder.add(viewport, origin.x, origin.y);
+        viewportBuilder.add(viewport, origin.x(), origin.y());
         viewportOrigins.put(viewport, origin);
       }
 
       private Point computeToViewportOrigin(Link link) {
         Point fromOrigin = viewportOrigins.get(link.fromViewport);
         Point originOffset = link.getOriginOffset();
-        return new Point(fromOrigin.x + originOffset.x, fromOrigin.y + originOffset.y);
+        return Point.create(fromOrigin.x() + originOffset.x(), fromOrigin.y() + originOffset.y());
       }
 
       public Viewport build() {

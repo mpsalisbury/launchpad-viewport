@@ -5,9 +5,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Range2;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,8 +32,8 @@ public class AggregateViewportTest {
   @Before
   public void setUp() {
     // Two 10x20 Viewports, attached left-to-right.
-    when(mockViewport1.getExtent()).thenReturn(new ViewExtent(0, 0, 9, 19));
-    when(mockViewport2.getExtent()).thenReturn(new ViewExtent(10, 10, 19, 29));
+    when(mockViewport1.getExtent()).thenReturn(Range2.create(0, 0, 9, 19));
+    when(mockViewport2.getExtent()).thenReturn(Range2.create(10, 10, 19, 29));
 
     AggregateViewport.Builder builder = new AggregateViewport.Builder();
     builder.add(mockViewport1, 0, 0);
@@ -43,7 +43,7 @@ public class AggregateViewportTest {
 
   @Test
   public void testGetExtent() throws Exception {
-    assertThat(viewport.getExtent()).isEqualTo(new ViewExtent(0, 0, 19, 19));
+    assertThat(viewport.getExtent()).isEqualTo(Range2.create(0, 0, 19, 19));
   }
 
   // Test that when we set lights on the aggregate viewport, the correct

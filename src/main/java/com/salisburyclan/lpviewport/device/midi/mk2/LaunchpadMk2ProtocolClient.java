@@ -1,9 +1,9 @@
 package com.salisburyclan.lpviewport.device.midi.mk2;
 
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.device.midi.ColorCode;
 import com.salisburyclan.lpviewport.device.midi.LaunchpadDevice;
 import com.salisburyclan.lpviewport.device.midi.SysexBuilder;
+import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.SysexMessage;
@@ -25,12 +25,12 @@ public class LaunchpadMk2ProtocolClient implements LaunchpadProtocolClient {
   }
 
   @Override
-  public ViewExtent getOverallExtent() {
+  public Range2 getOverallExtent() {
     return device.getOverallExtent();
   }
 
   @Override
-  public ViewExtent getPadsExtent() {
+  public Range2 getPadsExtent() {
     return device.getPadsExtent();
   }
 
@@ -88,22 +88,22 @@ public class LaunchpadMk2ProtocolClient implements LaunchpadProtocolClient {
   */
 
   @Override
-  public void setLights(ViewExtent extent, int color) {
-    int xLow = extent.getXLow();
-    int xHigh = extent.getXHigh();
-    int yLow = extent.getYLow();
-    int yHigh = extent.getYHigh();
+  public void setLights(Range2 extent, int color) {
     byte red = ColorCode.getRed(color);
     byte green = ColorCode.getGreen(color);
     byte blue = ColorCode.getBlue(color);
 
     SysexBuilder builder = newSysexBuilder();
     builder.add((byte) 0x0b);
-    for (int x = xLow; x <= xHigh; ++x) {
-      for (int y = yLow; y <= yHigh; ++y) {
-        builder.add(device.posToIndex(x, y), red, green, blue);
-      }
-    }
+    extent
+        .xRange()
+        .stream()
+        .forEach(
+            x ->
+                extent
+                    .yRange()
+                    .stream()
+                    .forEach(y -> builder.add(device.posToIndex(x, y), red, green, blue)));
     send(builder.build());
   }
 

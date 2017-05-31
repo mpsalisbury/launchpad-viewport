@@ -1,25 +1,25 @@
 package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.ViewStrip;
-import com.salisburyclan.lpviewport.api.ViewStripExtent;
 import com.salisburyclan.lpviewport.api.ViewStripListener;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Range1;
+import com.salisburyclan.lpviewport.geom.Range2;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
 public class SubViewStrip implements ViewStrip {
   private Viewport baseViewport;
-  private ViewStripExtent extent;
+  private Range1 extent;
   private IndexMap indexMap;
 
-  public SubViewStrip(Viewport baseViewport, ViewExtent extent) {
+  public SubViewStrip(Viewport baseViewport, Range2 extent) {
     this.baseViewport = baseViewport;
     this.indexMap = newIndexMap(extent);
   }
 
-  private IndexMap newIndexMap(ViewExtent extent) {
+  private IndexMap newIndexMap(Range2 extent) {
     checkExtent(extent);
     if (extent.getWidth() == 1) {
       return new VerticalIndexMap(extent);
@@ -30,15 +30,15 @@ public class SubViewStrip implements ViewStrip {
     throw new IllegalArgumentException("ViewStrip extent must be only one button wide or high");
   }
 
-  private void checkExtent(ViewExtent extent) {
-    if (!baseViewport.getExtent().isExtentWithin(extent)) {
+  private void checkExtent(Range2 extent) {
+    if (!baseViewport.getExtent().isRangeWithin(extent)) {
       throw new IllegalArgumentException(
           "Extent extends beyond base viewport: " + extent.toString());
     }
   }
 
   @Override
-  public ViewStripExtent getExtent() {
+  public Range1 getExtent() {
     return indexMap.getExtent();
   }
 
@@ -81,20 +81,20 @@ public class SubViewStrip implements ViewStrip {
 
     int getIndex(int x, int y);
 
-    ViewStripExtent getExtent();
+    Range1 getExtent();
   }
 
   private static class HorizontalIndexMap implements IndexMap {
     private int xLow;
     private int xHigh;
     private int yVal;
-    private ViewStripExtent extent;
+    private Range1 extent;
 
-    public HorizontalIndexMap(ViewExtent extent) {
-      xLow = extent.getXLow();
-      xHigh = extent.getXHigh();
-      yVal = extent.getYLow();
-      this.extent = new ViewStripExtent(xLow, xHigh);
+    public HorizontalIndexMap(Range2 extent) {
+      xLow = extent.xRange().low();
+      xHigh = extent.xRange().high();
+      yVal = extent.yRange().low();
+      this.extent = Range1.create(xLow, xHigh);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class SubViewStrip implements ViewStrip {
     }
 
     @Override
-    public ViewStripExtent getExtent() {
+    public Range1 getExtent() {
       return extent;
     }
   }
@@ -127,13 +127,13 @@ public class SubViewStrip implements ViewStrip {
     private int xVal;
     private int yLow;
     private int yHigh;
-    private ViewStripExtent extent;
+    private Range1 extent;
 
-    public VerticalIndexMap(ViewExtent extent) {
-      xVal = extent.getXLow();
-      yLow = extent.getYLow();
-      yHigh = extent.getYHigh();
-      this.extent = new ViewStripExtent(yLow, yHigh);
+    public VerticalIndexMap(Range2 extent) {
+      xVal = extent.xRange().low();
+      yLow = extent.yRange().low();
+      yHigh = extent.yRange().high();
+      this.extent = Range1.create(yLow, yHigh);
     }
 
     @Override
@@ -157,7 +157,7 @@ public class SubViewStrip implements ViewStrip {
     }
 
     @Override
-    public ViewStripExtent getExtent() {
+    public Range1 getExtent() {
       return extent;
     }
   }

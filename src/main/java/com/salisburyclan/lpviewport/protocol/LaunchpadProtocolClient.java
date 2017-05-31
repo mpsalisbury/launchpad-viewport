@@ -1,15 +1,15 @@
 package com.salisburyclan.lpviewport.protocol;
 
-import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.geom.Range2;
 
 public interface LaunchpadProtocolClient {
-  ViewExtent getOverallExtent();
+  Range2 getOverallExtent();
 
-  ViewExtent getPadsExtent();
+  Range2 getPadsExtent();
 
   void setLight(int pos, int color);
   //  void setLights(int extent, int[] colors);
   //  void setLights(long[] poscolors);
-  void setLights(ViewExtent extent, int color);
+  void setLights(Range2 extent, int color);
   //  void clearLights();
 }

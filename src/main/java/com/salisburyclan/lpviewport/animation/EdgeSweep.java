@@ -1,11 +1,11 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.viewport.Edge;
-import com.salisburyclan.lpviewport.viewport.Point;
-import com.salisburyclan.lpviewport.viewport.Range;
+import com.salisburyclan.lpviewport.geom.Edge;
+import com.salisburyclan.lpviewport.geom.Point;
+import com.salisburyclan.lpviewport.geom.Range1;
+import com.salisburyclan.lpviewport.geom.Range2;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -33,13 +33,13 @@ public class EdgeSweep extends Animation {
     timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.setAutoReverse(true);
 
-    ViewExtent extent = getViewport().getExtent();
-    Range range = edge.getRange(extent);
+    Range2 extent = getViewport().getExtent();
+    Range1 range = edge.getRange(extent);
     timeline
         .getKeyFrames()
         .addAll(
-            new KeyFrame(Duration.ZERO, new KeyValue(dotLocation, range.low)),
-            new KeyFrame(Duration.seconds(1), new KeyValue(dotLocation, range.high)));
+            new KeyFrame(Duration.ZERO, new KeyValue(dotLocation, range.low())),
+            new KeyFrame(Duration.seconds(1), new KeyValue(dotLocation, range.high())));
     addTimeline(timeline);
 
     dotLocation.addListener(
@@ -55,6 +55,6 @@ public class EdgeSweep extends Animation {
   protected void renderDot(int location, Color color) {
     Viewport viewport = getViewport();
     Point point = edge.getPoint(viewport.getExtent(), location);
-    viewport.setLight(point.x, point.y, color);
+    viewport.setLight(point.x(), point.y(), color);
   }
 }

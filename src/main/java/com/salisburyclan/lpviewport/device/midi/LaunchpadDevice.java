@@ -1,17 +1,17 @@
 package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.lpviewport.api.ViewExtent;
+import com.salisburyclan.lpviewport.geom.Range2;
 
 /** Describes the protocol details of a particular Launchpad device. */
 public interface LaunchpadDevice {
   /** Return the bytes to send at the beginning of a Sysex command. */
   byte[] getSysexPreamble();
 
-  /** Return ViewExtent of the overall device, including side buttons. */
-  ViewExtent getOverallExtent();
+  /** Return extent of the overall device, including side buttons. */
+  Range2 getOverallExtent();
 
-  /** Return ViewExtent of just the pads on the device. */
-  ViewExtent getPadsExtent();
+  /** Return extent of just the pads on the device. */
+  Range2 getPadsExtent();
 
   /** Returns the protocol index for the given button Position. */
   byte posToIndex(int pos);

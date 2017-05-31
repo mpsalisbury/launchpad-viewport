@@ -1,8 +1,8 @@
 package com.salisburyclan.lpviewport.device.midi.mk2;
 
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.device.midi.LaunchpadDevice;
 import com.salisburyclan.lpviewport.device.midi.PositionCode;
+import com.salisburyclan.lpviewport.geom.Range2;
 
 public class LaunchpadMk2Device implements LaunchpadDevice {
 
@@ -18,13 +18,13 @@ public class LaunchpadMk2Device implements LaunchpadDevice {
   }
 
   @Override
-  public ViewExtent getOverallExtent() {
-    return new ViewExtent(minX, minY, maxX, maxY);
+  public Range2 getOverallExtent() {
+    return Range2.create(minX, minY, maxX, maxY);
   }
 
   @Override
-  public ViewExtent getPadsExtent() {
-    return new ViewExtent(0, 0, 7, 7);
+  public Range2 getPadsExtent() {
+    return Range2.create(0, 0, 7, 7);
   }
 
   @Override

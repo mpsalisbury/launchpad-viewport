@@ -1,8 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.geom.Range2;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -49,9 +49,9 @@ public class Explode extends Animation {
   }
 
   private int getMaxDistanceToCorner() {
-    ViewExtent extent = getViewport().getExtent();
-    int bigX = Math.max(centerX - extent.getXLow(), extent.getXHigh() - centerX);
-    int bigY = Math.max(centerY - extent.getYLow(), extent.getYHigh() - centerY);
+    Range2 extent = getViewport().getExtent();
+    int bigX = Math.max(centerX - extent.xRange().low(), extent.xRange().high() - centerX);
+    int bigY = Math.max(centerY - extent.yRange().low(), extent.yRange().high() - centerY);
     return bigX + bigY;
   }
 

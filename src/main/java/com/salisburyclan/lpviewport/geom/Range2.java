@@ -7,22 +7,35 @@ import com.google.auto.value.AutoValue;
 public abstract class Range2 {
   // Builds an extent from coordinates.
   public static Range2 create(Point low, Point high) {
-    return create(Range.create(low.x(), high.x()), Range.create(low.y(), high.y()));
+    return create(Range1.create(low.x(), high.x()), Range1.create(low.y(), high.y()));
   }
 
   // Builds an extent from coordinates.
   public static Range2 create(int xLow, int yLow, int xHigh, int yHigh) {
-    return create(Range.create(xLow, xHigh), Range.create(yLow, yHigh));
+    return create(Range1.create(xLow, xHigh), Range1.create(yLow, yHigh));
+  }
+
+  public static Range2 create(Range1 xRange, int y) {
+    return new AutoValue_Range2(xRange, Range1.create(y, y));
+  }
+
+  public static Range2 create(int x, Range1 yRange) {
+    return new AutoValue_Range2(Range1.create(x, x), yRange);
   }
 
   // Builds an extent from ranges.
-  public static Range2 create(Range xRange, Range yRange) {
+  public static Range2 create(Range1 xRange, Range1 yRange) {
     return new AutoValue_Range2(xRange, yRange);
   }
 
-  public abstract Range xRange();
+  public abstract Range1 xRange();
 
-  public abstract Range yRange();
+  public abstract Range1 yRange();
+
+  // TODO test
+  public Point origin() {
+    return Point.create(xRange().low(), yRange().low());
+  }
 
   public int getWidth() {
     return xRange().size();
@@ -61,29 +74,4 @@ public abstract class Range2 {
   public Range2 includeBoth(Range2 other) {
     return create(xRange().includeBoth(other.xRange()), yRange().includeBoth(other.yRange()));
   }
-
-  /*
-  // TODO: clean up
-  @Override
-  public String toString() {
-    return String.format("ViewExtent(%s,%s)-(%s,%s)", xLow, yLow, xHigh, yHigh);
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (!(other instanceof ViewExtent)) {
-      return false;
-    }
-    ViewExtent o = (ViewExtent) other;
-    return xLow == o.getXLow()
-        && yLow == o.getYLow()
-        && xHigh == o.getXHigh()
-        && yHigh == o.getYHigh();
-  }
-
-  @Override
-  public int hashCode() {
-    return 41 * (41 * (41 * getXLow() + getYLow()) + getXHigh()) + getYHigh();
-  }
-  */
 }
