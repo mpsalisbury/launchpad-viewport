@@ -3,6 +3,7 @@ package com.salisburyclan.lpviewport.device.javafx;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.viewport.ListenerMultiplexer;
 
@@ -18,13 +19,13 @@ public class JavafxViewport implements Viewport {
     buttonGrid.addListener(
         new ButtonGridListener() {
           @Override
-          public void onButtonPressed(int x, int y) {
-            listenerMultiplexer.onButtonPressed(x, y);
+          public void onButtonPressed(Point p) {
+            listenerMultiplexer.onButtonPressed(p);
           }
 
           @Override
-          public void onButtonReleased(int x, int y) {
-            listenerMultiplexer.onButtonReleased(x, y);
+          public void onButtonReleased(Point p) {
+            listenerMultiplexer.onButtonReleased(p);
           }
         });
 

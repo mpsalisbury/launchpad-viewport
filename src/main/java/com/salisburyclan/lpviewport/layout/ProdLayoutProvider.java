@@ -1,6 +1,7 @@
 package com.salisburyclan.lpviewport.layout;
 
 import com.salisburyclan.lpviewport.api.LayoutProvider;
+import com.salisburyclan.lpviewport.layout.linked.LinkedPairsLayoutProvider;
 
 public class ProdLayoutProvider {
 

@@ -5,6 +5,7 @@ import com.salisburyclan.lpviewport.api.ViewStrip;
 import com.salisburyclan.lpviewport.api.ViewStripListener;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range1;
 import com.salisburyclan.lpviewport.geom.Range2;
 
@@ -44,22 +45,22 @@ public class SubViewStrip implements ViewStrip {
 
   @Override
   public void setLight(int index, Color color) {
-    baseViewport.setLight(indexMap.getX(index), indexMap.getY(index), color);
+    baseViewport.setLight(indexMap.getPoint(index), color);
   }
 
   @Override
   public void addListener(ViewStripListener listener) {
     baseViewport.addListener(
         new ViewportListener() {
-          public void onButtonPressed(int x, int y) {
-            if (indexMap.isPointWithin(x, y)) {
-              listener.onButtonPressed(indexMap.getIndex(x, y));
+          public void onButtonPressed(Point p) {
+            if (indexMap.isPointWithin(p)) {
+              listener.onButtonPressed(indexMap.getIndex(p));
             }
           }
 
-          public void onButtonReleased(int x, int y) {
-            if (indexMap.isPointWithin(x, y)) {
-              listener.onButtonReleased(indexMap.getIndex(x, y));
+          public void onButtonReleased(Point p) {
+            if (indexMap.isPointWithin(p)) {
+              listener.onButtonReleased(indexMap.getIndex(p));
             }
           }
         });
@@ -73,92 +74,72 @@ public class SubViewStrip implements ViewStrip {
 
   // Maps between 1-D strip index and 2-D Viewport index.
   private interface IndexMap {
-    int getX(int index);
+    Point getPoint(int index);
 
-    int getY(int index);
+    boolean isPointWithin(Point p);
 
-    boolean isPointWithin(int x, int y);
-
-    int getIndex(int x, int y);
+    int getIndex(Point p);
 
     Range1 getExtent();
   }
 
   private static class HorizontalIndexMap implements IndexMap {
-    private int xLow;
-    private int xHigh;
+    private Range1 xExtent;
     private int yVal;
-    private Range1 extent;
 
     public HorizontalIndexMap(Range2 extent) {
-      xLow = extent.xRange().low();
-      xHigh = extent.xRange().high();
+      xExtent = extent.xRange();
       yVal = extent.yRange().low();
-      this.extent = Range1.create(xLow, xHigh);
     }
 
     @Override
-    public int getX(int index) {
-      return xLow + index;
+    public Point getPoint(int index) {
+      return Point.create(xExtent.low() + index, yVal);
     }
 
     @Override
-    public int getY(int index) {
-      return yVal;
+    public boolean isPointWithin(Point p) {
+      return xExtent.isPointWithin(p.x()) && (p.y() == yVal);
     }
 
     @Override
-    public boolean isPointWithin(int x, int y) {
-      return (x >= xLow) && (x <= xHigh) && (y == yVal);
-    }
-
-    @Override
-    public int getIndex(int x, int y) {
-      return x - xLow;
+    public int getIndex(Point p) {
+      return p.x() - xExtent.low();
     }
 
     @Override
     public Range1 getExtent() {
-      return extent;
+      return xExtent;
     }
   }
 
   private static class VerticalIndexMap implements IndexMap {
     private int xVal;
-    private int yLow;
-    private int yHigh;
-    private Range1 extent;
+    private Range1 yExtent;
 
     public VerticalIndexMap(Range2 extent) {
       xVal = extent.xRange().low();
-      yLow = extent.yRange().low();
-      yHigh = extent.yRange().high();
-      this.extent = Range1.create(yLow, yHigh);
+      yExtent = extent.yRange();
     }
 
     @Override
-    public int getX(int index) {
-      return xVal;
+    public Point getPoint(int index) {
+      return Point.create(xVal, yExtent.low() + index);
     }
 
     @Override
-    public int getY(int index) {
-      return yLow + index;
+    public boolean isPointWithin(Point p) {
+      return yExtent.isPointWithin(p.y()) && (p.x() == xVal);
     }
 
     @Override
-    public boolean isPointWithin(int x, int y) {
-      return (y >= yLow) && (y <= yHigh) && (x == xVal);
-    }
-
-    @Override
-    public int getIndex(int x, int y) {
-      return y - yLow;
+    public int getIndex(Point p) {
+      return p.y() - yExtent.low();
     }
 
     @Override
     public Range1 getExtent() {
-      return extent;
+      return yExtent;
     }
   }
 }

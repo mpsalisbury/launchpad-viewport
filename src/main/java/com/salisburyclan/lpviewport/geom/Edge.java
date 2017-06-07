@@ -50,35 +50,35 @@ public enum Edge {
     }
   }
 
-  public boolean isEdge(Range2 extent, int x, int y) {
+  public boolean isEdge(Range2 extent, Point p) {
     switch (this) {
       case LEFT:
-        return x == extent.xRange().low();
+        return p.x() == extent.xRange().low();
       case RIGHT:
-        return x == extent.xRange().high();
+        return p.x() == extent.xRange().high();
       case TOP:
-        return y == extent.yRange().high();
+        return p.y() == extent.yRange().high();
       case BOTTOM:
-        return y == extent.yRange().low();
+        return p.y() == extent.yRange().low();
       default:
         return false;
     }
   }
 
-  public static Edge getEdge(Range2 extent, int x, int y) {
-    if (x > extent.xRange().low() && x < extent.xRange().high()) {
-      if (y == extent.yRange().low()) {
+  public static Edge getEdge(Range2 extent, Point p) {
+    if (p.x() > extent.xRange().low() && p.x() < extent.xRange().high()) {
+      if (p.y() == extent.yRange().low()) {
         return Edge.BOTTOM;
-      } else if (y == extent.yRange().high()) {
+      } else if (p.y() == extent.yRange().high()) {
         return Edge.TOP;
       } else {
         return Edge.INVALID;
       }
     }
-    if (y > extent.yRange().low() && y < extent.yRange().high()) {
-      if (x == extent.xRange().low()) {
+    if (p.y() > extent.yRange().low() && p.y() < extent.yRange().high()) {
+      if (p.x() == extent.xRange().low()) {
         return Edge.LEFT;
-      } else if (x == extent.xRange().high()) {
+      } else if (p.x() == extent.xRange().high()) {
         return Edge.RIGHT;
       } else {
         return Edge.INVALID;

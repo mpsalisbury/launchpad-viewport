@@ -10,33 +10,31 @@ import com.salisburyclan.lpviewport.geom.Point;
 // A viewport that represents a one-button view of an existing viewport.
 public class SubViewButton implements ViewButton {
   private Viewport baseViewport;
-  private int x;
-  private int y;
+  private Point p;
 
-  public SubViewButton(Viewport baseViewport, int x, int y) {
-    baseViewport.getExtent().assertPointWithin(Point.create(x, y));
+  public SubViewButton(Viewport baseViewport, Point p) {
+    baseViewport.getExtent().assertPointWithin(p);
     this.baseViewport = baseViewport;
-    this.x = x;
-    this.y = y;
+    this.p = p;
   }
 
   @Override
   public void setLight(Color color) {
-    baseViewport.setLight(x, y, color);
+    baseViewport.setLight(p, color);
   }
 
   @Override
   public void addListener(ViewButtonListener listener) {
     baseViewport.addListener(
         new ViewportListener() {
-          public void onButtonPressed(int buttonX, int buttonY) {
-            if (buttonX == x && buttonY == y) {
+          public void onButtonPressed(Point buttonPoint) {
+            if (p.equals(buttonPoint)) {
               listener.onButtonPressed();
             }
           }
 
-          public void onButtonReleased(int buttonX, int buttonY) {
-            if (buttonX == x && buttonY == y) {
+          public void onButtonReleased(Point buttonPoint) {
+            if (p.equals(buttonPoint)) {
               listener.onButtonReleased();
             }
           }

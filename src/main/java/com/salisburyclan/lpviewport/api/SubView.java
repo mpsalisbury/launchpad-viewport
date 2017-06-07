@@ -1,5 +1,6 @@
 package com.salisburyclan.lpviewport.api;
 
+import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.viewport.StripSubViewButton;
 import com.salisburyclan.lpviewport.viewport.SubViewButton;
@@ -22,8 +23,8 @@ public class SubView {
   }
 
   // Returns a new ViewButton relative to this viewport.
-  public static ViewButton getSubViewButton(Viewport viewport, int x, int y) {
-    return new SubViewButton(viewport, x, y);
+  public static ViewButton getSubViewButton(Viewport viewport, Point p) {
+    return new SubViewButton(viewport, p);
   }
 
   // Returns a new ViewButton relative to this viewstrip.

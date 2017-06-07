@@ -13,6 +13,7 @@ import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Point;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,14 +84,14 @@ public class HorizontalLayoutProvider implements LayoutProvider {
       animation.play();
       viewport.addListener(
           new ViewportListener() {
-            public void onButtonPressed(int x, int y) {
+            public void onButtonPressed(Point p) {
               animation.stop();
               viewport.setAllLights(Color.BLACK);
               viewport.removeListener(this);
               appendViewport(viewport);
             }
 
-            public void onButtonReleased(int x, int y) {}
+            public void onButtonReleased(Point p) {}
           });
     }
 
@@ -100,7 +101,7 @@ public class HorizontalLayoutProvider implements LayoutProvider {
       if (teardownTemporaryViewport != null) {
         teardownTemporaryViewport.run();
       }
-      viewportBuilder.add(viewport, nextX, 0);
+      viewportBuilder.add(viewport, Point.create(nextX, 0));
       nextX += viewport.getExtent().getWidth();
       remainingViewportCount--;
 

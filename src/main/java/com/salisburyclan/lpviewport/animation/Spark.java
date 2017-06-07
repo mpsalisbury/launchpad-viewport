@@ -2,6 +2,7 @@ package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import java.util.stream.IntStream;
 import javafx.animation.KeyFrame;
@@ -15,16 +16,14 @@ import javafx.util.Duration;
 
 public class Spark extends Animation {
 
-  private final int centerX;
-  private final int centerY;
+  private final Point center;
   private final Color color;
 
   private static final int TAIL_LENGTH = 5;
 
-  public Spark(Viewport viewport, int centerX, int centerY, Color color) {
+  public Spark(Viewport viewport, Point center, Color color) {
     super(viewport);
-    this.centerX = centerX;
-    this.centerY = centerY;
+    this.center = center;
     this.color = color;
     init();
   }
@@ -33,8 +32,10 @@ public class Spark extends Animation {
   public Spark(Viewport viewport, Color color) {
     super(viewport);
     Range2 extent = viewport.getExtent();
-    this.centerX = (extent.xRange().low() + extent.xRange().high()) / 2;
-    this.centerY = (extent.yRange().low() + extent.yRange().high()) / 2;
+    this.center =
+        Point.create(
+            (extent.xRange().low() + extent.xRange().high()) / 2,
+            (extent.yRange().low() + extent.yRange().high()) / 2);
     this.color = color;
   }
 
@@ -71,10 +72,10 @@ public class Spark extends Animation {
   private int getMaxDistanceToEdge() {
     Range2 extent = getViewport().getExtent();
     return IntStream.of(
-            centerX - extent.xRange().low(),
-            extent.xRange().high() - centerX,
-            centerY - extent.yRange().low(),
-            extent.yRange().high() - centerY)
+            center.x() - extent.xRange().low(),
+            extent.xRange().high() - center.x(),
+            center.y() - extent.yRange().low(),
+            extent.yRange().high() - center.y())
         .max()
         .getAsInt();
   }
@@ -92,27 +93,27 @@ public class Spark extends Animation {
     for (int pos = 0; pos <= TAIL_LENGTH; ++pos) {
       Color moderatedColor = moderateColor(TAIL_LENGTH - pos, TAIL_LENGTH, color);
       {
-        int x = centerX + distance - pos;
-        if (x >= centerX && x <= extent.xRange().high()) {
-          viewport.setLight(x, centerY, moderatedColor);
+        int x = center.x() + distance - pos;
+        if (x >= center.x() && x <= extent.xRange().high()) {
+          viewport.setLight(x, center.y(), moderatedColor);
         }
       }
       {
-        int x = centerX - (distance - pos);
-        if (x <= centerX && x >= extent.xRange().low()) {
-          viewport.setLight(x, centerY, moderatedColor);
+        int x = center.x() - (distance - pos);
+        if (x <= center.x() && x >= extent.xRange().low()) {
+          viewport.setLight(x, center.y(), moderatedColor);
         }
       }
       {
-        int y = centerY + distance - pos;
-        if (y >= centerY && y <= extent.yRange().high()) {
-          viewport.setLight(centerX, y, moderatedColor);
+        int y = center.y() + distance - pos;
+        if (y >= center.y() && y <= extent.yRange().high()) {
+          viewport.setLight(center.x(), y, moderatedColor);
         }
       }
       {
-        int y = centerY - (distance - pos);
-        if (y <= centerY && y >= extent.yRange().low()) {
-          viewport.setLight(centerX, y, moderatedColor);
+        int y = center.y() - (distance - pos);
+        if (y <= center.y() && y >= extent.yRange().low()) {
+          viewport.setLight(center.x(), y, moderatedColor);
         }
       }
     }

@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import org.junit.Before;
 import org.junit.Rule;
@@ -36,8 +37,8 @@ public class AggregateViewportTest {
     when(mockViewport2.getExtent()).thenReturn(Range2.create(10, 10, 19, 29));
 
     AggregateViewport.Builder builder = new AggregateViewport.Builder();
-    builder.add(mockViewport1, 0, 0);
-    builder.add(mockViewport2, 10, 0);
+    builder.add(mockViewport1, Point.create(0, 0));
+    builder.add(mockViewport2, Point.create(10, 0));
     viewport = builder.build();
   }
 
@@ -51,15 +52,15 @@ public class AggregateViewportTest {
   @Test
   public void testSetLight() throws Exception {
     Color color = Color.RED;
-    viewport.setLight(0, 0, color);
-    viewport.setLight(9, 19, color);
-    verify(mockViewport1).setLight(0, 0, color);
-    verify(mockViewport1).setLight(9, 19, color);
+    viewport.setLight(Point.create(0, 0), color);
+    viewport.setLight(Point.create(9, 19), color);
+    verify(mockViewport1).setLight(Point.create(0, 0), color);
+    verify(mockViewport1).setLight(Point.create(9, 19), color);
 
-    viewport.setLight(10, 0, color);
-    viewport.setLight(19, 19, color);
-    verify(mockViewport2).setLight(10, 10, color);
-    verify(mockViewport2).setLight(19, 29, color);
+    viewport.setLight(Point.create(10, 0), color);
+    viewport.setLight(Point.create(19, 19), color);
+    verify(mockViewport2).setLight(Point.create(10, 10), color);
+    verify(mockViewport2).setLight(Point.create(19, 29), color);
 
     // TODO Check out of range
   }
@@ -80,15 +81,15 @@ public class AggregateViewportTest {
     ViewportListener viewport1Listener = viewport1ListenerCaptor.getValue();
     ViewportListener viewport2Listener = viewport2ListenerCaptor.getValue();
 
-    viewport1Listener.onButtonPressed(0, 0);
-    viewport1Listener.onButtonPressed(9, 19);
-    verify(mockListener).onButtonPressed(0, 0);
-    verify(mockListener).onButtonPressed(9, 19);
+    viewport1Listener.onButtonPressed(Point.create(0, 0));
+    viewport1Listener.onButtonPressed(Point.create(9, 19));
+    verify(mockListener).onButtonPressed(Point.create(0, 0));
+    verify(mockListener).onButtonPressed(Point.create(9, 19));
 
-    viewport2Listener.onButtonPressed(10, 10);
-    viewport2Listener.onButtonPressed(19, 29);
-    verify(mockListener).onButtonPressed(10, 0);
-    verify(mockListener).onButtonPressed(19, 19);
+    viewport2Listener.onButtonPressed(Point.create(10, 10));
+    viewport2Listener.onButtonPressed(Point.create(19, 29));
+    verify(mockListener).onButtonPressed(Point.create(10, 0));
+    verify(mockListener).onButtonPressed(Point.create(19, 19));
 
     // TODO Check out of range
   }

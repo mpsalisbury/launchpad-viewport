@@ -66,8 +66,8 @@ public abstract class Range2 {
     return create(xRange().inset(xLowInset, xHighInset), yRange().inset(yLowInset, yHighInset));
   }
 
-  public Range2 shift(int xOffset, int yOffset) {
-    return create(xRange().shift(xOffset), yRange().shift(yOffset));
+  public Range2 shift(Vector offset) {
+    return create(xRange().shift(offset.dx()), yRange().shift(offset.dy()));
   }
 
   // Returns a new ViewExtent that includes the full range of both this and other.

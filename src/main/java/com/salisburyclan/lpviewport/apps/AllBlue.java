@@ -8,6 +8,7 @@ import com.salisburyclan.lpviewport.api.ViewStrip;
 import com.salisburyclan.lpviewport.api.ViewStripListener;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range1;
 import com.salisburyclan.lpviewport.geom.Range2;
 
@@ -32,16 +33,17 @@ public class AllBlue extends JavafxLaunchpadApplication {
   }
 
   private void addButtonListener(int x, int y, Color color) {
-    ViewButton button = SubView.getSubViewButton(viewport, x, y);
+    Point p = Point.create(x, y);
+    ViewButton button = SubView.getSubViewButton(viewport, p);
     button.addListener(
         new ViewButtonListener() {
           @Override
           public void onButtonPressed() {
-            System.out.println(String.format("ButtonPressed(%s, %s)", x, y));
+            System.out.println(String.format("ButtonPressed(%s)", p));
           }
 
           public void onButtonReleased() {
-            System.out.println(String.format("ButtonReleased(%s, %s)", x, y));
+            System.out.println(String.format("ButtonReleased(%s)", p));
             button.setLight(color);
           }
         });
@@ -90,12 +92,12 @@ public class AllBlue extends JavafxLaunchpadApplication {
     rowViewport.addListener(
         new ViewportListener() {
           @Override
-          public void onButtonPressed(int x, int y) {
-            System.out.println(String.format("ExtentPressed(%s, %s) row %s", x, y, row1));
-            rowViewport.setLight(x, y, color);
+          public void onButtonPressed(Point p) {
+            System.out.println(String.format("ExtentPressed(%s) row %s", p, row1));
+            rowViewport.setLight(p, color);
           }
 
-          public void onButtonReleased(int x, int y) {}
+          public void onButtonReleased(Point p) {}
         });
   }
 }

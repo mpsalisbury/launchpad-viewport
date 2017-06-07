@@ -125,9 +125,9 @@ public class Range2Test {
   @Test
   public void testShift() {
     Range2 range = Range2.create(1, 2, 4, 7);
-    assertThat(range.shift(0, 0)).isEqualTo(Range2.create(1, 2, 4, 7));
-    assertThat(range.shift(1, 1)).isEqualTo(Range2.create(2, 3, 5, 8));
-    assertThat(range.shift(1, -1)).isEqualTo(Range2.create(2, 1, 5, 6));
+    assertThat(range.shift(Vector.create(0, 0))).isEqualTo(Range2.create(1, 2, 4, 7));
+    assertThat(range.shift(Vector.create(1, 1))).isEqualTo(Range2.create(2, 3, 5, 8));
+    assertThat(range.shift(Vector.create(1, -1))).isEqualTo(Range2.create(2, 1, 5, 6));
   }
 
   @Test

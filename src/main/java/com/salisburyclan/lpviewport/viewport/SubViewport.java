@@ -11,10 +11,12 @@ import com.salisburyclan.lpviewport.geom.Vector;
 public class SubViewport implements Viewport {
   private Viewport baseViewport;
   private Range2 extent;
+  private Vector originOffset;
 
   public SubViewport(Viewport baseViewport, Range2 extent) {
     this.baseViewport = baseViewport;
     this.extent = extent;
+    this.originOffset = extent.origin().subtract(Point.create(0, 0));
     checkExtent(extent);
   }
 
@@ -32,7 +34,7 @@ public class SubViewport implements Viewport {
 
   @Override
   public void setLight(int x, int y, Color color) {
-    baseViewport.setLight(extent.origin().add(Vector.create(x, y)), color);
+    baseViewport.setLight(originOffset.add(Point.create(x, y)), color);
   }
 
   @Override
@@ -56,15 +58,15 @@ public class SubViewport implements Viewport {
   public void addListener(ViewportListener listener) {
     baseViewport.addListener(
         new ViewportListener() {
-          public void onButtonPressed(int x, int y) {
-            if (extent.isPointWithin(Point.create(x, y))) {
-              listener.onButtonPressed(x - extent.xRange().low(), y - extent.yRange().low());
+          public void onButtonPressed(Point p) {
+            if (extent.isPointWithin(p)) {
+              listener.onButtonPressed(p.subtract(originOffset));
             }
           }
 
-          public void onButtonReleased(int x, int y) {
-            if (extent.isPointWithin(Point.create(x, y))) {
-              listener.onButtonReleased(x - extent.xRange().low(), y - extent.yRange().low());
+          public void onButtonReleased(Point p) {
+            if (extent.isPointWithin(p)) {
+              listener.onButtonReleased(p.subtract(originOffset));
             }
           }
         });

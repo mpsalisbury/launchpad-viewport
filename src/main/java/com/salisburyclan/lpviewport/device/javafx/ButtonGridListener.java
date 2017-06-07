@@ -1,7 +1,9 @@
 package com.salisburyclan.lpviewport.device.javafx;
 
-public interface ButtonGridListener {
-  void onButtonPressed(int x, int y);
+import com.salisburyclan.lpviewport.geom.Point;
 
-  void onButtonReleased(int x, int y);
+public interface ButtonGridListener {
+  void onButtonPressed(Point p);
+
+  void onButtonReleased(Point p);
 }

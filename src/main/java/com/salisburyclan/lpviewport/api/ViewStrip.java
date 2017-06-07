@@ -7,7 +7,7 @@ public interface ViewStrip {
   // Returns the extent of buttons within this ViewStrip.
   Range1 getExtent();
 
-  void setLight(int x, Color color);
+  void setLight(int p, Color color);
 
   // Adds a listener for this viewstrip.
   void addListener(ViewStripListener listener);

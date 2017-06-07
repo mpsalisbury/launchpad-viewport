@@ -5,6 +5,7 @@ import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.geom.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +18,12 @@ public class AggregateViewport implements Viewport {
     // The extent of this viewport within the AggregateViewport.
     public Range2 extent;
     // viewport.exent + offset = this.extent
-    public int xOffset;
-    public int yOffset;
+    public Vector offset;
 
-    public Viewpart(Viewport viewport, Range2 extent, int xOffset, int yOffset) {
+    public Viewpart(Viewport viewport, Range2 extent, Vector offset) {
       this.viewport = viewport;
       this.extent = extent;
-      this.xOffset = xOffset;
-      this.yOffset = yOffset;
+      this.offset = offset;
     }
   }
 
@@ -46,12 +45,11 @@ public class AggregateViewport implements Viewport {
 
     // Adds the given viewport with the low corner placed at
     // (originX, originY) in this aggregate viewport.
-    public void add(Viewport viewport, int originX, int originY) {
+    public void add(Viewport viewport, Point origin) {
       Range2 oldExtent = viewport.getExtent();
-      int xOffset = originX - oldExtent.xRange().low();
-      int yOffset = originY - oldExtent.yRange().low();
-      Range2 newExtent = viewport.getExtent().shift(xOffset, yOffset);
-      viewparts.add(new Viewpart(viewport, newExtent, xOffset, yOffset));
+      Vector offset = origin.subtract(oldExtent.origin());
+      Range2 newExtent = viewport.getExtent().shift(offset);
+      viewparts.add(new Viewpart(viewport, newExtent, offset));
     }
 
     public AggregateViewport build() {
@@ -77,10 +75,11 @@ public class AggregateViewport implements Viewport {
 
   @Override
   public void setLight(int x, int y, Color color) {
+    Point p = Point.create(x, y);
     viewparts.forEach(
         viewpart -> {
-          if (viewpart.extent.isPointWithin(Point.create(x, y))) {
-            viewpart.viewport.setLight(x - viewpart.xOffset, y - viewpart.yOffset, color);
+          if (viewpart.extent.isPointWithin(p)) {
+            viewpart.viewport.setLight(p.subtract(viewpart.offset), color);
           }
         });
   }
@@ -99,12 +98,12 @@ public class AggregateViewport implements Viewport {
         viewpart -> {
           viewpart.viewport.addListener(
               new ViewportListener() {
-                public void onButtonPressed(int x, int y) {
-                  listener.onButtonPressed(x + viewpart.xOffset, y + viewpart.yOffset);
+                public void onButtonPressed(Point p) {
+                  listener.onButtonPressed(p.add(viewpart.offset));
                 }
 
-                public void onButtonReleased(int x, int y) {
-                  listener.onButtonReleased(x + viewpart.xOffset, y + viewpart.yOffset);
+                public void onButtonReleased(Point p) {
+                  listener.onButtonReleased(p.add(viewpart.offset));
                 }
               });
         });
