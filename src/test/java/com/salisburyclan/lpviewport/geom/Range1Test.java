@@ -1,9 +1,9 @@
 package com.salisburyclan.lpviewport.geom;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.salisburyclan.lpviewport.testing.AssertThrows.assertThrows;
 
 import com.google.common.truth.Truth8;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -15,13 +15,7 @@ public class Range1Test {
   public void testRequireValidRange() {
     Range1.create(1, 4);
     Range1.create(1, 1);
-    // TODO assertThrows form
-    try {
-      Range1.create(1, 0);
-      Assert.fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // expected
-    }
+    assertThrows(IllegalArgumentException.class, () -> Range1.create(1, 0));
   }
 
   @Test
@@ -40,6 +34,13 @@ public class Range1Test {
     assertThat(range.isPointWithin(-1)).isFalse();
     assertThat(range.isPointWithin(9)).isFalse();
     assertThat(range.isPointWithin(20)).isFalse();
+  }
+
+  @Test
+  public void testAssertPointWithin() {
+    Range1 range = Range1.create(2, 8);
+    range.assertPointWithin(2);
+    assertThrows(IllegalArgumentException.class, () -> range.assertPointWithin(20));
   }
 
   @Test
@@ -68,13 +69,7 @@ public class Range1Test {
     assertThat(range.inset(1, 1)).isEqualTo(Range1.create(3, 7));
     assertThat(range.inset(4, 2)).isEqualTo(Range1.create(6, 6));
     assertThat(range.inset(-1, -1)).isEqualTo(Range1.create(1, 9));
-    try {
-      // TODO: assertThrows form
-      range.inset(4, 4);
-      Assert.fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      // expected
-    }
+    assertThrows(IllegalArgumentException.class, () -> range.inset(4, 4));
   }
 
   @Test

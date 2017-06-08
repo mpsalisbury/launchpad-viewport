@@ -1,40 +1,22 @@
 buildscript {
-//  repositories.mavenLocal()
   repositories {
     mavenLocal()
-//    mavenCentral()
-  }
-  dependencies {
-//    classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
   }
 }
 
 plugins {
   id 'com.github.sherter.google-java-format' version '0.6'
   id "net.ltgt.apt" version "0.10"
+//  id "com.palantir.jacoco-coverage" version "0.4.0"
+  id "com.palantir.jacoco-full-report" version "0.4.0"
 }
 
 apply plugin: 'java'
 apply plugin: 'java-library'
-//apply plugin: 'org.junit.platform.gradle.plugin'
 
 repositories {
   jcenter()
-//  mavenCentral()
 }
-
-//junitPlatform {
-//  platformVersion 1.0
-//  logManager 'org.apache.logging.log4j.jul.LogManager'
-//  reportsDir file('build/test-results/junit-platform') // this is the default
-// enableStandardTestTask true
-// selectors (optional)
-// filters (optional)
-//}
-
-//compileJava {
-//    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-//}
 
 dependencies {
   apt 'com.google.auto.value:auto-value:1.2'
@@ -47,6 +29,7 @@ dependencies {
   testImplementation 'junit:junit:4.12'
 }
 
+// TODO make task that includes this boilerplate
 task allBlue(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.AllBlue'

@@ -22,4 +22,11 @@ public class VectorTest {
     Vector v2 = Vector.create(3, 5);
     assertThat(v1.add(v2)).isEqualTo(Vector.create(4, 7));
   }
+
+  @Test
+  public void testSubtractVector() {
+    Vector v1 = Vector.create(3, 5);
+    Vector v2 = Vector.create(1, 2);
+    assertThat(v1.subtract(v2)).isEqualTo(Vector.create(2, 3));
+  }
 }

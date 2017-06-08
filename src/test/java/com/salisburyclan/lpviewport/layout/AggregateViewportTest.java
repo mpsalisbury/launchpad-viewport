@@ -28,7 +28,7 @@ public class AggregateViewportTest {
   @Mock private Viewport mockViewport2;
   @Mock private ViewportListener mockListener;
 
-  private AggregateViewport viewport;
+  private Viewport viewport;
 
   @Before
   public void setUp() {

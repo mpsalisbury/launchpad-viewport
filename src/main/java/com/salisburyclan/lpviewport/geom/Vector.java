@@ -21,6 +21,6 @@ public abstract class Vector {
   }
 
   public Vector subtract(Vector v) {
-    return Vector.create(dx() - v.dx(), dy() + v.dy());
+    return Vector.create(dx() - v.dx(), dy() - v.dy());
   }
 }
