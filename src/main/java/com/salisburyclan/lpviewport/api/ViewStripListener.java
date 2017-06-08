@@ -1,7 +1,7 @@
 package com.salisburyclan.lpviewport.api;
 
 public interface ViewStripListener {
-  void onButtonPressed(int x);
+  void onButtonPressed(int p);
 
-  void onButtonReleased(int x);
+  void onButtonReleased(int p);
 }

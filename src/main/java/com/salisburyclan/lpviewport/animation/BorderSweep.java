@@ -1,8 +1,9 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.geom.Vector;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -37,7 +38,7 @@ public class BorderSweep extends Animation {
     timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.setAutoReverse(true);
 
-    ViewExtent extent = getViewport().getExtent();
+    Range2 extent = getViewport().getExtent();
     timeline
         .getKeyFrames()
         .addAll(
@@ -59,7 +60,7 @@ public class BorderSweep extends Animation {
 
   protected void renderDots(int location, Color color) {
     Viewport viewport = getViewport();
-    ViewExtent extent = viewport.getExtent();
+    Range2 extent = viewport.getExtent();
 
     int x = location;
     int y = 0;
@@ -68,7 +69,7 @@ public class BorderSweep extends Animation {
       x -= diff;
       y += diff;
     }
-    viewport.setLight(x + extent.getXLow(), y + extent.getYLow(), color);
+    viewport.setLight(extent.origin().add(Vector.create(x, y)), color);
 
     x = 0;
     y = location;
@@ -77,6 +78,6 @@ public class BorderSweep extends Animation {
       x += diff;
       y -= diff;
     }
-    viewport.setLight(x + extent.getXLow(), y + extent.getYLow(), color);
+    viewport.setLight(extent.origin().add(Vector.create(x, y)), color);
   }
 }

@@ -6,9 +6,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.primitives.Bytes;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.device.midi.mk2.LaunchpadMk2Constants.ButtonMapping;
 import com.salisburyclan.lpviewport.device.midi.mk2.LaunchpadMk2Constants.ColorMapping;
+import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,21 +36,15 @@ public class LaunchpadMk2ProtocolClientTest {
   @Test
   public void testGetOverallExtent() {
     LaunchpadProtocolClient client = new LaunchpadMk2ProtocolClient(mockDevice);
-    ViewExtent overallExtent = client.getOverallExtent();
-    assertThat(overallExtent.getXLow()).isEqualTo(0);
-    assertThat(overallExtent.getYLow()).isEqualTo(0);
-    assertThat(overallExtent.getXHigh()).isEqualTo(8);
-    assertThat(overallExtent.getYHigh()).isEqualTo(8);
+    Range2 overallExtent = client.getOverallExtent();
+    assertThat(overallExtent).isEqualTo(Range2.create(0, 0, 8, 8));
   }
 
   @Test
   public void testGetPadsExtent() {
     LaunchpadProtocolClient client = new LaunchpadMk2ProtocolClient(mockDevice);
-    ViewExtent padsExtent = client.getPadsExtent();
-    assertThat(padsExtent.getXLow()).isEqualTo(0);
-    assertThat(padsExtent.getYLow()).isEqualTo(0);
-    assertThat(padsExtent.getXHigh()).isEqualTo(7);
-    assertThat(padsExtent.getYHigh()).isEqualTo(7);
+    Range2 padsExtent = client.getPadsExtent();
+    assertThat(padsExtent).isEqualTo(Range2.create(0, 0, 7, 7));
   }
 
   @Test

@@ -20,7 +20,8 @@ public class Rainbow extends JavafxLaunchpadApplication {
   private void setRainbow() {
     viewport
         .getExtent()
-        .getXRange()
+        .xRange()
+        .stream()
         .forEach(
             x -> {
               setBar(x, getColor(x));
@@ -53,7 +54,8 @@ public class Rainbow extends JavafxLaunchpadApplication {
   private void setBar(int x, Color color) {
     viewport
         .getExtent()
-        .getYRange()
+        .yRange()
+        .stream()
         .forEach(
             y -> {
               viewport.setLight(x, y, color);

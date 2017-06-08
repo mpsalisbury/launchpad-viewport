@@ -5,8 +5,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import org.junit.Before;
 import org.junit.Rule;
@@ -28,7 +28,7 @@ public class MidiViewportTest {
 
   private MidiViewport viewport;
 
-  private ViewExtent testExtent = new ViewExtent(0, 2, 10, 6);
+  private Range2 testExtent = Range2.create(0, 2, 10, 6);
 
   @Before
   public void setUp() {

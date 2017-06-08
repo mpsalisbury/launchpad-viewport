@@ -14,6 +14,7 @@ import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -76,13 +77,13 @@ public class PickOneLayoutProvider implements LayoutProvider {
       Animation animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport);
       ViewportListener listener =
           new ViewportListener() {
-            public void onButtonPressed(int x, int y) {
+            public void onButtonPressed(Point p) {
               shutDownChooser();
-              new Spark(viewport, x, y, Color.BLUE).play();
+              new Spark(viewport, p, Color.BLUE).play();
               futureViewport.set(viewport);
             }
 
-            public void onButtonReleased(int x, int y) {}
+            public void onButtonReleased(Point p) {}
           };
       animation.play();
       viewport.addListener(listener);
