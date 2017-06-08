@@ -1,6 +1,7 @@
 package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +18,13 @@ public class ListenerMultiplexer implements ViewportListener {
     listeners.remove(listener);
   }
 
-  public void onButtonPressed(int xpos, int ypos) {
+  public void onButtonPressed(Point p) {
     List<ViewportListener> listenersDefensiveCopy = new ArrayList<>(listeners);
-    listenersDefensiveCopy.forEach(listener -> listener.onButtonPressed(xpos, ypos));
+    listenersDefensiveCopy.forEach(listener -> listener.onButtonPressed(p));
   }
 
-  public void onButtonReleased(int xpos, int ypos) {
+  public void onButtonReleased(Point p) {
     List<ViewportListener> listenersDefensiveCopy = new ArrayList<>(listeners);
-    listenersDefensiveCopy.forEach(listener -> listener.onButtonReleased(xpos, ypos));
+    listenersDefensiveCopy.forEach(listener -> listener.onButtonReleased(p));
   }
 }

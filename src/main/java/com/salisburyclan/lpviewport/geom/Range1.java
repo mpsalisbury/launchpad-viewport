@@ -4,10 +4,10 @@ import com.google.auto.value.AutoValue;
 import java.util.stream.IntStream;
 
 @AutoValue
-public abstract class Range {
-  public static Range create(int low, int high) {
+public abstract class Range1 {
+  public static Range1 create(int low, int high) {
     assertValid(low, high);
-    return new AutoValue_Range(low, high);
+    return new AutoValue_Range1(low, high);
   }
 
   // Validates that the given extentLow and extentHigh are valid values.
@@ -29,19 +29,27 @@ public abstract class Range {
     return (p >= low()) && (p <= high());
   }
 
-  public boolean isRangeWithin(Range other) {
+  // Throws IllegalArgumentException if given point is not within this extent.
+  public void assertPointWithin(int p) {
+    if (!isPointWithin(p)) {
+      throw new IllegalArgumentException(
+          String.format("point(%s) out of extent range (%s, %s)", p, low(), high()));
+    }
+  }
+
+  public boolean isRangeWithin(Range1 other) {
     return isPointWithin(other.low()) && isPointWithin(other.high());
   }
 
-  public Range inset(int lowInset, int highInset) {
+  public Range1 inset(int lowInset, int highInset) {
     return create(low() + lowInset, high() - highInset);
   }
 
-  public Range shift(int offset) {
+  public Range1 shift(int offset) {
     return create(low() + offset, high() + offset);
   }
 
-  public Range includeBoth(Range other) {
+  public Range1 includeBoth(Range1 other) {
     return create(Math.min(low(), other.low()), Math.max(high(), other.high()));
   }
 

@@ -3,6 +3,7 @@ package com.salisburyclan.lpviewport.device.midi;
 import static org.mockito.Mockito.verify;
 
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Point;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,13 +24,12 @@ public class MidiListenerTest {
     MidiListener listener = new MidiListener();
     listener.addListener(mockViewportListener);
 
-    int testX = 4;
-    int testY = 2;
+    Point testPoint = Point.create(4, 2);
 
-    listener.onButtonPressed(PositionCode.fromXY(testX, testY), -1L);
-    listener.onButtonReleased(PositionCode.fromXY(testX, testY), -1L);
+    listener.onButtonPressed(PositionCode.fromPoint(testPoint), -1L);
+    listener.onButtonReleased(PositionCode.fromPoint(testPoint), -1L);
 
-    verify(mockViewportListener).onButtonPressed(testX, testY);
-    verify(mockViewportListener).onButtonReleased(testX, testY);
+    verify(mockViewportListener).onButtonPressed(testPoint);
+    verify(mockViewportListener).onButtonReleased(testPoint);
   }
 }

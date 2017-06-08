@@ -13,10 +13,14 @@ public abstract class Vector {
   public abstract int dy();
 
   public Point add(Point p) {
-    return Point.create(p.x() + dx(), p.y() + dy());
+    return Point.create(dx() + p.x(), dy() + p.y());
   }
 
   public Vector add(Vector v) {
-    return Vector.create(v.dx() + dx(), v.dy() + dy());
+    return Vector.create(dx() + v.dx(), dy() + v.dy());
+  }
+
+  public Vector subtract(Vector v) {
+    return Vector.create(dx() - v.dx(), dy() - v.dy());
   }
 }

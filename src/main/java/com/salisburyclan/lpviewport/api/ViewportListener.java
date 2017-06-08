@@ -1,10 +1,11 @@
 package com.salisburyclan.lpviewport.api;
 
+import com.salisburyclan.lpviewport.geom.Point;
 //import javax.sound.midi.MidiMessage;
 
 public interface ViewportListener {
-  void onButtonPressed(int x, int y);
+  void onButtonPressed(Point p);
 
-  void onButtonReleased(int x, int y);
+  void onButtonReleased(Point p);
   //  void onUnhandledMessageReceived(MidiMessage message);
 }

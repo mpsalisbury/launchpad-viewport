@@ -1,11 +1,18 @@
 package com.salisburyclan.lpviewport.api;
 
+import com.salisburyclan.lpviewport.geom.Point;
+import com.salisburyclan.lpviewport.geom.Range2;
+
 // Viewport is a rectangular set of buttons/lights.
 public interface Viewport {
   // Returns the extent of buttons within this Viewport.
-  ViewExtent getExtent();
+  Range2 getExtent();
 
   void setLight(int x, int y, Color color);
+
+  default void setLight(Point p, Color color) {
+    setLight(p.x(), p.y(), color);
+  }
 
   // Sets grid of lights in this viewport.
   // Any pixels outside of this buffer will be ignored.

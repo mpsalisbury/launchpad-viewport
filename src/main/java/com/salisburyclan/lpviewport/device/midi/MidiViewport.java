@@ -1,16 +1,17 @@
 package com.salisburyclan.lpviewport.device.midi;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.geom.Point;
+import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 
 public class MidiViewport implements Viewport {
 
   private LaunchpadProtocolClient client;
   private MidiListener listener;
-  private ViewExtent extent;
+  private Range2 extent;
 
   public MidiViewport(LaunchpadProtocolClient client, MidiListener listener) {
     this.client = client;
@@ -19,13 +20,13 @@ public class MidiViewport implements Viewport {
   }
 
   @Override
-  public ViewExtent getExtent() {
+  public Range2 getExtent() {
     return extent;
   }
 
   @Override
   public void setLight(int x, int y, Color color) {
-    if (extent.isPointWithin(x, y)) {
+    if (extent.isPointWithin(Point.create(x, y))) {
       int pos = PositionCode.fromXY(x, y);
       int colorNum = ColorCode.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
       client.setLight(pos, colorNum);
