@@ -15,10 +15,11 @@ import javafx.util.Duration;
 
 public class BorderSweep extends Animation {
 
+  private Viewport viewport;
   private Color color;
 
   public BorderSweep(Viewport viewport, Color color) {
-    super(viewport);
+    this.viewport = viewport;
     this.color = color;
     init();
   }
@@ -38,7 +39,7 @@ public class BorderSweep extends Animation {
     timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.setAutoReverse(true);
 
-    Range2 extent = getViewport().getExtent();
+    Range2 extent = viewport.getExtent();
     timeline
         .getKeyFrames()
         .addAll(
@@ -59,7 +60,6 @@ public class BorderSweep extends Animation {
   }
 
   protected void renderDots(int location, Color color) {
-    Viewport viewport = getViewport();
     Range2 extent = viewport.getExtent();
 
     int x = location;

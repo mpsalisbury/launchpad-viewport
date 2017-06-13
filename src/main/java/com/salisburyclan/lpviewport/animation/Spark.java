@@ -16,13 +16,14 @@ import javafx.util.Duration;
 
 public class Spark extends Animation {
 
+  private final Viewport viewport;
   private final Point center;
   private final Color color;
 
   private static final int TAIL_LENGTH = 5;
 
   public Spark(Viewport viewport, Point center, Color color) {
-    super(viewport);
+    this.viewport = viewport;
     this.center = center;
     this.color = color;
     init();
@@ -30,7 +31,7 @@ public class Spark extends Animation {
 
   // Shoots spark from center of viewport.
   public Spark(Viewport viewport, Color color) {
-    super(viewport);
+    this.viewport = viewport;
     Range2 extent = viewport.getExtent();
     this.center =
         Point.create(
@@ -70,7 +71,7 @@ public class Spark extends Animation {
   }
 
   private int getMaxDistanceToEdge() {
-    Range2 extent = getViewport().getExtent();
+    Range2 extent = viewport.getExtent();
     return IntStream.of(
             center.x() - extent.xRange().low(),
             extent.xRange().high() - center.x(),
@@ -86,7 +87,6 @@ public class Spark extends Animation {
   // Spark is rendered with a tail of faded versions of the color, of length LENGTH.
   // Rendering draws black after itself to leave black behind.
   private void renderSparkFrame(int distance) {
-    Viewport viewport = getViewport();
     Range2 extent = viewport.getExtent();
     // Render spark in diminishing strength at distance from center.
     // pos is distance from spark point

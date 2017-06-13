@@ -1,19 +1,16 @@
 package com.salisburyclan.lpviewport.animation;
 
-import com.salisburyclan.lpviewport.api.Viewport;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.Timeline;
 
 public abstract class Animation {
 
-  private Viewport viewport;
   private List<Timeline> timelines;
   // TODO: handle multiple callbacks?
   private Runnable onFinishedCallback;
 
-  public Animation(Viewport viewport) {
-    this.viewport = viewport;
+  public Animation() {
     this.timelines = new ArrayList<>();
   }
 
@@ -25,8 +22,8 @@ public abstract class Animation {
         });
   }
 
-  protected Viewport getViewport() {
-    return viewport;
+  protected void removeTimeline(Timeline timeline) {
+    timelines.remove(timeline);
   }
 
   public void play() {

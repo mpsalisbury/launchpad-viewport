@@ -1,6 +1,7 @@
 package com.salisburyclan.lpviewport.geom;
 
 import com.google.auto.value.AutoValue;
+import java.util.function.BiConsumer;
 
 /** Encodes a 2-D xrange and yrange. */
 @AutoValue
@@ -54,7 +55,11 @@ public abstract class Range2 {
 
   // Returns true iff given point is within this extent.
   public boolean isPointWithin(Point p) {
-    return xRange().isPointWithin(p.x()) && yRange().isPointWithin(p.y());
+    return isPointWithin(p.x(), p.y());
+  }
+
+  public boolean isPointWithin(int x, int y) {
+    return xRange().isPointWithin(x) && yRange().isPointWithin(y);
   }
 
   // Returns true iff other extent is within this extent.
@@ -73,5 +78,10 @@ public abstract class Range2 {
   // Returns a new ViewExtent that includes the full range of both this and other.
   public Range2 includeBoth(Range2 other) {
     return create(xRange().includeBoth(other.xRange()), yRange().includeBoth(other.yRange()));
+  }
+
+  // Iterate through all (x,y) pairs.
+  public void forEach(BiConsumer<Integer, Integer> callback) {
+    yRange().stream().forEach(y -> xRange().stream().forEach(x -> callback.accept(x, y)));
   }
 }

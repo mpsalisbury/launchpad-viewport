@@ -14,11 +14,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
 public class Sweep extends Animation {
-
+  private Viewport viewport;
   private Color color;
 
   public Sweep(Viewport viewport, Color color, boolean forever) {
-    super(viewport);
+    this.viewport = viewport;
     this.color = color;
     init(forever);
   }
@@ -40,7 +40,7 @@ public class Sweep extends Animation {
       timeline.setAutoReverse(true);
     }
 
-    Range2 extent = getViewport().getExtent();
+    Range2 extent = viewport.getExtent();
     timeline
         .getKeyFrames()
         .addAll(
@@ -63,7 +63,6 @@ public class Sweep extends Animation {
   }
 
   protected void renderBar(int x, Color color) {
-    Viewport viewport = getViewport();
     viewport
         .getExtent()
         .yRange()

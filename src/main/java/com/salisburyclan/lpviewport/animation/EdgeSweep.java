@@ -17,11 +17,12 @@ import javafx.util.Duration;
 
 public class EdgeSweep extends Animation {
 
+  private Viewport viewport;
   private Edge edge;
   private Color color;
 
   public EdgeSweep(Viewport viewport, Edge edge, Color color) {
-    super(viewport);
+    this.viewport = viewport;
     this.edge = edge;
     this.color = color;
     init();
@@ -33,7 +34,7 @@ public class EdgeSweep extends Animation {
     timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.setAutoReverse(true);
 
-    Range2 extent = getViewport().getExtent();
+    Range2 extent = viewport.getExtent();
     Range1 range = edge.getRange(extent);
     timeline
         .getKeyFrames()
@@ -53,7 +54,6 @@ public class EdgeSweep extends Animation {
   }
 
   protected void renderDot(int location, Color color) {
-    Viewport viewport = getViewport();
     Point point = edge.getPoint(viewport.getExtent(), location);
     viewport.setLight(point.x(), point.y(), color);
   }
