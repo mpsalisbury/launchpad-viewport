@@ -22,5 +22,6 @@ public interface LayoutProvider {
    *
    * @throws IllegalArgumentException if spec is not valid.
    */
-  ListenableFuture<Viewport> createLayout(String layoutSpec, Collection<LaunchpadDevice> devices);
+  ListenableFuture<RawViewport> createLayout(
+      String layoutSpec, Collection<LaunchpadDevice> devices);
 }

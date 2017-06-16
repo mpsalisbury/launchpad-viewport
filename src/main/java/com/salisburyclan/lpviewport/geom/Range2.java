@@ -38,6 +38,10 @@ public abstract class Range2 {
     return Point.create(xRange().low(), yRange().low());
   }
 
+  public Point middle() {
+    return Point.create(xRange().middle(), yRange().middle());
+  }
+
   public int getWidth() {
     return xRange().size();
   }

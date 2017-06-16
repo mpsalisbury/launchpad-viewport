@@ -1,7 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.LightLayer;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range1;
@@ -17,12 +18,12 @@ import javafx.util.Duration;
 
 public class EdgeSweep extends Animation {
 
-  private Viewport viewport;
+  private LightLayer lightLayer;
   private Edge edge;
   private Color color;
 
-  public EdgeSweep(Viewport viewport, Edge edge, Color color) {
-    this.viewport = viewport;
+  public EdgeSweep(RawViewport viewport, Edge edge, Color color) {
+    this.lightLayer = viewport.getLightLayer();
     this.edge = edge;
     this.color = color;
     init();
@@ -34,7 +35,7 @@ public class EdgeSweep extends Animation {
     timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.setAutoReverse(true);
 
-    Range2 extent = viewport.getExtent();
+    Range2 extent = lightLayer.getExtent();
     Range1 range = edge.getRange(extent);
     timeline
         .getKeyFrames()
@@ -54,7 +55,7 @@ public class EdgeSweep extends Animation {
   }
 
   protected void renderDot(int location, Color color) {
-    Point point = edge.getPoint(viewport.getExtent(), location);
-    viewport.setLight(point.x(), point.y(), color);
+    Point point = edge.getPoint(lightLayer.getExtent(), location);
+    lightLayer.setLight(point.x(), point.y(), color);
   }
 }

@@ -21,6 +21,10 @@ public abstract class Range1 {
 
   public abstract int high();
 
+  public int middle() {
+    return (high() + low()) / 2;
+  }
+
   public int size() {
     return high() - low() + 1;
   }

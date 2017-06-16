@@ -1,6 +1,6 @@
 package com.salisburyclan.lpviewport.layout.linked;
 
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Vector;
@@ -14,23 +14,27 @@ import com.salisburyclan.lpviewport.geom.Vector;
  * the two viewports in order to make them adjacent in this way.
  */
 public class Link {
-  public Viewport fromViewport;
+  public RawViewport fromViewport;
   public Edge fromEdge;
   // fromLink, in fromViewport space
   public Point fromPoint;
-  public Viewport toViewport;
+  public RawViewport toViewport;
   // toLink, in toViewport space
   public Point toPoint;
 
   // Construct a link knowing only the from-end of the link.
-  public Link(Viewport fromViewport, Edge fromEdge, Point fromPoint) {
+  public Link(RawViewport fromViewport, Edge fromEdge, Point fromPoint) {
     this.fromViewport = fromViewport;
     this.fromEdge = fromEdge;
     this.fromPoint = fromPoint;
   }
 
   public Link(
-      Viewport fromViewport, Edge fromEdge, Point fromPoint, Viewport toViewport, Point toPoint) {
+      RawViewport fromViewport,
+      Edge fromEdge,
+      Point fromPoint,
+      RawViewport toViewport,
+      Point toPoint) {
     this.fromViewport = fromViewport;
     this.fromEdge = fromEdge;
     this.fromPoint = fromPoint;

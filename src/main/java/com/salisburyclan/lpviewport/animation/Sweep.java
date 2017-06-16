@@ -1,8 +1,11 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.layer.LayerBuffer;
+import com.salisburyclan.lpviewport.layer.Pixel;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -14,22 +17,29 @@ import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
 public class Sweep extends Animation {
-  private Viewport viewport;
-  private Color color;
+  private LayerBuffer buffer;
+  private Pixel pixel;
 
-  public Sweep(Viewport viewport, Color color, boolean forever) {
-    this.viewport = viewport;
-    this.color = color;
+  public Sweep(LayerBuffer buffer, Color color, boolean forever) {
+    this.buffer = buffer;
+    this.pixel = Pixel.create(color);
     init(forever);
   }
 
   public static AnimationProvider newProvider(Color color, boolean forever) {
     return new AnimationProvider() {
       @Override
-      public Animation newAnimation(Viewport viewport) {
-        return new Sweep(viewport, color, forever);
+      public Animation newAnimation(RawViewport rawViewport) {
+        Viewport viewport = new Viewport(rawViewport);
+        LayerBuffer buffer = viewport.addLayer();
+        return new Sweep(buffer, color, forever);
       }
     };
+  }
+
+  public void stop() {
+    buffer.close();
+    super.stop();
   }
 
   protected void init(boolean forever) {
@@ -40,7 +50,7 @@ public class Sweep extends Animation {
       timeline.setAutoReverse(true);
     }
 
-    Range2 extent = viewport.getExtent();
+    Range2 extent = buffer.getExtent();
     timeline
         .getKeyFrames()
         .addAll(
@@ -56,20 +66,20 @@ public class Sweep extends Animation {
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-            renderBar((Integer) oldLocation, Color.BLACK);
-            renderBar((Integer) newLocation, color);
+            renderBar((Integer) oldLocation, Pixel.EMPTY);
+            renderBar((Integer) newLocation, pixel);
           }
         });
   }
 
-  protected void renderBar(int x, Color color) {
-    viewport
+  protected void renderBar(int x, Pixel pixel) {
+    buffer
         .getExtent()
         .yRange()
         .stream()
         .forEach(
             y -> {
-              viewport.setLight(x, y, color);
+              buffer.setPixel(x, y, pixel);
             });
   }
 }

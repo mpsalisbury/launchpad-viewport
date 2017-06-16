@@ -5,7 +5,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,12 +27,12 @@ public class LinkedPairsLayoutProvider implements LayoutProvider {
   }
 
   @Override
-  public ListenableFuture<Viewport> createLayout(
+  public ListenableFuture<RawViewport> createLayout(
       String layoutSpec, Collection<LaunchpadDevice> devices) {
     if (!TYPE.equals(layoutSpec)) {
       throw new IllegalArgumentException("Invalid viewportSpec for " + getClass().getName());
     }
-    List<Viewport> viewports =
+    List<RawViewport> viewports =
         devices.stream().map(LaunchpadDevice::getViewport).collect(Collectors.toList());
 
     if (viewports.isEmpty()) {

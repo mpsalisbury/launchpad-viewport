@@ -4,8 +4,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewportListener;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class MidiViewportTest {
   @Rule public MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
   @Mock private LaunchpadProtocolClient mockClient;
   @Mock private MidiListener mockMidiListener;
-  @Mock private ViewportListener mockViewportListener;
+  @Mock private Button2Listener mockButton2Listener;
 
   private MidiViewport viewport;
 
@@ -48,7 +48,7 @@ public class MidiViewportTest {
     int testY = 2;
     Color testColor = Color.ORANGE;
 
-    viewport.setLight(testX, testY, testColor);
+    viewport.getLightLayer().setLight(testX, testY, testColor);
 
     verify(mockClient)
         .setLight(
@@ -58,7 +58,7 @@ public class MidiViewportTest {
 
   @Test
   public void testAddListener() throws Exception {
-    viewport.addListener(mockViewportListener);
-    verify(mockMidiListener).addListener(mockViewportListener);
+    viewport.addListener(mockButton2Listener);
+    verify(mockMidiListener).addListener(mockButton2Listener);
   }
 }

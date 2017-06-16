@@ -1,27 +1,27 @@
 package com.salisburyclan.lpviewport.apps;
 
+import com.salisburyclan.lpviewport.api.Button0Listener;
+import com.salisburyclan.lpviewport.api.Button1Listener;
+import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.api.SubView;
-import com.salisburyclan.lpviewport.api.ViewButton;
-import com.salisburyclan.lpviewport.api.ViewButtonListener;
-import com.salisburyclan.lpviewport.api.ViewStrip;
-import com.salisburyclan.lpviewport.api.ViewStripListener;
-import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.Viewport0;
+import com.salisburyclan.lpviewport.api.Viewport1;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range1;
 import com.salisburyclan.lpviewport.geom.Range2;
 
 public class AllBlue extends JavafxLaunchpadApplication {
 
-  private Viewport viewport;
+  private RawViewport viewport;
 
   @Override
   public void run() {
-    getViewport(this::setupViewport);
+    getRawViewport(this::setupViewport);
   }
 
-  private void setupViewport(Viewport viewport) {
+  private void setupViewport(RawViewport viewport) {
     this.viewport = viewport;
     addStripListener(0, Color.GREEN, Color.BLUE);
     addStripListener(1, Color.YELLOW, Color.BLUE);
@@ -34,9 +34,9 @@ public class AllBlue extends JavafxLaunchpadApplication {
 
   private void addButtonListener(int x, int y, Color color) {
     Point p = Point.create(x, y);
-    ViewButton button = SubView.getSubViewButton(viewport, p);
+    Viewport0 button = SubView.getSubViewport0(viewport, p);
     button.addListener(
-        new ViewButtonListener() {
+        new Button0Listener() {
           @Override
           public void onButtonPressed() {
             System.out.println(String.format("ButtonPressed(%s)", p));
@@ -51,10 +51,10 @@ public class AllBlue extends JavafxLaunchpadApplication {
 
   private void addButtonStripListener(int x, int y, Color color) {
     Range2 extent = viewport.getExtent();
-    ViewStrip rowViewStrip = SubView.getSubViewStrip(viewport, Range2.create(extent.xRange(), y));
-    ViewButton button = SubView.getSubViewButton(rowViewStrip, x);
+    Viewport1 rowViewStrip = SubView.getSubViewStrip(viewport, Range2.create(extent.xRange(), y));
+    Viewport0 button = SubView.getSubViewport0(rowViewStrip, x);
     button.addListener(
-        new ViewButtonListener() {
+        new Button0Listener() {
           @Override
           public void onButtonPressed() {
             System.out.println(String.format("ButtonPressed(%s, %s)", x, y));
@@ -69,9 +69,9 @@ public class AllBlue extends JavafxLaunchpadApplication {
 
   private void addStripListener(int row, Color colorOn, Color colorOff) {
     Range2 extent = viewport.getExtent();
-    ViewStrip rowViewStrip = SubView.getSubViewStrip(viewport, Range2.create(extent.xRange(), row));
+    Viewport1 rowViewStrip = SubView.getSubViewStrip(viewport, Range2.create(extent.xRange(), row));
     rowViewStrip.addListener(
-        new ViewStripListener() {
+        new Button1Listener() {
           @Override
           public void onButtonPressed(int x) {
             System.out.println(String.format("StripPressed(%s) row %s", x, row));
@@ -87,14 +87,14 @@ public class AllBlue extends JavafxLaunchpadApplication {
 
   private void addExtentListener(int row1, int row2, Color color) {
     Range2 extent = viewport.getExtent();
-    Viewport rowViewport =
+    RawViewport rowViewport =
         SubView.getSubViewport(viewport, Range2.create(extent.xRange(), Range1.create(row1, row2)));
     rowViewport.addListener(
-        new ViewportListener() {
+        new Button2Listener() {
           @Override
           public void onButtonPressed(Point p) {
             System.out.println(String.format("ExtentPressed(%s) row %s", p, row1));
-            rowViewport.setLight(p, color);
+            rowViewport.getLightLayer().setLight(p, color);
           }
 
           public void onButtonReleased(Point p) {}

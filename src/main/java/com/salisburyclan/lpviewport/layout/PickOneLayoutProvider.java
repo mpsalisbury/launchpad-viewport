@@ -7,13 +7,13 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.salisburyclan.lpviewport.animation.Animation;
 import com.salisburyclan.lpviewport.animation.AnimationProvider;
-import com.salisburyclan.lpviewport.animation.Spark;
+import com.salisburyclan.lpviewport.animation.Spark2;
 import com.salisburyclan.lpviewport.animation.Sweep;
+import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
-import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,7 +39,7 @@ public class PickOneLayoutProvider implements LayoutProvider {
   }
 
   @Override
-  public ListenableFuture<Viewport> createLayout(
+  public ListenableFuture<RawViewport> createLayout(
       String layoutSpec, Collection<LaunchpadDevice> devices) {
     if (!TYPE.equals(layoutSpec)) {
       throw new IllegalArgumentException("Invalid viewportSpec for " + getClass().getName());
@@ -54,17 +54,17 @@ public class PickOneLayoutProvider implements LayoutProvider {
     }
   }
 
-  private ListenableFuture<Viewport> pickOneViewport(List<Viewport> viewports) {
+  private ListenableFuture<RawViewport> pickOneViewport(List<RawViewport> viewports) {
     return new ViewportChooser(viewports).getFutureViewport();
   }
 
   private static class ViewportChooser {
-    private SettableFuture<Viewport> futureViewport;
+    private SettableFuture<RawViewport> futureViewport;
 
     // Runnables that tear down the various Viewports (animations, listeners)
     private List<Runnable> tearDowners;
 
-    public ViewportChooser(List<Viewport> viewports) {
+    public ViewportChooser(List<RawViewport> viewports) {
       this.futureViewport = SettableFuture.create();
       this.tearDowners = new ArrayList<>();
       viewports.forEach(
@@ -73,13 +73,13 @@ public class PickOneLayoutProvider implements LayoutProvider {
           });
     }
 
-    private void setupViewport(Viewport viewport) {
+    private void setupViewport(RawViewport viewport) {
       Animation animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport);
-      ViewportListener listener =
-          new ViewportListener() {
+      Button2Listener listener =
+          new Button2Listener() {
             public void onButtonPressed(Point p) {
               shutDownChooser();
-              new Spark(viewport, p, Color.BLUE).play();
+              Spark2.play(viewport, p, Color.BLUE);
               futureViewport.set(viewport);
             }
 
@@ -91,7 +91,7 @@ public class PickOneLayoutProvider implements LayoutProvider {
       tearDowners.add(
           () -> {
             animation.stop();
-            viewport.setAllLights(Color.BLACK);
+            viewport.getLightLayer().setAllLights(Color.BLACK);
             viewport.removeListener(listener);
           });
     }
@@ -101,7 +101,7 @@ public class PickOneLayoutProvider implements LayoutProvider {
       tearDowners.clear();
     }
 
-    public ListenableFuture<Viewport> getFutureViewport() {
+    public ListenableFuture<RawViewport> getFutureViewport() {
       return futureViewport;
     }
   }

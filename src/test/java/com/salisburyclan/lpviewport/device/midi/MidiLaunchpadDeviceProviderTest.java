@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.midi.MidiDeviceProvider;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
@@ -59,7 +59,7 @@ public class MidiLaunchpadDeviceProviderTest {
     LaunchpadDevice device = devices.get(0);
     assertThat(device.getType()).isEqualTo("A");
 
-    Viewport viewport = device.getViewport();
+    RawViewport viewport = device.getViewport();
     assertThat(viewport.getExtent().getWidth()).isEqualTo(11);
     assertThat(viewport.getExtent().getHeight()).isEqualTo(11);
   }

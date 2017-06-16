@@ -7,8 +7,6 @@ import javafx.animation.Timeline;
 public abstract class Animation {
 
   private List<Timeline> timelines;
-  // TODO: handle multiple callbacks?
-  private Runnable onFinishedCallback;
 
   public Animation() {
     this.timelines = new ArrayList<>();
@@ -16,14 +14,6 @@ public abstract class Animation {
 
   protected void addTimeline(Timeline timeline) {
     timelines.add(timeline);
-    timeline.setOnFinished(
-        event -> {
-          callOnFinishedCallback();
-        });
-  }
-
-  protected void removeTimeline(Timeline timeline) {
-    timelines.remove(timeline);
   }
 
   public void play() {
@@ -36,15 +26,5 @@ public abstract class Animation {
 
   public void stop() {
     timelines.forEach(Timeline::stop);
-  }
-
-  public void setOnFinished(Runnable callback) {
-    this.onFinishedCallback = callback;
-  }
-
-  private void callOnFinishedCallback() {
-    if (onFinishedCallback != null) {
-      onFinishedCallback.run();
-    }
   }
 }

@@ -1,7 +1,7 @@
 package com.salisburyclan.lpviewport.device.javafx;
 
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -10,7 +10,7 @@ public class JavafxDevice implements LaunchpadDevice {
 
   public static final String TYPE = "javafx";
   private static final int DEFAULT_SIZE = 8;
-  private Viewport viewport;
+  private RawViewport viewport;
 
   public JavafxDevice() {
     Stage stage = newWindow(DEFAULT_SIZE, DEFAULT_SIZE);
@@ -38,7 +38,7 @@ public class JavafxDevice implements LaunchpadDevice {
     return TYPE;
   }
 
-  public Viewport getViewport() {
+  public RawViewport getViewport() {
     return viewport;
   }
 

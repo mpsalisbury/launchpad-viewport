@@ -4,9 +4,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.LightLayer;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import org.junit.Before;
@@ -23,18 +24,22 @@ import org.mockito.quality.Strictness;
 @RunWith(JUnit4.class)
 public class AggregateViewportTest {
 
-  @Rule public MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
-  @Mock private Viewport mockViewport1;
-  @Mock private Viewport mockViewport2;
-  @Mock private ViewportListener mockListener;
+  @Rule public MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.LENIENT);
+  @Mock private RawViewport mockViewport1;
+  @Mock private RawViewport mockViewport2;
+  @Mock private LightLayer mockLightLayer1;
+  @Mock private LightLayer mockLightLayer2;
+  @Mock private Button2Listener mockListener;
 
-  private Viewport viewport;
+  private RawViewport viewport;
 
   @Before
   public void setUp() {
     // Two 10x20 Viewports, attached left-to-right.
     when(mockViewport1.getExtent()).thenReturn(Range2.create(0, 0, 9, 19));
     when(mockViewport2.getExtent()).thenReturn(Range2.create(10, 10, 19, 29));
+    when(mockViewport1.getLightLayer()).thenReturn(mockLightLayer1);
+    when(mockViewport2.getLightLayer()).thenReturn(mockLightLayer2);
 
     AggregateViewport.Builder builder = new AggregateViewport.Builder();
     builder.add(mockViewport1, Point.create(0, 0));
@@ -51,16 +56,17 @@ public class AggregateViewportTest {
   // sub-viewport lights get set.
   @Test
   public void testSetLight() throws Exception {
+    LightLayer layer = viewport.getLightLayer();
     Color color = Color.RED;
-    viewport.setLight(Point.create(0, 0), color);
-    viewport.setLight(Point.create(9, 19), color);
-    verify(mockViewport1).setLight(Point.create(0, 0), color);
-    verify(mockViewport1).setLight(Point.create(9, 19), color);
+    layer.setLight(Point.create(0, 0), color);
+    layer.setLight(Point.create(9, 19), color);
+    verify(mockLightLayer1).setLight(Point.create(0, 0), color);
+    verify(mockLightLayer1).setLight(Point.create(9, 19), color);
 
-    viewport.setLight(Point.create(10, 0), color);
-    viewport.setLight(Point.create(19, 19), color);
-    verify(mockViewport2).setLight(Point.create(10, 10), color);
-    verify(mockViewport2).setLight(Point.create(19, 29), color);
+    layer.setLight(Point.create(10, 0), color);
+    layer.setLight(Point.create(19, 19), color);
+    verify(mockLightLayer2).setLight(Point.create(10, 10), color);
+    verify(mockLightLayer2).setLight(Point.create(19, 29), color);
 
     // TODO Check out of range
   }
@@ -69,17 +75,17 @@ public class AggregateViewportTest {
   // aggregate viewport button location gets notified.
   @Test
   public void testAddListener() throws Exception {
-    ArgumentCaptor<ViewportListener> viewport1ListenerCaptor =
-        ArgumentCaptor.forClass(ViewportListener.class);
-    ArgumentCaptor<ViewportListener> viewport2ListenerCaptor =
-        ArgumentCaptor.forClass(ViewportListener.class);
+    ArgumentCaptor<Button2Listener> viewport1ListenerCaptor =
+        ArgumentCaptor.forClass(Button2Listener.class);
+    ArgumentCaptor<Button2Listener> viewport2ListenerCaptor =
+        ArgumentCaptor.forClass(Button2Listener.class);
 
     viewport.addListener(mockListener);
     verify(mockViewport1).addListener(viewport1ListenerCaptor.capture());
     verify(mockViewport2).addListener(viewport2ListenerCaptor.capture());
 
-    ViewportListener viewport1Listener = viewport1ListenerCaptor.getValue();
-    ViewportListener viewport2Listener = viewport2ListenerCaptor.getValue();
+    Button2Listener viewport1Listener = viewport1ListenerCaptor.getValue();
+    Button2Listener viewport2Listener = viewport2ListenerCaptor.getValue();
 
     viewport1Listener.onButtonPressed(Point.create(0, 0));
     viewport1Listener.onButtonPressed(Point.create(9, 19));

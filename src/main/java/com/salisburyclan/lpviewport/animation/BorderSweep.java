@@ -1,7 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.LightLayer;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
 import javafx.animation.KeyFrame;
@@ -15,11 +16,11 @@ import javafx.util.Duration;
 
 public class BorderSweep extends Animation {
 
-  private Viewport viewport;
+  private LightLayer outputLayer;
   private Color color;
 
-  public BorderSweep(Viewport viewport, Color color) {
-    this.viewport = viewport;
+  public BorderSweep(LightLayer outputLayer, Color color) {
+    this.outputLayer = outputLayer;
     this.color = color;
     init();
   }
@@ -27,8 +28,8 @@ public class BorderSweep extends Animation {
   public static AnimationProvider newProvider(Color color) {
     return new AnimationProvider() {
       @Override
-      public Animation newAnimation(Viewport viewport) {
-        return new BorderSweep(viewport, color);
+      public Animation newAnimation(RawViewport viewport) {
+        return new BorderSweep(viewport.getLightLayer(), color);
       }
     };
   }
@@ -39,7 +40,7 @@ public class BorderSweep extends Animation {
     timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.setAutoReverse(true);
 
-    Range2 extent = viewport.getExtent();
+    Range2 extent = outputLayer.getExtent();
     timeline
         .getKeyFrames()
         .addAll(
@@ -60,7 +61,7 @@ public class BorderSweep extends Animation {
   }
 
   protected void renderDots(int location, Color color) {
-    Range2 extent = viewport.getExtent();
+    Range2 extent = outputLayer.getExtent();
 
     int x = location;
     int y = 0;
@@ -69,7 +70,7 @@ public class BorderSweep extends Animation {
       x -= diff;
       y += diff;
     }
-    viewport.setLight(extent.origin().add(Vector.create(x, y)), color);
+    outputLayer.setLight(extent.origin().add(Vector.create(x, y)), color);
 
     x = 0;
     y = location;
@@ -78,6 +79,6 @@ public class BorderSweep extends Animation {
       x += diff;
       y -= diff;
     }
-    viewport.setLight(extent.origin().add(Vector.create(x, y)), color);
+    outputLayer.setLight(extent.origin().add(Vector.create(x, y)), color);
   }
 }

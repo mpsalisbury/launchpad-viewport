@@ -7,9 +7,9 @@ import com.salisburyclan.lpviewport.animation.AnimationProvider;
 import com.salisburyclan.lpviewport.animation.BorderSweep;
 import com.salisburyclan.lpviewport.animation.EdgeSweep;
 import com.salisburyclan.lpviewport.animation.Sweep;
+import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
 import java.util.ArrayList;
@@ -21,13 +21,13 @@ public class LinkedViewportBuilder {
   private static final AnimationProvider SELECTED_VIEWPORT_ANIMATION =
       Sweep.newProvider(Color.BLUE, false);
 
-  private SettableFuture<Viewport> futureViewport;
-  private List<Viewport> unselectedViewports;
-  private List<Viewport> selectedViewports;
+  private SettableFuture<RawViewport> futureViewport;
+  private List<RawViewport> unselectedViewports;
+  private List<RawViewport> selectedViewports;
   private List<Runnable> viewportCleanups;
   private LinkAssembler linkAssembler;
 
-  public LinkedViewportBuilder(List<Viewport> viewports) {
+  public LinkedViewportBuilder(List<RawViewport> viewports) {
     this.futureViewport = SettableFuture.create();
     this.unselectedViewports = new ArrayList<>();
     this.selectedViewports = new ArrayList<>();
@@ -42,11 +42,11 @@ public class LinkedViewportBuilder {
   }
 
   // Accept a click on any edge and then wait for linked click.
-  private void waitForLinkStart(Viewport viewport) {
+  private void waitForLinkStart(RawViewport viewport) {
     Animation animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport);
     animation.play();
-    ViewportListener listener =
-        new ViewportListener() {
+    Button2Listener listener =
+        new Button2Listener() {
           public void onButtonPressed(Point p) {
             if (Edge.getEdge(viewport.getExtent(), p) != Edge.INVALID) {
               deactivateViewports();
@@ -60,7 +60,7 @@ public class LinkedViewportBuilder {
     viewportCleanups.add(
         () -> {
           animation.stop();
-          viewport.setAllLights(Color.BLACK);
+          viewport.getLightLayer().setAllLights(Color.BLACK);
           viewport.removeListener(listener);
         });
   }
@@ -70,7 +70,7 @@ public class LinkedViewportBuilder {
     viewportCleanups.clear();
   }
 
-  private void selectLinkStart(Viewport startViewport, Point start) {
+  private void selectLinkStart(RawViewport startViewport, Point start) {
     // if this is the first selection, startViewport needs to be moved
     // from unselected to selected.
     if (unselectedViewports.remove(startViewport)) {
@@ -86,11 +86,11 @@ public class LinkedViewportBuilder {
   }
 
   // Accept a click on only one edge and register the link.
-  private void waitForLinkEnd(Viewport viewport, Edge requiredEdge, Link partialLink) {
+  private void waitForLinkEnd(RawViewport viewport, Edge requiredEdge, Link partialLink) {
     Animation animation = new EdgeSweep(viewport, requiredEdge, Color.RED);
     animation.play();
-    ViewportListener listener =
-        new ViewportListener() {
+    Button2Listener listener =
+        new Button2Listener() {
           public void onButtonPressed(Point p) {
             if (requiredEdge.isEdge(viewport.getExtent(), p)) {
               deactivateViewports();
@@ -104,12 +104,12 @@ public class LinkedViewportBuilder {
     viewportCleanups.add(
         () -> {
           animation.stop();
-          viewport.setAllLights(Color.BLACK);
+          viewport.getLightLayer().setAllLights(Color.BLACK);
           viewport.removeListener(listener);
         });
   }
 
-  private void selectLinkEnd(Link partialLink, Viewport endViewport, Point endPoint) {
+  private void selectLinkEnd(Link partialLink, RawViewport endViewport, Point endPoint) {
     unselectedViewports.remove(endViewport);
     selectedViewports.add(endViewport);
 
@@ -128,12 +128,12 @@ public class LinkedViewportBuilder {
   }
 
   private void finalizeViewport() {
-    Viewport finalViewport = linkAssembler.build();
+    RawViewport finalViewport = linkAssembler.build();
     //      SELECTED_VIEWPORT_ANIMATION.newAnimation(finalViewport).play();
     futureViewport.set(finalViewport);
   }
 
-  public ListenableFuture<Viewport> getFutureViewport() {
+  public ListenableFuture<RawViewport> getFutureViewport() {
     return futureViewport;
   }
 }

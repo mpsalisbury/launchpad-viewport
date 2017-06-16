@@ -1,7 +1,7 @@
 package com.salisburyclan.lpviewport.animation;
 
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.RawViewport;
 
 public interface AnimationProvider {
-  Animation newAnimation(Viewport viewport);
+  Animation newAnimation(RawViewport viewport);
 }

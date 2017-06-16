@@ -1,21 +1,21 @@
 package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.animation.Explode;
+import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Point;
 
 public class ExplodeApp extends JavafxLaunchpadApplication {
 
   @Override
   public void run() {
-    getViewport(this::setupViewport);
+    getRawViewport(this::setupViewport);
   }
 
-  private void setupViewport(Viewport viewport) {
+  private void setupViewport(RawViewport viewport) {
     viewport.addListener(
-        new ViewportListener() {
+        new Button2Listener() {
           @Override
           public void onButtonPressed(Point p) {
             new Explode(viewport, p, getBaseColor(p)).play();

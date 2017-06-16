@@ -3,7 +3,7 @@ package com.salisburyclan.lpviewport.layout.linked;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.when;
 
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
@@ -21,10 +21,10 @@ import org.mockito.quality.Strictness;
 public class LinkTest {
 
   @Rule public MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
-  @Mock private Viewport mockViewport1;
-  @Mock private Viewport mockViewport2;
+  @Mock private RawViewport mockViewport1;
+  @Mock private RawViewport mockViewport2;
 
-  public void setupViewport(Viewport mockViewport, Range2 range) {
+  public void setupViewport(RawViewport mockViewport, Range2 range) {
     when(mockViewport.getExtent()).thenReturn(range);
   }
 

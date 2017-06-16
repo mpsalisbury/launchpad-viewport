@@ -1,34 +1,48 @@
 package com.salisburyclan.lpviewport.api;
 
-import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.layer.Layer;
+import com.salisburyclan.lpviewport.layer.LayerBuffer;
+import com.salisburyclan.lpviewport.layer.LayerSandwich;
+import com.salisburyclan.lpviewport.layer.Pixel;
 
 // Viewport is a rectangular set of buttons/lights.
-public interface Viewport {
-  // Returns the extent of buttons within this Viewport.
-  Range2 getExtent();
+public class Viewport {
+  private RawViewport rawViewport;
+  private LayerSandwich layers;
 
-  void setLight(int x, int y, Color color);
-
-  default void setLight(Point p, Color color) {
-    setLight(p.x(), p.y(), color);
+  public Viewport(RawViewport rawViewport) {
+    this.rawViewport = rawViewport;
+    this.layers = new LayerSandwich(rawViewport.getExtent());
+    layers.addPixelListener(this::writeRawPixel);
   }
 
-  // Sets grid of lights in this viewport.
-  // Any pixels outside of this buffer will be ignored.
-  // @param x left-most location to start drawing pixels at.
-  // @param y top-most location to start drawing pixels at.
-  // @param pixels is a list of colors, one per pixel, in Left-to-Right, Top-to-Bottom order.
-  //  void setLights(int x, int y, ViewportBuffer pixels);
+  public Range2 getExtent() {
+    return rawViewport.getExtent();
+  }
 
-  // Sets all lights in this viewport to a single color.
-  void setAllLights(Color color);
+  // Adds and returns an output layer.
+  public LayerBuffer addLayer() {
+    LayerBuffer buffer = new LayerBuffer(getExtent());
+    addLayer(buffer);
+    return buffer;
+  }
 
-  // Adds a listener for the button at the given position.
-  //  void addListener(int x, int y, ButtonListener listener);
+  public void addLayer(Layer layer) {
+    layers.addLayer(layer);
+  }
+
+  private void writeRawPixel(int x, int y) {
+    Pixel pixel = Pixel.BLACK.combine(layers.getPixel(x, y));
+    rawViewport.getLightLayer().setLight(x, y, pixel.color().color());
+  }
 
   // Adds a listener for this viewport.
-  void addListener(ViewportListener listener);
+  public void addListener(Button2Listener listener) {
+    rawViewport.addListener(listener);
+  }
 
-  void removeListener(ViewportListener listener);
+  public void removeListener(Button2Listener listener) {
+    rawViewport.removeListener(listener);
+  }
 }

@@ -1,24 +1,25 @@
 package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.LightLayer;
+import com.salisburyclan.lpviewport.api.RawViewport;
 
 public class Rainbow extends JavafxLaunchpadApplication {
 
-  private Viewport viewport;
+  private LightLayer outputLayer;
 
   @Override
   public void run() {
-    getViewport(this::setupViewport);
+    getRawViewport(this::setupViewport);
   }
 
-  private void setupViewport(Viewport viewport) {
-    this.viewport = viewport;
+  private void setupViewport(RawViewport viewport) {
+    this.outputLayer = viewport.getLightLayer();
     setRainbow();
   }
 
   private void setRainbow() {
-    viewport
+    outputLayer
         .getExtent()
         .xRange()
         .stream()
@@ -52,13 +53,13 @@ public class Rainbow extends JavafxLaunchpadApplication {
   }
 
   private void setBar(int x, Color color) {
-    viewport
+    outputLayer
         .getExtent()
         .yRange()
         .stream()
         .forEach(
             y -> {
-              viewport.setLight(x, y, color);
+              outputLayer.setLight(x, y, color);
             });
   }
 }

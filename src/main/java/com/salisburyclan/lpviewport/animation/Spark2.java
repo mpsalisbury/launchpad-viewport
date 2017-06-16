@@ -1,6 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.layer.DColor;
@@ -15,16 +17,24 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class Spark2 extends Animation {
+public class Spark2 extends DecayingAnimation {
 
   private final Point center;
   private final DColor color;
   private DecayingBuffer buffer;
 
-  public Spark2(DecayingBuffer buffer, Point center, Color color) {
+  public static void play(RawViewport rawViewport, Point center, Color color) {
+    Viewport viewport = new Viewport(rawViewport);
+    Spark2 spark = new Spark2(viewport.getExtent(), center, color);
+    viewport.addLayer(spark);
+    spark.play();
+  }
+
+  public Spark2(Range2 extent, Point center, Color color) {
+    super(extent);
     this.center = center;
     this.color = DColor.create(color);
-    this.buffer = buffer;
+    this.buffer = getBuffer();
     init();
   }
 
@@ -39,7 +49,6 @@ public class Spark2 extends Animation {
             new KeyFrame(Duration.millis(500), new KeyValue(sparkDistance, maxDistance)));
     timeline.setOnFinished(
         event -> {
-          removeTimeline(timeline);
           buffer.cleanUp();
         });
     addTimeline(timeline);
