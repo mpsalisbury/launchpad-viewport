@@ -1,10 +1,11 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LightLayer;
-import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
+import com.salisburyclan.lpviewport.layer.AnimatedLayer;
+import com.salisburyclan.lpviewport.layer.Pixel;
+import com.salisburyclan.lpviewport.layer.WriteLayer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -14,22 +15,23 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class BorderSweep extends Animation {
+public class BorderSweep extends AnimatedLayer {
 
-  private LightLayer outputLayer;
-  private Color color;
+  private WriteLayer outputLayer;
+  private Pixel pixel;
 
-  public BorderSweep(LightLayer outputLayer, Color color) {
-    this.outputLayer = outputLayer;
-    this.color = color;
+  public BorderSweep(Range2 extent, Color color) {
+    super(extent);
+    this.outputLayer = getWriteLayer();
+    this.pixel = Pixel.create(color);
     init();
   }
 
   public static AnimationProvider newProvider(Color color) {
     return new AnimationProvider() {
       @Override
-      public Animation newAnimation(RawViewport viewport) {
-        return new BorderSweep(viewport.getLightLayer(), color);
+      public AnimatedLayer newAnimation(Range2 extent) {
+        return new BorderSweep(extent, color);
       }
     };
   }
@@ -54,13 +56,13 @@ public class BorderSweep extends Animation {
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-            renderDots((Integer) oldLocation, Color.BLACK);
-            renderDots((Integer) newLocation, color);
+            renderDots((Integer) oldLocation, Pixel.EMPTY);
+            renderDots((Integer) newLocation, pixel);
           }
         });
   }
 
-  protected void renderDots(int location, Color color) {
+  protected void renderDots(int location, Pixel pixel) {
     Range2 extent = outputLayer.getExtent();
 
     int x = location;
@@ -70,7 +72,7 @@ public class BorderSweep extends Animation {
       x -= diff;
       y += diff;
     }
-    outputLayer.setLight(extent.origin().add(Vector.create(x, y)), color);
+    outputLayer.setPixel(extent.origin().add(Vector.create(x, y)), pixel);
 
     x = 0;
     y = location;
@@ -79,6 +81,6 @@ public class BorderSweep extends Animation {
       x += diff;
       y -= diff;
     }
-    outputLayer.setLight(extent.origin().add(Vector.create(x, y)), color);
+    outputLayer.setPixel(extent.origin().add(Vector.create(x, y)), pixel);
   }
 }

@@ -2,7 +2,6 @@ package com.salisburyclan.lpviewport.layout.linked;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
-import com.salisburyclan.lpviewport.animation.Animation;
 import com.salisburyclan.lpviewport.animation.AnimationProvider;
 import com.salisburyclan.lpviewport.animation.BorderSweep;
 import com.salisburyclan.lpviewport.animation.EdgeSweep;
@@ -12,6 +11,8 @@ import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
+import com.salisburyclan.lpviewport.layer.AnimatedLayer;
+import com.salisburyclan.lpviewport.layer.AnimatedLayerPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class LinkedViewportBuilder {
 
   // Accept a click on any edge and then wait for linked click.
   private void waitForLinkStart(RawViewport viewport) {
-    Animation animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport);
-    animation.play();
+    AnimatedLayer animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
+    AnimatedLayerPlayer.play(animation, viewport);
     Button2Listener listener =
         new Button2Listener() {
           public void onButtonPressed(Point p) {
@@ -87,8 +88,8 @@ public class LinkedViewportBuilder {
 
   // Accept a click on only one edge and register the link.
   private void waitForLinkEnd(RawViewport viewport, Edge requiredEdge, Link partialLink) {
-    Animation animation = new EdgeSweep(viewport, requiredEdge, Color.RED);
-    animation.play();
+    AnimatedLayer animation = new EdgeSweep(viewport.getExtent(), requiredEdge, Color.RED);
+    AnimatedLayerPlayer.play(animation, viewport);
     Button2Listener listener =
         new Button2Listener() {
           public void onButtonPressed(Point p) {

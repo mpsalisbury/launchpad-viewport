@@ -10,11 +10,13 @@ public class LayerSandwich implements Layer {
   // Layers in this sandwich, ordered bottom-to-top.
   private List<Layer> layers;
   private PixelListenerMultiplexer pixelListeners;
+  private CloseListenerMultiplexer closeListeners;
 
   public LayerSandwich(Range2 extent) {
     this.extent = extent;
     this.layers = new ArrayList<>();
     this.pixelListeners = new PixelListenerMultiplexer();
+    this.closeListeners = new CloseListenerMultiplexer();
   }
 
   public void addLayer(Layer layer) {
@@ -28,8 +30,7 @@ public class LayerSandwich implements Layer {
   public void removeLayer(Layer layer) {
     layers.remove(layer);
     if (layers.isEmpty()) {
-      // TODO #### implement
-      // closeListeners.onClose();
+      closeListeners.onClose();
     }
   }
 
@@ -54,8 +55,7 @@ public class LayerSandwich implements Layer {
 
   @Override
   public void addCloseListener(CloseListener listener) {
-    // TODO ### implement
-    // closeListeners.addListener(listener);
+    closeListeners.addListener(listener);
   }
 
   // TODO implement

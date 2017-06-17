@@ -5,7 +5,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
-import com.salisburyclan.lpviewport.animation.Animation;
 import com.salisburyclan.lpviewport.animation.AnimationProvider;
 import com.salisburyclan.lpviewport.animation.Spark2;
 import com.salisburyclan.lpviewport.animation.Sweep;
@@ -15,6 +14,8 @@ import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
 import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Point;
+import com.salisburyclan.lpviewport.layer.AnimatedLayer;
+import com.salisburyclan.lpviewport.layer.AnimatedLayerPlayer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -74,7 +75,7 @@ public class PickOneLayoutProvider implements LayoutProvider {
     }
 
     private void setupViewport(RawViewport viewport) {
-      Animation animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport);
+      AnimatedLayer animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
       Button2Listener listener =
           new Button2Listener() {
             public void onButtonPressed(Point p) {
@@ -85,7 +86,7 @@ public class PickOneLayoutProvider implements LayoutProvider {
 
             public void onButtonReleased(Point p) {}
           };
-      animation.play();
+      AnimatedLayerPlayer.play(animation, viewport);
       viewport.addListener(listener);
 
       tearDowners.add(

@@ -1,11 +1,10 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.RawViewport;
-import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.LayerBuffer;
+import com.salisburyclan.lpviewport.layer.AnimatedLayer;
 import com.salisburyclan.lpviewport.layer.Pixel;
+import com.salisburyclan.lpviewport.layer.WriteLayer;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -16,12 +15,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class Sweep extends Animation {
-  private LayerBuffer buffer;
+public class Sweep extends AnimatedLayer {
+  private WriteLayer layer;
   private Pixel pixel;
 
-  public Sweep(LayerBuffer buffer, Color color, boolean forever) {
-    this.buffer = buffer;
+  public Sweep(Range2 extent, Color color, boolean forever) {
+    super(extent);
+    this.layer = getWriteLayer();
     this.pixel = Pixel.create(color);
     init(forever);
   }
@@ -29,16 +29,14 @@ public class Sweep extends Animation {
   public static AnimationProvider newProvider(Color color, boolean forever) {
     return new AnimationProvider() {
       @Override
-      public Animation newAnimation(RawViewport rawViewport) {
-        Viewport viewport = new Viewport(rawViewport);
-        LayerBuffer buffer = viewport.addLayer();
-        return new Sweep(buffer, color, forever);
+      public AnimatedLayer newAnimation(Range2 extent) {
+        return new Sweep(extent, color, forever);
       }
     };
   }
 
   public void stop() {
-    buffer.close();
+    layer.close();
     super.stop();
   }
 
@@ -50,7 +48,7 @@ public class Sweep extends Animation {
       timeline.setAutoReverse(true);
     }
 
-    Range2 extent = buffer.getExtent();
+    Range2 extent = layer.getExtent();
     timeline
         .getKeyFrames()
         .addAll(
@@ -61,6 +59,7 @@ public class Sweep extends Animation {
                 Duration.seconds(1),
                 new KeyValue(barLocation, extent.xRange().high(), Interpolator.EASE_BOTH)));
     addTimeline(timeline);
+    // TODO stop on done.
 
     barLocation.addListener(
         new ChangeListener() {
@@ -73,13 +72,13 @@ public class Sweep extends Animation {
   }
 
   protected void renderBar(int x, Pixel pixel) {
-    buffer
+    layer
         .getExtent()
         .yRange()
         .stream()
         .forEach(
             y -> {
-              buffer.setPixel(x, y, pixel);
+              layer.setPixel(x, y, pixel);
             });
   }
 }

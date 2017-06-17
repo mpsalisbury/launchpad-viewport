@@ -4,7 +4,7 @@ import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 
 // A buffer of colored pixels for staging images.
-public class LayerBuffer implements Layer {
+public class LayerBuffer implements Layer, WriteLayer {
   private Range2 extent;
   private Pixel[][] buffer;
   private PixelListenerMultiplexer pixelListeners;
@@ -28,6 +28,7 @@ public class LayerBuffer implements Layer {
   }
 
   // Remove this buffer from container.
+  @Override
   public void close() {
     if (closer != null) {
       closer.onClose();
@@ -49,10 +50,12 @@ public class LayerBuffer implements Layer {
     }
   }
 
+  @Override
   public void setPixel(int x, int y, DColor color) {
     setPixel(x, y, Pixel.create(color));
   }
 
+  @Override
   public void setPixel(int x, int y, Pixel pixel) {
     if (extent.isPointWithin(x, y)) {
       Point origin = extent.origin();

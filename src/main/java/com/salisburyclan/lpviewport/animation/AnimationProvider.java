@@ -1,7 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.layer.AnimatedLayer;
 
 public interface AnimationProvider {
-  Animation newAnimation(RawViewport viewport);
+  AnimatedLayer newAnimation(Range2 extent);
 }
