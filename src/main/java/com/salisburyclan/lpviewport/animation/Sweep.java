@@ -1,8 +1,10 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.layer.AnimatedLayer;
+import com.salisburyclan.lpviewport.layer.Pixel;
+import com.salisburyclan.lpviewport.layer.WriteLayer;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -13,23 +15,29 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class Sweep extends Animation {
+public class Sweep extends AnimatedLayer {
+  private WriteLayer layer;
+  private Pixel pixel;
 
-  private Color color;
-
-  public Sweep(Viewport viewport, Color color, boolean forever) {
-    super(viewport);
-    this.color = color;
+  public Sweep(Range2 extent, Color color, boolean forever) {
+    super(extent);
+    this.layer = getWriteLayer();
+    this.pixel = Pixel.create(color);
     init(forever);
   }
 
   public static AnimationProvider newProvider(Color color, boolean forever) {
     return new AnimationProvider() {
       @Override
-      public Animation newAnimation(Viewport viewport) {
-        return new Sweep(viewport, color, forever);
+      public AnimatedLayer newAnimation(Range2 extent) {
+        return new Sweep(extent, color, forever);
       }
     };
+  }
+
+  public void stop() {
+    layer.close();
+    super.stop();
   }
 
   protected void init(boolean forever) {
@@ -40,35 +48,37 @@ public class Sweep extends Animation {
       timeline.setAutoReverse(true);
     }
 
-    ViewExtent extent = getViewport().getExtent();
+    Range2 extent = layer.getExtent();
     timeline
         .getKeyFrames()
         .addAll(
             new KeyFrame(
-                Duration.ZERO, new KeyValue(barLocation, extent.getXLow(), Interpolator.EASE_BOTH)),
+                Duration.ZERO,
+                new KeyValue(barLocation, extent.xRange().low(), Interpolator.EASE_BOTH)),
             new KeyFrame(
                 Duration.seconds(1),
-                new KeyValue(barLocation, extent.getXHigh(), Interpolator.EASE_BOTH)));
+                new KeyValue(barLocation, extent.xRange().high(), Interpolator.EASE_BOTH)));
     addTimeline(timeline);
+    // TODO stop on done.
 
     barLocation.addListener(
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-            renderBar((Integer) oldLocation, Color.BLACK);
-            renderBar((Integer) newLocation, color);
+            renderBar((Integer) oldLocation, Pixel.EMPTY);
+            renderBar((Integer) newLocation, pixel);
           }
         });
   }
 
-  protected void renderBar(int x, Color color) {
-    Viewport viewport = getViewport();
-    viewport
+  protected void renderBar(int x, Pixel pixel) {
+    layer
         .getExtent()
-        .getYRange()
+        .yRange()
+        .stream()
         .forEach(
             y -> {
-              viewport.setLight(x, y, color);
+              layer.setPixel(x, y, pixel);
             });
   }
 }

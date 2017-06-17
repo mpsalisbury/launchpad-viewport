@@ -5,8 +5,8 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.ViewExtent;
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.midi.MidiDeviceProvider;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
@@ -49,7 +49,7 @@ public class MidiLaunchpadDeviceProviderTest {
             new FakeDeviceProvider(ImmutableList.of("A", "C", "D", "E", "E", "E")),
             new FakeSpecProvider(ImmutableList.of("A", "B", "C", "E")));
 
-    when(mockProtocolClient.getOverallExtent()).thenReturn(new ViewExtent(0, 0, 10, 10));
+    when(mockProtocolClient.getOverallExtent()).thenReturn(Range2.create(0, 0, 10, 10));
   }
 
   @Test
@@ -59,7 +59,7 @@ public class MidiLaunchpadDeviceProviderTest {
     LaunchpadDevice device = devices.get(0);
     assertThat(device.getType()).isEqualTo("A");
 
-    Viewport viewport = device.getViewport();
+    RawViewport viewport = device.getViewport();
     assertThat(viewport.getExtent().getWidth()).isEqualTo(11);
     assertThat(viewport.getExtent().getHeight()).isEqualTo(11);
   }

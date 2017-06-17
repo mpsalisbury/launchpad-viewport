@@ -1,8 +1,11 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.geom.Vector;
+import com.salisburyclan.lpviewport.layer.AnimatedLayer;
+import com.salisburyclan.lpviewport.layer.Pixel;
+import com.salisburyclan.lpviewport.layer.WriteLayer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -12,21 +15,23 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class BorderSweep extends Animation {
+public class BorderSweep extends AnimatedLayer {
 
-  private Color color;
+  private WriteLayer outputLayer;
+  private Pixel pixel;
 
-  public BorderSweep(Viewport viewport, Color color) {
-    super(viewport);
-    this.color = color;
+  public BorderSweep(Range2 extent, Color color) {
+    super(extent);
+    this.outputLayer = getWriteLayer();
+    this.pixel = Pixel.create(color);
     init();
   }
 
   public static AnimationProvider newProvider(Color color) {
     return new AnimationProvider() {
       @Override
-      public Animation newAnimation(Viewport viewport) {
-        return new BorderSweep(viewport, color);
+      public AnimatedLayer newAnimation(Range2 extent) {
+        return new BorderSweep(extent, color);
       }
     };
   }
@@ -37,7 +42,7 @@ public class BorderSweep extends Animation {
     timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.setAutoReverse(true);
 
-    ViewExtent extent = getViewport().getExtent();
+    Range2 extent = outputLayer.getExtent();
     timeline
         .getKeyFrames()
         .addAll(
@@ -51,15 +56,14 @@ public class BorderSweep extends Animation {
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-            renderDots((Integer) oldLocation, Color.BLACK);
-            renderDots((Integer) newLocation, color);
+            renderDots((Integer) oldLocation, Pixel.EMPTY);
+            renderDots((Integer) newLocation, pixel);
           }
         });
   }
 
-  protected void renderDots(int location, Color color) {
-    Viewport viewport = getViewport();
-    ViewExtent extent = viewport.getExtent();
+  protected void renderDots(int location, Pixel pixel) {
+    Range2 extent = outputLayer.getExtent();
 
     int x = location;
     int y = 0;
@@ -68,7 +72,7 @@ public class BorderSweep extends Animation {
       x -= diff;
       y += diff;
     }
-    viewport.setLight(x + extent.getXLow(), y + extent.getYLow(), color);
+    outputLayer.setPixel(extent.origin().add(Vector.create(x, y)), pixel);
 
     x = 0;
     y = location;
@@ -77,6 +81,6 @@ public class BorderSweep extends Animation {
       x += diff;
       y -= diff;
     }
-    viewport.setLight(x + extent.getXLow(), y + extent.getYLow(), color);
+    outputLayer.setPixel(extent.origin().add(Vector.create(x, y)), pixel);
   }
 }

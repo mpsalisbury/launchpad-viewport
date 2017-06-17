@@ -1,8 +1,11 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.ViewExtent;
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.LightLayer;
+import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.geom.Point;
+import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.geom.Vector;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -14,16 +17,15 @@ import javafx.util.Duration;
 
 public class Explode extends Animation {
 
-  private final int centerX;
-  private final int centerY;
+  private final LightLayer lightLayer;
+  private final Point center;
   private final Color color;
 
   private static final int FADE_LENGTH = 5;
 
-  public Explode(Viewport viewport, int centerX, int centerY, Color color) {
-    super(viewport);
-    this.centerX = centerX;
-    this.centerY = centerY;
+  public Explode(RawViewport viewport, Point center, Color color) {
+    this.lightLayer = viewport.getLightLayer();
+    this.center = center;
     this.color = color;
     init();
   }
@@ -49,9 +51,9 @@ public class Explode extends Animation {
   }
 
   private int getMaxDistanceToCorner() {
-    ViewExtent extent = getViewport().getExtent();
-    int bigX = Math.max(centerX - extent.getXLow(), extent.getXHigh() - centerX);
-    int bigY = Math.max(centerY - extent.getYLow(), extent.getYHigh() - centerY);
+    Range2 extent = lightLayer.getExtent();
+    int bigX = Math.max(center.x() - extent.xRange().low(), extent.xRange().high() - center.x());
+    int bigY = Math.max(center.y() - extent.yRange().low(), extent.yRange().high() - center.y());
     return bigX + bigY;
   }
 
@@ -63,12 +65,11 @@ public class Explode extends Animation {
   }
 
   private void renderDiamond(int radius, Color color) {
-    Viewport viewport = getViewport();
     for (int pos = 0; pos <= radius; pos++) {
-      viewport.setLight(centerX + pos, centerY + (radius - pos), color);
-      viewport.setLight(centerX + pos, centerY - (radius - pos), color);
-      viewport.setLight(centerX - pos, centerY + (radius - pos), color);
-      viewport.setLight(centerX - pos, centerY - (radius - pos), color);
+      lightLayer.setLight(center.add(Vector.create(pos, radius - pos)), color);
+      lightLayer.setLight(center.add(Vector.create(pos, -(radius - pos))), color);
+      lightLayer.setLight(center.add(Vector.create(-pos, radius - pos)), color);
+      lightLayer.setLight(center.add(Vector.create(-pos, -(radius - pos))), color);
     }
   }
 

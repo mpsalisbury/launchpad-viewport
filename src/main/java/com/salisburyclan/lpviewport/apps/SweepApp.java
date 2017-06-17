@@ -12,6 +12,8 @@ public class SweepApp extends JavafxLaunchpadApplication {
   }
 
   private void setupViewport(Viewport viewport) {
-    new Sweep(viewport, Color.RED, true).play();
+    Sweep sweep = new Sweep(viewport.getExtent(), Color.RED, true);
+    viewport.addLayer(sweep);
+    sweep.play();
   }
 }

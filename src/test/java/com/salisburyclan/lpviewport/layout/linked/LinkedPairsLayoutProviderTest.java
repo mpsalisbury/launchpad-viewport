@@ -1,3 +1,75 @@
+package com.salisburyclan.lpviewport.layout.linked;
+
+//@RunWith(JUnit4.class)
+public class LinkedPairsLayoutProviderTest {
+  /*
+    @Rule public MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
+    @Mock private Viewport mockViewport1;
+    @Mock private Viewport mockViewport2;
+    @Mock private ViewportListener mockListener;
+
+    private AggregateViewport viewport;
+
+    @Before
+    public void setUp() {
+      // Two 10x20 Viewports, attached left-to-right.
+      when(mockViewport1.getExtent()).thenReturn(Range2.create(0, 0, 9, 19));
+      when(mockViewport2.getExtent()).thenReturn(Range2.create(10, 10, 19, 29));
+
+      AggregateViewport.Builder builder = new AggregateViewport.Builder();
+      builder.add(mockViewport1, Point.create(0, 0));
+      builder.add(mockViewport2, Point.create(10, 0));
+      viewport = builder.build();
+    }
+
+    @Test
+    public void testSupportsSpec() throws Exception {
+    public boolean supportsSpec(String layoutSpec) {
+      assertThat(xxx).isEqualTo(xxx);
+    }
+
+    // Test that when we set lights on the aggregate viewport, the correct
+    // sub-viewport lights get set.
+    @Test
+    public void testSetLight() throws Exception {
+      public ListenableFuture<Viewport> createLayout(
+              String layoutSpec, Collection<LaunchpadDevice> devices) {
+
+    }
+
+    // Test that when a sub-viewport button gets pressed, the correct
+    // aggregate viewport button location gets notified.
+    @Test
+    public void testAddListener() throws Exception {
+      ArgumentCaptor<ViewportListener> viewport1ListenerCaptor =
+          ArgumentCaptor.forClass(ViewportListener.class);
+      ArgumentCaptor<ViewportListener> viewport2ListenerCaptor =
+          ArgumentCaptor.forClass(ViewportListener.class);
+
+      viewport.addListener(mockListener);
+      verify(mockViewport1).addListener(viewport1ListenerCaptor.capture());
+      verify(mockViewport2).addListener(viewport2ListenerCaptor.capture());
+
+      ViewportListener viewport1Listener = viewport1ListenerCaptor.getValue();
+      ViewportListener viewport2Listener = viewport2ListenerCaptor.getValue();
+
+      viewport1Listener.onButtonPressed(Point.create(0, 0));
+      viewport1Listener.onButtonPressed(Point.create(9, 19));
+      verify(mockListener).onButtonPressed(Point.create(0, 0));
+      verify(mockListener).onButtonPressed(Point.create(9, 19));
+
+      viewport2Listener.onButtonPressed(Point.create(10, 10));
+      viewport2Listener.onButtonPressed(Point.create(19, 29));
+      verify(mockListener).onButtonPressed(Point.create(10, 0));
+      verify(mockListener).onButtonPressed(Point.create(19, 19));
+
+      // TODO Check out of range
+    }
+  */
+}
+
+/*
+
 package com.salisburyclan.lpviewport.layout;
 
 import com.google.common.collect.ImmutableList;
@@ -12,11 +84,11 @@ import com.salisburyclan.lpviewport.animation.Sweep;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
-import com.salisburyclan.lpviewport.api.ViewExtent;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.ViewportListener;
-import com.salisburyclan.lpviewport.viewport.Edge;
-import com.salisburyclan.lpviewport.viewport.Point;
+import com.salisburyclan.lpviewport.geom.Edge;
+import com.salisburyclan.lpviewport.geom.Point;
+import com.salisburyclan.lpviewport.geom.Vector;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -81,51 +153,42 @@ public class LinkedPairsLayoutProvider implements LayoutProvider {
       public Viewport fromViewport;
       public Edge fromEdge;
       // fromLink, in fromViewport space
-      public int fromX;
-      public int fromY;
+      public Point fromPoint;
       public Viewport toViewport;
       // toLink, in toViewport space
-      public int toX;
-      public int toY;
+      public Point toPoint;
 
-      public Link(Viewport fromViewport, Edge fromEdge, int fromX, int fromY) {
+      public Link(Viewport fromViewport, Edge fromEdge, Point fromPoint) {
         this.fromViewport = fromViewport;
         this.fromEdge = fromEdge;
-        this.fromX = fromX;
-        this.fromY = fromY;
+        this.fromPoint = fromPoint;
       }
 
       public String toString() {
         return String.format(
-            "Link(%s, %s, (%d, %d), %s, (%d, %d))",
-            fromViewport, fromEdge, fromX, fromY, toViewport, toX, toY);
+            "Link(%s, %s, %s, %s, %s)", fromViewport, fromEdge, fromPoint, toViewport, toPoint);
       }
 
       // Returns the offset between the origin of fromViewport and the origin of toViewport
       // in absolute space.
-      public Point getOriginOffset() {
-        ViewExtent toExtent = toViewport.getExtent();
-        int normalToX = toX - toExtent.getXLow();
-        int normalToY = toY - toExtent.getYLow();
-        Point linkTarget = fromLinkTarget();
-        return new Point(linkTarget.x - normalToX, linkTarget.y - normalToY);
+      public Vector getOriginOffset() {
+        Vector normalTo = toPoint.subtract(toViewport.getExtent().origin());
+        return fromLinkTarget().subtract(normalTo);
       }
 
       // Returns the point of the button in the toViewport that should connect to
       // the fromLinked button, in normalized fromViewport space.
-      private Point fromLinkTarget() {
-        ViewExtent fromExtent = fromViewport.getExtent();
-        int normalFromX = fromX - fromExtent.getXLow();
-        int normalFromY = fromY - fromExtent.getYLow();
+      private Vector fromLinkTarget() {
+        Vector normalFrom = fromPoint.subtract(fromViewport.getExtent().origin());
         switch (fromEdge) {
           case LEFT:
-            return new Point(normalFromX - 1, normalFromY);
+            return normalFrom.add(Vector.create(-1, 0));
           case RIGHT:
-            return new Point(normalFromX + 1, normalFromY);
+            return normalFrom.add(Vector.create(1, 0));
           case TOP:
-            return new Point(normalFromX, normalFromY + 1);
+            return normalFrom.add(Vector.create(0, 1));
           case BOTTOM:
-            return new Point(normalFromX, normalFromY - 1);
+            return normalFrom.add(Vector.create(0, -1));
           default:
             throw new IllegalStateException("Invalid edge type");
         }
@@ -152,14 +215,14 @@ public class LinkedPairsLayoutProvider implements LayoutProvider {
       animation.play();
       ViewportListener listener =
           new ViewportListener() {
-            public void onButtonPressed(int x, int y) {
-              if (Edge.getEdge(viewport.getExtent(), x, y) != Edge.INVALID) {
+            public void onButtonPressed(Point p) {
+              if (Edge.getEdge(viewport.getExtent(), p) != Edge.INVALID) {
                 deactivateViewports();
-                selectLinkStart(viewport, x, y);
+                selectLinkStart(viewport, p);
               }
             }
 
-            public void onButtonReleased(int x, int y) {}
+            public void onButtonReleased(Point p) {}
           };
       viewport.addListener(listener);
       viewportCleanups.add(
@@ -175,15 +238,15 @@ public class LinkedPairsLayoutProvider implements LayoutProvider {
       viewportCleanups.clear();
     }
 
-    private void selectLinkStart(Viewport startViewport, int startX, int startY) {
+    private void selectLinkStart(Viewport startViewport, Point start) {
       // if this is the first selection, startViewport needs to be moved
       // from unselected to selected.
       if (unselectedViewports.remove(startViewport)) {
         selectedViewports.add(startViewport);
       }
-      Edge selectedEdge = Edge.getEdge(startViewport.getExtent(), startX, startY);
+      Edge selectedEdge = Edge.getEdge(startViewport.getExtent(), start);
       Edge oppositeEdge = selectedEdge.getOpposite();
-      Link partialLink = new Link(startViewport, selectedEdge, startX, startY);
+      Link partialLink = new Link(startViewport, selectedEdge, start);
       unselectedViewports.forEach(
           viewport -> {
             waitForLinkEnd(viewport, oppositeEdge, partialLink);
@@ -196,14 +259,14 @@ public class LinkedPairsLayoutProvider implements LayoutProvider {
       animation.play();
       ViewportListener listener =
           new ViewportListener() {
-            public void onButtonPressed(int x, int y) {
-              if (requiredEdge.isEdge(viewport.getExtent(), x, y)) {
+            public void onButtonPressed(Point p) {
+              if (requiredEdge.isEdge(viewport.getExtent(), p)) {
                 deactivateViewports();
-                selectLinkEnd(partialLink, viewport, x, y);
+                selectLinkEnd(partialLink, viewport, p);
               }
             }
 
-            public void onButtonReleased(int x, int y) {}
+            public void onButtonReleased(Point p) {}
           };
       viewport.addListener(listener);
       viewportCleanups.add(
@@ -214,13 +277,12 @@ public class LinkedPairsLayoutProvider implements LayoutProvider {
           });
     }
 
-    private void selectLinkEnd(Link partialLink, Viewport endViewport, int endX, int endY) {
+    private void selectLinkEnd(Link partialLink, Viewport endViewport, Point endPoint) {
       unselectedViewports.remove(endViewport);
       selectedViewports.add(endViewport);
 
       partialLink.toViewport = endViewport;
-      partialLink.toX = endX;
-      partialLink.toY = endY;
+      partialLink.toPoint = endPoint;
       linkAssembler.addLink(partialLink);
 
       if (unselectedViewports.isEmpty()) {
@@ -255,21 +317,21 @@ public class LinkedPairsLayoutProvider implements LayoutProvider {
 
       public void addLink(Link link) {
         if (viewportOrigins.isEmpty()) {
-          addViewport(link.fromViewport, new Point(0, 0));
+          addViewport(link.fromViewport, Point.create(0, 0));
         }
         Point toViewportOrigin = computeToViewportOrigin(link);
         addViewport(link.toViewport, toViewportOrigin);
       }
 
       private void addViewport(Viewport viewport, Point origin) {
-        viewportBuilder.add(viewport, origin.x, origin.y);
+        viewportBuilder.add(viewport, origin);
         viewportOrigins.put(viewport, origin);
       }
 
       private Point computeToViewportOrigin(Link link) {
         Point fromOrigin = viewportOrigins.get(link.fromViewport);
-        Point originOffset = link.getOriginOffset();
-        return new Point(fromOrigin.x + originOffset.x, fromOrigin.y + originOffset.y);
+        Vector originOffset = link.getOriginOffset();
+        return fromOrigin.add(originOffset);
       }
 
       public Viewport build() {
@@ -278,3 +340,4 @@ public class LinkedPairsLayoutProvider implements LayoutProvider {
     }
   }
 }
+*/

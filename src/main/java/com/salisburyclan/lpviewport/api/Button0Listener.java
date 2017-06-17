@@ -1,6 +1,6 @@
 package com.salisburyclan.lpviewport.api;
 
-public interface ViewButtonListener {
+public interface Button0Listener {
   void onButtonPressed();
 
   void onButtonReleased();

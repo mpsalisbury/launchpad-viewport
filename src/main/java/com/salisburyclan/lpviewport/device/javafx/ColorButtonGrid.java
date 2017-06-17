@@ -1,5 +1,6 @@
 package com.salisburyclan.lpviewport.device.javafx;
 
+import com.salisburyclan.lpviewport.geom.Point;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Insets;
@@ -39,20 +40,19 @@ public class ColorButtonGrid {
         Button button = new Button();
         button.setPrefSize(size, size);
         setButtonColor(button, Color.BLACK);
-        int capturedX = x;
-        int capturedY = y;
+        Point point = Point.create(x, y);
         button.setOnMousePressed(
             event -> {
               listeners.forEach(
                   listener -> {
-                    listener.onButtonPressed(capturedX, capturedY);
+                    listener.onButtonPressed(point);
                   });
             });
         button.setOnMouseReleased(
             event -> {
               listeners.forEach(
                   listener -> {
-                    listener.onButtonReleased(capturedX, capturedY);
+                    listener.onButtonReleased(point);
                   });
             });
         hBox.getChildren().add(button);

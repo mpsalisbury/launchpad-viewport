@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Truth8;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LaunchpadDeviceProvider;
-import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.RawViewport;
 import java.util.List;
 import java.util.Set;
 import org.junit.Before;
@@ -86,7 +86,7 @@ public class AggregateDeviceProviderTest {
     }
 
     @Override
-    public Viewport getViewport() {
+    public RawViewport getViewport() {
       return null;
     }
 

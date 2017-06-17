@@ -4,7 +4,7 @@ package com.salisburyclan.lpviewport.api;
 public interface LaunchpadDevice {
   String getType();
 
-  Viewport getViewport();
+  RawViewport getViewport();
 
   void close();
 }

@@ -1,29 +1,30 @@
 package com.salisburyclan.lpviewport.viewport;
 
-import com.salisburyclan.lpviewport.api.ViewportListener;
+import com.salisburyclan.lpviewport.api.Button2Listener;
+import com.salisburyclan.lpviewport.geom.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Forwards ViewportListener calls to a set of ViewportListeners. */
-public class ListenerMultiplexer implements ViewportListener {
+/** Forwards Button2Listener calls to a set of Button2Listeners. */
+public class ListenerMultiplexer implements Button2Listener {
 
-  private List<ViewportListener> listeners = new ArrayList<>();
+  private List<Button2Listener> listeners = new ArrayList<>();
 
-  public void addListener(ViewportListener listener) {
+  public void addListener(Button2Listener listener) {
     listeners.add(listener);
   }
 
-  public void removeListener(ViewportListener listener) {
+  public void removeListener(Button2Listener listener) {
     listeners.remove(listener);
   }
 
-  public void onButtonPressed(int xpos, int ypos) {
-    List<ViewportListener> listenersDefensiveCopy = new ArrayList<>(listeners);
-    listenersDefensiveCopy.forEach(listener -> listener.onButtonPressed(xpos, ypos));
+  public void onButtonPressed(Point p) {
+    List<Button2Listener> listenersDefensiveCopy = new ArrayList<>(listeners);
+    listenersDefensiveCopy.forEach(listener -> listener.onButtonPressed(p));
   }
 
-  public void onButtonReleased(int xpos, int ypos) {
-    List<ViewportListener> listenersDefensiveCopy = new ArrayList<>(listeners);
-    listenersDefensiveCopy.forEach(listener -> listener.onButtonReleased(xpos, ypos));
+  public void onButtonReleased(Point p) {
+    List<Button2Listener> listenersDefensiveCopy = new ArrayList<>(listeners);
+    listenersDefensiveCopy.forEach(listener -> listener.onButtonReleased(p));
   }
 }
