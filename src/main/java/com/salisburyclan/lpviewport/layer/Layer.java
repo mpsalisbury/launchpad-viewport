@@ -6,12 +6,12 @@ import com.salisburyclan.lpviewport.geom.Range2;
 // Interface for reading from a layer.
 public interface Layer {
   // Returns the pixel extent for this layer.
-  public Range2 getExtent();
+  Range2 getExtent();
 
   // Reads one pixel in this layer.
-  public Pixel getPixel(int x, int y);
+  Pixel getPixel(int x, int y);
 
-  public void addPixelListener(PixelListener listener);
+  void addPixelListener(PixelListener listener);
 
-  public void addCloseListener(CloseListener listener);
+  void addCloseListener(CloseListener listener);
 }

@@ -14,7 +14,7 @@ public abstract class DecayingAnimation extends Animation implements Layer {
 
   public DecayingAnimation(Range2 extent) {
     layer = new DecayingLayer(extent);
-    buffer = layer.newInputBuffer();
+    buffer = layer.getInputBuffer();
   }
 
   protected DecayingBuffer getBuffer() {

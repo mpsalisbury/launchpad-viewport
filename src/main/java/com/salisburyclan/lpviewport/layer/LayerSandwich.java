@@ -24,14 +24,16 @@ public class LayerSandwich implements Layer {
       throw new IllegalArgumentException("LayerSandwich::addLayer has incorrect extent");
     }
     layer.addPixelListener(pixelListeners);
+    layer.addCloseListener(() -> removeLayer(layer));
     layers.add(layer);
   }
 
   public void removeLayer(Layer layer) {
     layers.remove(layer);
-    if (layers.isEmpty()) {
-      closeListeners.onClose();
-    }
+  }
+
+  public void close() {
+    closeListeners.onClose();
   }
 
   @Override

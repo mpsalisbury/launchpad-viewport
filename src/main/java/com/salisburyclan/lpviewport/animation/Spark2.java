@@ -49,7 +49,7 @@ public class Spark2 extends DecayingAnimation {
             new KeyFrame(Duration.millis(500), new KeyValue(sparkDistance, maxDistance)));
     timeline.setOnFinished(
         event -> {
-          buffer.cleanUp();
+          buffer.close();
         });
     addTimeline(timeline);
 

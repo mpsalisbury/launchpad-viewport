@@ -11,8 +11,8 @@ public class DecayingLayer implements Layer {
   // Underlying buffer to write to.
   //  private LayerBuffer outputBuffer;
   private Range2 extent;
-  // Buffers that clients draw in.
-  private LayerSandwich inputLayers;
+  // Buffer that clients draw in.
+  private DecayingBuffer inputBuffer;
   // Buffer that represents the decay from the input buffer.
   private LayerBuffer decayBuffer;
 
@@ -25,8 +25,8 @@ public class DecayingLayer implements Layer {
 
   public DecayingLayer(Range2 extent) {
     this.extent = extent;
-    this.inputLayers = new LayerSandwich(extent);
     this.decayBuffer = new LayerBuffer(extent);
+    this.inputBuffer = new DecayingBuffer(this, extent);
     setupDecay(TICKS_PER_SECOND, MILLIS_TO_DECAY);
   }
 
@@ -37,28 +37,22 @@ public class DecayingLayer implements Layer {
 
   @Override
   public Pixel getPixel(int x, int y) {
-    return Pixel.EMPTY.combine(decayBuffer.getPixel(x, y)).combine(inputLayers.getPixel(x, y));
+    return Pixel.EMPTY.combine(decayBuffer.getPixel(x, y)).combine(inputBuffer.getPixel(x, y));
   }
 
   @Override
   public void addPixelListener(PixelListener listener) {
     decayBuffer.addPixelListener(listener);
-    inputLayers.addPixelListener(listener);
+    inputBuffer.addPixelListener(listener);
   }
 
   @Override
   public void addCloseListener(CloseListener listener) {
-    inputLayers.addCloseListener(listener);
+    inputBuffer.addCloseListener(listener);
   }
 
-  public DecayingBuffer newInputBuffer() {
-    DecayingBuffer buffer = new DecayingBuffer(this, extent);
-    inputLayers.addLayer(buffer);
-    return buffer;
-  }
-
-  public void removeInputBuffer(DecayingBuffer buffer) {
-    inputLayers.removeLayer(buffer);
+  public DecayingBuffer getInputBuffer() {
+    return inputBuffer;
   }
 
   public void stopOnFinished() {
@@ -78,7 +72,6 @@ public class DecayingLayer implements Layer {
 
   private void decayCycle() {
     decayBuffer();
-    //    writeOutput();
   }
 
   private void decayBuffer() {
@@ -116,18 +109,4 @@ public class DecayingLayer implements Layer {
               }
             });
   }
-
-  // Write input + decay into viewport.
-  /*
-  private void writeOutput() {
-    decayBuffer
-        .getExtent()
-        .forEach(
-            (x, y) -> {
-              Pixel pixel = Pixel.BLACK.combine(decayBuffer.getPixel(x, y));
-              pixel = pixel.combine(inputLayers.getPixel(x, y));
-              outputBuffer.setPixel(x, y, pixel);
-            });
-  }
-  */
 }

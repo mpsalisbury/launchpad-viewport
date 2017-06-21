@@ -14,8 +14,4 @@ public class DecayingBuffer extends LayerBuffer {
   public void pushFrame() {
     baseLayer.pushFrame(this);
   }
-
-  public void cleanUp() {
-    baseLayer.removeInputBuffer(this);
-  }
 }
