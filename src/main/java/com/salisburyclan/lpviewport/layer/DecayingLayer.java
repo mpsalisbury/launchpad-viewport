@@ -1,10 +1,10 @@
 package com.salisburyclan.lpviewport.layer;
 
 import com.salisburyclan.lpviewport.geom.Range2;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 // Copies the inputLayer into the decayingLayer, decaying it
 // with each time tick.
@@ -35,15 +35,17 @@ public class DecayingLayer implements Layer {
     this.decayLayer = new LayerBuffer(extent);
     this.onCleanup = new CleanupExecutor();
 
-    inputLayer.addPixelListener(new PixelListener() {
-      @Override
-      public void onNextFrame() {
-        // Copy input frame before it draws next frame.
-        pushFrame();
-      }
-      @Override
-      public void onSetPixel(int x, int y) {}
-    });
+    inputLayer.addPixelListener(
+        new PixelListener() {
+          @Override
+          public void onNextFrame() {
+            // Copy input frame before it draws next frame.
+            pushFrame();
+          }
+
+          @Override
+          public void onSetPixel(int x, int y) {}
+        });
 
     setupDecay(TICKS_PER_SECOND, MILLIS_TO_DECAY);
   }
@@ -62,10 +64,11 @@ public class DecayingLayer implements Layer {
   public void addPixelListener(PixelListener listener) {
     decayLayer.addPixelListener(listener);
     inputLayer.addPixelListener(listener);
-    onCleanup.add(() -> {
-      decayLayer.removePixelListener(listener);
-      inputLayer.removePixelListener(listener);
-    });
+    onCleanup.add(
+        () -> {
+          decayLayer.removePixelListener(listener);
+          inputLayer.removePixelListener(listener);
+        });
   }
 
   @Override
@@ -77,12 +80,13 @@ public class DecayingLayer implements Layer {
   @Override
   public void addCloseListener(CloseListener listener) {
     // TODO only close when we're done after this.
-    inputLayer.addCloseListener(new CloseListener() {
-      @Override
-      public void onClose() {
-        shuttingDown = true;
-      }
-    });
+    inputLayer.addCloseListener(
+        new CloseListener() {
+          @Override
+          public void onClose() {
+            shuttingDown = true;
+          }
+        });
   }
 
   private void setupDecay(int ticksPerSecond, double millisToDecay) {

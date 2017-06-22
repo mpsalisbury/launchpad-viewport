@@ -1,12 +1,11 @@
-package com.salisburyclan.lpviewport.layer;
+package com.salisburyclan.lpviewport.animation;
 
-import com.salisburyclan.lpviewport.animation.FramedAnimation;
 import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.api.Viewport;
 
-// TODO rename class if this stays.
 public class AnimatedLayerPlayer {
-  public static void play(FramedAnimation animation, RawViewport rawViewport) {
+  // Plays the given animation as the sole layer in the given rawViewport.
+  public static void play(AnimatedLayer animation, RawViewport rawViewport) {
     Viewport viewport = new Viewport(rawViewport);
     viewport.addLayer(animation);
     animation.play();

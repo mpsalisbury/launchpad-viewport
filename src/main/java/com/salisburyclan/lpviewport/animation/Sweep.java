@@ -2,9 +2,8 @@ package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.AnimatedLayer;
-import com.salisburyclan.lpviewport.layer.Pixel;
 import com.salisburyclan.lpviewport.layer.FrameWriteLayer;
+import com.salisburyclan.lpviewport.layer.Pixel;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -64,7 +63,7 @@ public class Sweep extends FramedAnimation {
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-//            renderBar((Integer) oldLocation, Pixel.EMPTY);
+            //            renderBar((Integer) oldLocation, Pixel.EMPTY);
             renderBar((Integer) newLocation, pixel);
           }
         });

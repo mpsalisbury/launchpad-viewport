@@ -12,6 +12,7 @@ public interface Layer {
   Pixel getPixel(int x, int y);
 
   void addPixelListener(PixelListener listener);
+
   void removePixelListener(PixelListener listener);
 
   void addCloseListener(CloseListener listener);

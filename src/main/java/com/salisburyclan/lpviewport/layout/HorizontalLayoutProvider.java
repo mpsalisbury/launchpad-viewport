@@ -4,8 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
+import com.salisburyclan.lpviewport.animation.AnimatedLayer;
+import com.salisburyclan.lpviewport.animation.AnimatedLayerPlayer;
 import com.salisburyclan.lpviewport.animation.AnimationProvider;
-import com.salisburyclan.lpviewport.animation.FramedAnimation;
 import com.salisburyclan.lpviewport.animation.Spark2;
 import com.salisburyclan.lpviewport.animation.Sweep;
 import com.salisburyclan.lpviewport.api.Button2Listener;
@@ -14,8 +15,6 @@ import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
 import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Point;
-import com.salisburyclan.lpviewport.layer.AnimatedLayer;
-import com.salisburyclan.lpviewport.layer.AnimatedLayerPlayer;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,7 +81,7 @@ public class HorizontalLayoutProvider implements LayoutProvider {
 
     private void setupViewport(RawViewport viewport) {
       remainingViewportCount++;
-      FramedAnimation animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
+      AnimatedLayer animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
       AnimatedLayerPlayer.play(animation, viewport);
       viewport.addListener(
           new Button2Listener() {
@@ -109,7 +108,7 @@ public class HorizontalLayoutProvider implements LayoutProvider {
 
       if (remainingViewportCount > 0) {
         RawViewport temporaryViewport = viewportBuilder.build();
-        FramedAnimation animation =
+        AnimatedLayer animation =
             SELECTED_VIEWPORT_ANIMATION.newAnimation(temporaryViewport.getExtent());
         AnimatedLayerPlayer.play(animation, temporaryViewport);
         teardownTemporaryViewport =

@@ -3,12 +3,11 @@ package com.salisburyclan.lpviewport.animation;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.layer.CloseListener;
 import com.salisburyclan.lpviewport.layer.FrameWriteLayer;
-import com.salisburyclan.lpviewport.layer.Layer;
 import com.salisburyclan.lpviewport.layer.LayerBuffer;
 import com.salisburyclan.lpviewport.layer.Pixel;
 import com.salisburyclan.lpviewport.layer.PixelListener;
 
-public abstract class FramedAnimation extends Animation implements Layer {
+public abstract class FramedAnimation extends AnimatedLayer {
   private LayerBuffer layer;
 
   public FramedAnimation(Range2 extent) {

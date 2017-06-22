@@ -5,9 +5,8 @@ import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range1;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.AnimatedLayer;
-import com.salisburyclan.lpviewport.layer.Pixel;
 import com.salisburyclan.lpviewport.layer.FrameWriteLayer;
+import com.salisburyclan.lpviewport.layer.Pixel;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -50,7 +49,7 @@ public class EdgeSweep extends FramedAnimation {
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-//            renderDot((Integer) oldLocation, Pixel.EMPTY);
+            //            renderDot((Integer) oldLocation, Pixel.EMPTY);
             renderDot((Integer) newLocation, pixel);
           }
         });
