@@ -28,7 +28,7 @@ public class BorderSweep extends FramedAnimation {
   public static AnimationProvider newProvider(Color color) {
     return new AnimationProvider() {
       @Override
-      public FramedAnimation newAnimation(Range2 extent) {
+      public AnimatedLayer newAnimation(Range2 extent) {
         return new BorderSweep(extent, color);
       }
     };
@@ -54,13 +54,12 @@ public class BorderSweep extends FramedAnimation {
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-            //            renderDots((Integer) oldLocation, Pixel.EMPTY);
-            renderDots((Integer) newLocation, pixel);
+            renderDots((Integer) newLocation);
           }
         });
   }
 
-  protected void renderDots(int location, Pixel pixel) {
+  protected void renderDots(int location) {
     outputLayer.nextFrame();
     Range2 extent = outputLayer.getExtent();
 

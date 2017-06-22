@@ -49,13 +49,12 @@ public class EdgeSweep extends FramedAnimation {
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-            //            renderDot((Integer) oldLocation, Pixel.EMPTY);
-            renderDot((Integer) newLocation, pixel);
+            renderDot((Integer) newLocation);
           }
         });
   }
 
-  protected void renderDot(int location, Pixel pixel) {
+  protected void renderDot(int location) {
     writeLayer.nextFrame();
     Point point = edge.getPoint(writeLayer.getExtent(), location);
     writeLayer.setPixel(point, pixel);

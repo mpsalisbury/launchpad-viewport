@@ -28,7 +28,7 @@ public class Sweep extends FramedAnimation {
   public static AnimationProvider newProvider(Color color, boolean forever) {
     return new AnimationProvider() {
       @Override
-      public FramedAnimation newAnimation(Range2 extent) {
+      public AnimatedLayer newAnimation(Range2 extent) {
         return new Sweep(extent, color, forever);
       }
     };
@@ -63,13 +63,12 @@ public class Sweep extends FramedAnimation {
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-            //            renderBar((Integer) oldLocation, Pixel.EMPTY);
-            renderBar((Integer) newLocation, pixel);
+            renderBar((Integer) newLocation);
           }
         });
   }
 
-  protected void renderBar(int x, Pixel pixel) {
+  protected void renderBar(int x) {
     layer.nextFrame();
     layer
         .getExtent()

@@ -6,7 +6,6 @@ import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.layer.DColor;
-import com.salisburyclan.lpviewport.layer.DecayingLayer;
 import com.salisburyclan.lpviewport.layer.FrameWriteLayer;
 import java.util.stream.IntStream;
 import javafx.animation.KeyFrame;
@@ -18,20 +17,20 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class Spark2 extends FramedAnimation {
+public class Spark extends FramedAnimation {
 
   private final Point center;
   private final DColor color;
   private FrameWriteLayer layer;
 
   public static void play(RawViewport rawViewport, Point center, Color color) {
-    Spark2 spark = new Spark2(rawViewport.getExtent(), center, color);
+    Spark spark = new Spark(rawViewport.getExtent(), center, color);
     Viewport viewport = new Viewport(rawViewport);
-    viewport.addLayer(new DecayingLayer(spark));
+    viewport.addLayer(new DecayingAnimation(spark));
     spark.play();
   }
 
-  public Spark2(Range2 extent, Point center, Color color) {
+  public Spark(Range2 extent, Point center, Color color) {
     super(extent);
     this.layer = getWriteLayer();
     this.center = center;
