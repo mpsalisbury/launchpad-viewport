@@ -56,6 +56,11 @@ public class LayerSandwich implements Layer {
   }
 
   @Override
+  public void removePixelListener(PixelListener listener) {
+    pixelListeners.removeListener(listener);
+  }
+
+  @Override
   public void addCloseListener(CloseListener listener) {
     closeListeners.addListener(listener);
   }

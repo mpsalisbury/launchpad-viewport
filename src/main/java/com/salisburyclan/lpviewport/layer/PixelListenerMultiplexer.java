@@ -16,6 +16,11 @@ public class PixelListenerMultiplexer implements PixelListener {
     listeners.remove(listener);
   }
 
+  public void onNextFrame() {
+    List<PixelListener> listenersDefensiveCopy = new ArrayList<>(listeners);
+    listenersDefensiveCopy.forEach(listener -> listener.onNextFrame());
+  }
+
   public void onSetPixel(int x, int y) {
     List<PixelListener> listenersDefensiveCopy = new ArrayList<>(listeners);
     listenersDefensiveCopy.forEach(listener -> listener.onSetPixel(x, y));

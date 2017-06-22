@@ -6,7 +6,8 @@ import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.layer.DColor;
-import com.salisburyclan.lpviewport.layer.DecayingBuffer;
+import com.salisburyclan.lpviewport.layer.DecayingLayer;
+import com.salisburyclan.lpviewport.layer.FrameWriteLayer;
 import java.util.stream.IntStream;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -17,24 +18,24 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class Spark2 extends DecayingAnimation {
+public class Spark2 extends FramedAnimation {
 
   private final Point center;
   private final DColor color;
-  private DecayingBuffer buffer;
+  private FrameWriteLayer layer;
 
   public static void play(RawViewport rawViewport, Point center, Color color) {
+    Spark2 spark = new Spark2(rawViewport.getExtent(), center, color);
     Viewport viewport = new Viewport(rawViewport);
-    Spark2 spark = new Spark2(viewport.getExtent(), center, color);
-    viewport.addLayer(spark);
+    viewport.addLayer(new DecayingLayer(spark));
     spark.play();
   }
 
   public Spark2(Range2 extent, Point center, Color color) {
     super(extent);
+    this.layer = getWriteLayer();
     this.center = center;
     this.color = DColor.create(color);
-    this.buffer = getBuffer();
     init();
   }
 
@@ -49,7 +50,7 @@ public class Spark2 extends DecayingAnimation {
             new KeyFrame(Duration.millis(500), new KeyValue(sparkDistance, maxDistance)));
     timeline.setOnFinished(
         event -> {
-          buffer.close();
+          layer.close();
         });
     addTimeline(timeline);
 
@@ -63,7 +64,7 @@ public class Spark2 extends DecayingAnimation {
   }
 
   private int getMaxDistanceToEdge() {
-    Range2 extent = buffer.getExtent();
+    Range2 extent = layer.getExtent();
     return IntStream.of(
             center.x() - extent.xRange().low() + 1,
             extent.xRange().high() - center.x() + 1,
@@ -79,12 +80,12 @@ public class Spark2 extends DecayingAnimation {
   // Rendering does not draw black after itself to erase.
   // Should be used with decaying layer.
   private void renderSparkFrame(int distance) {
-    buffer.pushFrame();
-    Range2 extent = buffer.getExtent();
+    layer.nextFrame();
+    Range2 extent = layer.getExtent();
     // Render spark at distance from center.
-    buffer.setPixel(center.x() + distance, center.y(), color);
-    buffer.setPixel(center.x() - distance, center.y(), color);
-    buffer.setPixel(center.x(), center.y() + distance, color);
-    buffer.setPixel(center.x(), center.y() - distance, color);
+    layer.setPixel(center.x() + distance, center.y(), color);
+    layer.setPixel(center.x() - distance, center.y(), color);
+    layer.setPixel(center.x(), center.y() + distance, color);
+    layer.setPixel(center.x(), center.y() - distance, color);
   }
 }

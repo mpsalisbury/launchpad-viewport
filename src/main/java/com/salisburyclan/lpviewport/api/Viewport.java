@@ -5,6 +5,7 @@ import com.salisburyclan.lpviewport.layer.Layer;
 import com.salisburyclan.lpviewport.layer.LayerBuffer;
 import com.salisburyclan.lpviewport.layer.LayerSandwich;
 import com.salisburyclan.lpviewport.layer.Pixel;
+import com.salisburyclan.lpviewport.layer.PixelListener;
 
 // Viewport is a rectangular set of buttons/lights.
 public class Viewport {
@@ -14,7 +15,16 @@ public class Viewport {
   public Viewport(RawViewport rawViewport) {
     this.rawViewport = rawViewport;
     this.layers = new LayerSandwich(rawViewport.getExtent());
-    layers.addPixelListener(this::writeRawPixel);
+    layers.addPixelListener(
+        new PixelListener() {
+          @Override
+          public void onNextFrame() {}
+
+          @Override
+          public void onSetPixel(int x, int y) {
+            writeRawPixel(x, y);
+          }
+        });
   }
 
   public Range2 getExtent() {

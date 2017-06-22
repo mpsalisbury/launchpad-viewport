@@ -6,6 +6,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.salisburyclan.lpviewport.animation.AnimationProvider;
+import com.salisburyclan.lpviewport.animation.FramedAnimation;
 import com.salisburyclan.lpviewport.animation.Spark2;
 import com.salisburyclan.lpviewport.animation.Sweep;
 import com.salisburyclan.lpviewport.api.Button2Listener;
@@ -75,7 +76,7 @@ public class PickOneLayoutProvider implements LayoutProvider {
     }
 
     private void setupViewport(RawViewport viewport) {
-      AnimatedLayer animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
+      FramedAnimation animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
       Button2Listener listener =
           new Button2Listener() {
             public void onButtonPressed(Point p) {

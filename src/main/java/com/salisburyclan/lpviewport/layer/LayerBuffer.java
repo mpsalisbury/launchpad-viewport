@@ -4,16 +4,17 @@ import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 
 // A buffer of colored pixels for staging images.
-public class LayerBuffer implements Layer, WriteLayer {
+public class LayerBuffer implements Layer, FrameWriteLayer {
   private Range2 extent;
   private Pixel[][] buffer;
   private PixelListenerMultiplexer pixelListeners;
-  private CloseListener closer;
+  private CloseListenerMultiplexer closeListeners;
 
   public LayerBuffer(Range2 extent) {
     this.extent = extent;
     this.buffer = new Pixel[extent.getWidth()][extent.getHeight()];
     this.pixelListeners = new PixelListenerMultiplexer();
+    this.closeListeners = new CloseListenerMultiplexer();
     setAllPixels(Pixel.EMPTY);
   }
 
@@ -23,16 +24,26 @@ public class LayerBuffer implements Layer, WriteLayer {
   }
 
   @Override
+  public void removePixelListener(PixelListener listener) {
+    pixelListeners.removeListener(listener);
+  }
+
+  @Override
   public void addCloseListener(CloseListener closer) {
-    this.closer = closer;
+    closeListeners.addListener(closer);
+  }
+
+  @Override
+  public void nextFrame() {
+    pixelListeners.onNextFrame();
+    setAllPixels(Pixel.EMPTY);
   }
 
   // Remove this buffer from container.
   @Override
   public void close() {
-    if (closer != null) {
-      closer.onClose();
-    }
+    setAllPixels(Pixel.EMPTY);
+    closeListeners.onClose();
   }
 
   @Override
@@ -59,8 +70,11 @@ public class LayerBuffer implements Layer, WriteLayer {
   public void setPixel(int x, int y, Pixel pixel) {
     if (extent.isPointWithin(x, y)) {
       Point origin = extent.origin();
-      buffer[x - origin.x()][y - origin.y()] = pixel;
-      pixelListeners.onSetPixel(x, y);
+      Pixel oldPixel = buffer[x - origin.x()][y - origin.y()];
+      if (!pixel.equals(oldPixel)) {
+        buffer[x - origin.x()][y - origin.y()] = pixel;
+        pixelListeners.onSetPixel(x, y);
+      }
     }
   }
 

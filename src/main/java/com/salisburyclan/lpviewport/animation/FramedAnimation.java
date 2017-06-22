@@ -2,23 +2,21 @@ package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.layer.CloseListener;
-import com.salisburyclan.lpviewport.layer.DecayingBuffer;
-import com.salisburyclan.lpviewport.layer.DecayingLayer;
+import com.salisburyclan.lpviewport.layer.FrameWriteLayer;
 import com.salisburyclan.lpviewport.layer.Layer;
+import com.salisburyclan.lpviewport.layer.LayerBuffer;
 import com.salisburyclan.lpviewport.layer.Pixel;
 import com.salisburyclan.lpviewport.layer.PixelListener;
 
-public abstract class DecayingAnimation extends Animation implements Layer {
-  private DecayingLayer layer;
-  private DecayingBuffer buffer;
+public abstract class FramedAnimation extends Animation implements Layer {
+  private LayerBuffer layer;
 
-  public DecayingAnimation(Range2 extent) {
-    layer = new DecayingLayer(extent);
-    buffer = layer.getInputBuffer();
+  public FramedAnimation(Range2 extent) {
+    layer = new LayerBuffer(extent);
   }
 
-  protected DecayingBuffer getBuffer() {
-    return buffer;
+  protected FrameWriteLayer getWriteLayer() {
+    return layer;
   }
 
   @Override
@@ -34,6 +32,11 @@ public abstract class DecayingAnimation extends Animation implements Layer {
   @Override
   public void addPixelListener(PixelListener listener) {
     layer.addPixelListener(listener);
+  }
+
+  @Override
+  public void removePixelListener(PixelListener listener) {
+    layer.removePixelListener(listener);
   }
 
   @Override

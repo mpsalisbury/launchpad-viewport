@@ -4,7 +4,7 @@ import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.layer.AnimatedLayer;
 import com.salisburyclan.lpviewport.layer.Pixel;
-import com.salisburyclan.lpviewport.layer.WriteLayer;
+import com.salisburyclan.lpviewport.layer.FrameWriteLayer;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -15,8 +15,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class Sweep extends AnimatedLayer {
-  private WriteLayer layer;
+public class Sweep extends FramedAnimation {
+  private FrameWriteLayer layer;
   private Pixel pixel;
 
   public Sweep(Range2 extent, Color color, boolean forever) {
@@ -29,15 +29,10 @@ public class Sweep extends AnimatedLayer {
   public static AnimationProvider newProvider(Color color, boolean forever) {
     return new AnimationProvider() {
       @Override
-      public AnimatedLayer newAnimation(Range2 extent) {
+      public FramedAnimation newAnimation(Range2 extent) {
         return new Sweep(extent, color, forever);
       }
     };
-  }
-
-  public void stop() {
-    layer.close();
-    super.stop();
   }
 
   protected void init(boolean forever) {
@@ -58,20 +53,25 @@ public class Sweep extends AnimatedLayer {
             new KeyFrame(
                 Duration.seconds(1),
                 new KeyValue(barLocation, extent.xRange().high(), Interpolator.EASE_BOTH)));
+    timeline.setOnFinished(
+        event -> {
+          layer.close();
+          this.stop();
+        });
     addTimeline(timeline);
-    // TODO stop on done.
 
     barLocation.addListener(
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-            renderBar((Integer) oldLocation, Pixel.EMPTY);
+//            renderBar((Integer) oldLocation, Pixel.EMPTY);
             renderBar((Integer) newLocation, pixel);
           }
         });
   }
 
   protected void renderBar(int x, Pixel pixel) {
+    layer.nextFrame();
     layer
         .getExtent()
         .yRange()

@@ -3,6 +3,7 @@ package com.salisburyclan.lpviewport.layout.linked;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.salisburyclan.lpviewport.animation.AnimationProvider;
+import com.salisburyclan.lpviewport.animation.FramedAnimation;
 import com.salisburyclan.lpviewport.animation.BorderSweep;
 import com.salisburyclan.lpviewport.animation.EdgeSweep;
 import com.salisburyclan.lpviewport.animation.Sweep;
@@ -44,7 +45,7 @@ public class LinkedViewportBuilder {
 
   // Accept a click on any edge and then wait for linked click.
   private void waitForLinkStart(RawViewport viewport) {
-    AnimatedLayer animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
+    FramedAnimation animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
     AnimatedLayerPlayer.play(animation, viewport);
     Button2Listener listener =
         new Button2Listener() {
@@ -88,7 +89,7 @@ public class LinkedViewportBuilder {
 
   // Accept a click on only one edge and register the link.
   private void waitForLinkEnd(RawViewport viewport, Edge requiredEdge, Link partialLink) {
-    AnimatedLayer animation = new EdgeSweep(viewport.getExtent(), requiredEdge, Color.RED);
+    FramedAnimation animation = new EdgeSweep(viewport.getExtent(), requiredEdge, Color.RED);
     AnimatedLayerPlayer.play(animation, viewport);
     Button2Listener listener =
         new Button2Listener() {
@@ -130,7 +131,8 @@ public class LinkedViewportBuilder {
 
   private void finalizeViewport() {
     RawViewport finalViewport = linkAssembler.build();
-    //      SELECTED_VIEWPORT_ANIMATION.newAnimation(finalViewport).play();
+    FramedAnimation animation = SELECTED_VIEWPORT_ANIMATION.newAnimation(finalViewport.getExtent());
+    AnimatedLayerPlayer.play(animation, finalViewport);
     futureViewport.set(finalViewport);
   }
 

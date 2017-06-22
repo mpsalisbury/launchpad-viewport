@@ -5,6 +5,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.salisburyclan.lpviewport.animation.AnimationProvider;
+import com.salisburyclan.lpviewport.animation.FramedAnimation;
 import com.salisburyclan.lpviewport.animation.Spark2;
 import com.salisburyclan.lpviewport.animation.Sweep;
 import com.salisburyclan.lpviewport.api.Button2Listener;
@@ -81,7 +82,7 @@ public class HorizontalLayoutProvider implements LayoutProvider {
 
     private void setupViewport(RawViewport viewport) {
       remainingViewportCount++;
-      AnimatedLayer animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
+      FramedAnimation animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
       AnimatedLayerPlayer.play(animation, viewport);
       viewport.addListener(
           new Button2Listener() {
@@ -108,9 +109,9 @@ public class HorizontalLayoutProvider implements LayoutProvider {
 
       if (remainingViewportCount > 0) {
         RawViewport temporaryViewport = viewportBuilder.build();
-        AnimatedLayer animation =
+        FramedAnimation animation =
             SELECTED_VIEWPORT_ANIMATION.newAnimation(temporaryViewport.getExtent());
-        animation.play();
+        AnimatedLayerPlayer.play(animation, temporaryViewport);
         teardownTemporaryViewport =
             (() -> {
               animation.stop();

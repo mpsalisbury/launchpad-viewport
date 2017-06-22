@@ -4,17 +4,23 @@ import com.salisburyclan.lpviewport.geom.Range2;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-// Copies the screenbuffer into the viewport, decaying the
-// existing viewport with each time tick.
+// Copies the inputLayer into the decayingLayer, decaying it
+// with each time tick.
 public class DecayingLayer implements Layer {
-  // Underlying buffer to write to.
-  //  private LayerBuffer outputBuffer;
   private Range2 extent;
-  // Buffer that clients draw in.
-  private DecayingBuffer inputBuffer;
-  // Buffer that represents the decay from the input buffer.
-  private LayerBuffer decayBuffer;
+
+  // The layer into which the source layer draws.
+  private Layer inputLayer;
+  // The decay from the input layer.
+  private LayerBuffer decayLayer;
+
+  // Indicator that inputLayer has closed and that
+  // we should close when decay has completed.
+  private boolean shuttingDown = false;
+
+  private CleanupExecutor onCleanup;
 
   // How frequently to update the buffer and output pixels.
   private static final int TICKS_PER_SECOND = 30;
@@ -23,10 +29,22 @@ public class DecayingLayer implements Layer {
   // How much to decay the buffer for each tick.
   private double decayPerTick;
 
-  public DecayingLayer(Range2 extent) {
-    this.extent = extent;
-    this.decayBuffer = new LayerBuffer(extent);
-    this.inputBuffer = new DecayingBuffer(this, extent);
+  public DecayingLayer(Layer inputLayer) {
+    this.inputLayer = inputLayer;
+    this.extent = inputLayer.getExtent();
+    this.decayLayer = new LayerBuffer(extent);
+    this.onCleanup = new CleanupExecutor();
+
+    inputLayer.addPixelListener(new PixelListener() {
+      @Override
+      public void onNextFrame() {
+        // Copy input frame before it draws next frame.
+        pushFrame();
+      }
+      @Override
+      public void onSetPixel(int x, int y) {}
+    });
+
     setupDecay(TICKS_PER_SECOND, MILLIS_TO_DECAY);
   }
 
@@ -37,26 +55,34 @@ public class DecayingLayer implements Layer {
 
   @Override
   public Pixel getPixel(int x, int y) {
-    return Pixel.EMPTY.combine(decayBuffer.getPixel(x, y)).combine(inputBuffer.getPixel(x, y));
+    return decayLayer.getPixel(x, y).combine(inputLayer.getPixel(x, y));
   }
 
   @Override
   public void addPixelListener(PixelListener listener) {
-    decayBuffer.addPixelListener(listener);
-    inputBuffer.addPixelListener(listener);
+    decayLayer.addPixelListener(listener);
+    inputLayer.addPixelListener(listener);
+    onCleanup.add(() -> {
+      decayLayer.removePixelListener(listener);
+      inputLayer.removePixelListener(listener);
+    });
+  }
+
+  @Override
+  public void removePixelListener(PixelListener listener) {
+    decayLayer.removePixelListener(listener);
+    inputLayer.removePixelListener(listener);
   }
 
   @Override
   public void addCloseListener(CloseListener listener) {
-    inputBuffer.addCloseListener(listener);
-  }
-
-  public DecayingBuffer getInputBuffer() {
-    return inputBuffer;
-  }
-
-  public void stopOnFinished() {
-    //TODO    this.stopOnFinished = true; // ???
+    // TODO only close when we're done after this.
+    inputLayer.addCloseListener(new CloseListener() {
+      @Override
+      public void onClose() {
+        shuttingDown = true;
+      }
+    });
   }
 
   private void setupDecay(int ticksPerSecond, double millisToDecay) {
@@ -68,22 +94,22 @@ public class DecayingLayer implements Layer {
         .add(new KeyFrame(Duration.millis(millisPerTick), event -> decayCycle()));
     this.decayPerTick = millisPerTick / millisToDecay;
     timeline.play();
+    onCleanup.add(() -> timeline.stop());
   }
 
   private void decayCycle() {
-    decayBuffer();
-  }
-
-  private void decayBuffer() {
-    decayBuffer
-        .getExtent()
-        .forEach(
-            (x, y) -> {
-              Pixel pixel = decayBuffer.getPixel(x, y);
-              if (!pixel.equals(Pixel.EMPTY)) {
-                decayBuffer.setPixel(x, y, decayPixel(pixel));
-              }
-            });
+    AtomicBoolean foundNonEmptyPixel = new AtomicBoolean(false);
+    extent.forEach(
+        (x, y) -> {
+          Pixel pixel = decayLayer.getPixel(x, y);
+          if (!pixel.equals(Pixel.EMPTY)) {
+            foundNonEmptyPixel.set(true);
+            decayLayer.setPixel(x, y, decayPixel(pixel));
+          }
+        });
+    if (!foundNonEmptyPixel.get() && shuttingDown) {
+      onCleanup.execute();
+    }
   }
 
   private Pixel decayPixel(Pixel pixel) {
@@ -96,17 +122,14 @@ public class DecayingLayer implements Layer {
   }
 
   // Push input frame into decaying frame and clear input frame.
-  public void pushFrame(LayerBuffer frame) {
+  public void pushFrame() {
     // TODO check frame extent
-    decayBuffer
-        .getExtent()
-        .forEach(
-            (x, y) -> {
-              Pixel inputPixel = frame.getPixel(x, y);
-              if (!inputPixel.equals(Pixel.EMPTY)) {
-                decayBuffer.combinePixel(x, y, inputPixel);
-                frame.setPixel(x, y, Pixel.EMPTY);
-              }
-            });
+    extent.forEach(
+        (x, y) -> {
+          Pixel inputPixel = inputLayer.getPixel(x, y);
+          if (!inputPixel.equals(Pixel.EMPTY)) {
+            decayLayer.combinePixel(x, y, inputPixel);
+          }
+        });
   }
 }

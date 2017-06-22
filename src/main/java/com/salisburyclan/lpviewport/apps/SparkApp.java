@@ -6,6 +6,7 @@ import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.layer.DecayingLayer;
 
 public class SparkApp extends JavafxLaunchpadApplication {
 
@@ -21,7 +22,7 @@ public class SparkApp extends JavafxLaunchpadApplication {
           @Override
           public void onButtonPressed(Point p) {
             Spark2 spark = new Spark2(extent, p, getBaseColor(p));
-            viewport.addLayer(spark);
+            viewport.addLayer(new DecayingLayer(spark));
             spark.play();
           }
 

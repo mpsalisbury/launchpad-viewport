@@ -26,6 +26,10 @@ public abstract class AnimatedLayer extends Animation implements Layer {
     buffer.addPixelListener(listener);
   }
 
+  public void removePixelListener(PixelListener listener) {
+    buffer.removePixelListener(listener);
+  }
+
   public void addCloseListener(CloseListener listener) {
     buffer.addCloseListener(listener);
   }
