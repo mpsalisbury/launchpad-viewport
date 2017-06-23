@@ -20,17 +20,17 @@ public class LayerBuffer implements Layer, FrameWriteLayer {
 
   @Override
   public void addPixelListener(PixelListener listener) {
-    pixelListeners.addListener(listener);
+    pixelListeners.add(listener);
   }
 
   @Override
   public void removePixelListener(PixelListener listener) {
-    pixelListeners.removeListener(listener);
+    pixelListeners.remove(listener);
   }
 
   @Override
   public void addCloseListener(CloseListener closer) {
-    closeListeners.addListener(closer);
+    closeListeners.add(closer);
   }
 
   @Override

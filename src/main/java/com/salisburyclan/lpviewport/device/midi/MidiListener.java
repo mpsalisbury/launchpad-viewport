@@ -2,19 +2,19 @@ package com.salisburyclan.lpviewport.device.midi;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
-import com.salisburyclan.lpviewport.viewport.ListenerMultiplexer;
+import com.salisburyclan.lpviewport.viewport.Button2ListenerMultiplexer;
 
 /** Listens to an entire device. */
 public class MidiListener implements LaunchpadProtocolListener {
 
-  private ListenerMultiplexer multiplexer = new ListenerMultiplexer();
+  private Button2ListenerMultiplexer multiplexer = new Button2ListenerMultiplexer();
 
   public void addListener(Button2Listener listener) {
-    multiplexer.addListener(listener);
+    multiplexer.add(listener);
   }
 
   public void removeListener(Button2Listener listener) {
-    multiplexer.removeListener(listener);
+    multiplexer.remove(listener);
   }
 
   public void onButtonPressed(int pos, long timestamp) {

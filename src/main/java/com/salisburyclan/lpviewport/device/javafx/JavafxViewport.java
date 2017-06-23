@@ -6,11 +6,11 @@ import com.salisburyclan.lpviewport.api.LightLayer;
 import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.viewport.ListenerMultiplexer;
+import com.salisburyclan.lpviewport.viewport.Button2ListenerMultiplexer;
 
 public class JavafxViewport implements RawViewport {
   ColorButtonGrid buttonGrid;
-  ListenerMultiplexer listenerMultiplexer;
+  Button2ListenerMultiplexer listenerMultiplexer;
   Range2 extent;
   LightLayer outputLayer;
 
@@ -19,7 +19,7 @@ public class JavafxViewport implements RawViewport {
     outputLayer = new ButtonGridLightLayer();
     extent = Range2.create(0, 0, buttonGrid.getWidth() - 1, buttonGrid.getHeight() - 1);
 
-    listenerMultiplexer = new ListenerMultiplexer();
+    listenerMultiplexer = new Button2ListenerMultiplexer();
     buttonGrid.addListener(
         new ButtonGridListener() {
           @Override
@@ -46,12 +46,12 @@ public class JavafxViewport implements RawViewport {
 
   @Override
   public void addListener(Button2Listener listener) {
-    listenerMultiplexer.addListener(listener);
+    listenerMultiplexer.add(listener);
   }
 
   @Override
   public void removeListener(Button2Listener listener) {
-    listenerMultiplexer.removeListener(listener);
+    listenerMultiplexer.remove(listener);
   }
 
   private class ButtonGridLightLayer implements LightLayer {

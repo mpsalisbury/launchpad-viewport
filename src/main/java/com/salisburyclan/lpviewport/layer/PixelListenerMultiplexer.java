@@ -1,28 +1,15 @@
 package com.salisburyclan.lpviewport.layer;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.salisburyclan.lpviewport.util.Multiplexer;
 
 /** Forwards PixelListener calls to a set of PixelListeners. */
-public class PixelListenerMultiplexer implements PixelListener {
-
-  private List<PixelListener> listeners = new ArrayList<>();
-
-  public void addListener(PixelListener listener) {
-    listeners.add(listener);
-  }
-
-  public void removeListener(PixelListener listener) {
-    listeners.remove(listener);
-  }
+public class PixelListenerMultiplexer extends Multiplexer<PixelListener> implements PixelListener {
 
   public void onNextFrame() {
-    List<PixelListener> listenersDefensiveCopy = new ArrayList<>(listeners);
-    listenersDefensiveCopy.forEach(listener -> listener.onNextFrame());
+    getItemsCopy().forEach(listener -> listener.onNextFrame());
   }
 
   public void onSetPixel(int x, int y) {
-    List<PixelListener> listenersDefensiveCopy = new ArrayList<>(listeners);
-    listenersDefensiveCopy.forEach(listener -> listener.onSetPixel(x, y));
+    getItemsCopy().forEach(listener -> listener.onSetPixel(x, y));
   }
 }

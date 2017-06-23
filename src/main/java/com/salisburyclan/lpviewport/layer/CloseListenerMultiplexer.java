@@ -1,23 +1,11 @@
 package com.salisburyclan.lpviewport.layer;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.salisburyclan.lpviewport.util.Multiplexer;
 
 /** Forwards CloseListener calls to a set of CloseListeners. */
-public class CloseListenerMultiplexer implements CloseListener {
-
-  private List<CloseListener> listeners = new ArrayList<>();
-
-  public void addListener(CloseListener listener) {
-    listeners.add(listener);
-  }
-
-  public void removeListener(CloseListener listener) {
-    listeners.remove(listener);
-  }
+public class CloseListenerMultiplexer extends Multiplexer<CloseListener> implements CloseListener {
 
   public void onClose() {
-    List<CloseListener> listenersDefensiveCopy = new ArrayList<>(listeners);
-    listenersDefensiveCopy.forEach(listener -> listener.onClose());
+    getItemsCopy().forEach(listener -> listener.onClose());
   }
 }
