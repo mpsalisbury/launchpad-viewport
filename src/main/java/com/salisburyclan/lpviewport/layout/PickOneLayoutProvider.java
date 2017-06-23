@@ -16,6 +16,7 @@ import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
 import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Point;
+import com.salisburyclan.lpviewport.layer.DColor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +28,7 @@ public class PickOneLayoutProvider implements LayoutProvider {
   private static final String DESCRIPTION =
       TYPE + " : Chooses one viewport of the specified devices";
   private static final AnimationProvider AWAITING_SELECTION_ANIMATION =
-      Sweep.newProvider(Color.RED, true);
+      Sweep.newProvider(DColor.RED, true);
 
   @Override
   public List<String> getLayoutSpecDescriptions() {
@@ -80,7 +81,8 @@ public class PickOneLayoutProvider implements LayoutProvider {
           new Button2Listener() {
             public void onButtonPressed(Point p) {
               shutDownChooser();
-              Spark.play(viewport, p, Color.BLUE);
+              Spark spark = new Spark(viewport.getExtent(), p, DColor.BLUE);
+              AnimatedLayerPlayer.play(spark, viewport);
               futureViewport.set(viewport);
             }
 

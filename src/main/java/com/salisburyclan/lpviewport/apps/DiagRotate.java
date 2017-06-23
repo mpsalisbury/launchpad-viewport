@@ -1,9 +1,9 @@
 package com.salisburyclan.lpviewport.apps;
 
-import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LightLayer;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.layer.DColor;
+import com.salisburyclan.lpviewport.layer.WriteLayer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -13,20 +13,21 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
+// TODO Turn into an animation.
 public class DiagRotate extends JavafxLaunchpadApplication {
 
-  private static final Color BOX_COLOR = Color.BLUE;
-  private static final Color BAR_COLOR = Color.ORANGE;
-  private LightLayer outputLayer;
+  private static final DColor BOX_COLOR = DColor.BLUE;
+  private static final DColor BAR_COLOR = DColor.ORANGE;
+  private WriteLayer outputLayer;
   private Range2 barExtent;
 
   @Override
   public void run() {
-    getRawViewport(this::setupViewport);
+    getViewport(this::setupViewport);
   }
 
-  private void setupViewport(RawViewport viewport) {
-    this.outputLayer = viewport.getLightLayer();
+  private void setupViewport(Viewport viewport) {
+    this.outputLayer = viewport.addLayer();
     barExtent = viewport.getExtent().inset(1, 1, 1, 1);
     rotate();
   }
@@ -48,7 +49,7 @@ public class DiagRotate extends JavafxLaunchpadApplication {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
             renderBars((Integer) newLocation, BAR_COLOR);
-            renderBars((Integer) oldLocation, Color.BLACK);
+            renderBars((Integer) oldLocation, DColor.BLACK);
           }
         });
   }
@@ -57,29 +58,27 @@ public class DiagRotate extends JavafxLaunchpadApplication {
     Range2 extent = outputLayer.getExtent();
     extent
         .xRange()
-        .stream()
         .forEach(
             x -> {
-              outputLayer.setLight(x, extent.yRange().low(), BOX_COLOR);
-              outputLayer.setLight(x, extent.yRange().high(), BOX_COLOR);
+              outputLayer.setPixel(x, extent.yRange().low(), BOX_COLOR);
+              outputLayer.setPixel(x, extent.yRange().high(), BOX_COLOR);
             });
     extent
         .yRange()
-        .stream()
         .forEach(
             y -> {
-              outputLayer.setLight(extent.xRange().low(), y, BOX_COLOR);
-              outputLayer.setLight(extent.xRange().high(), y, BOX_COLOR);
+              outputLayer.setPixel(extent.xRange().low(), y, BOX_COLOR);
+              outputLayer.setPixel(extent.xRange().high(), y, BOX_COLOR);
             });
   }
 
-  private void renderBars(int linePosition, Color color) {
+  private void renderBars(int linePosition, DColor color) {
     for (int x = linePosition; x < barExtent.getWidth() + barExtent.getHeight(); x += 4) {
       renderBar(x, color);
     }
   }
 
-  private void renderBar(int linePosition, Color color) {
+  private void renderBar(int linePosition, DColor color) {
     int x1 = barExtent.xRange().low();
     int y1 = barExtent.yRange().low() + linePosition;
     int x2 = barExtent.xRange().low() + linePosition;
@@ -95,7 +94,7 @@ public class DiagRotate extends JavafxLaunchpadApplication {
       y2 += overshoot;
     }
     for (int x = x1, y = y1; x <= x2; ++x, --y) {
-      outputLayer.setLight(x, y, color);
+      outputLayer.setPixel(x, y, color);
     }
   }
 }

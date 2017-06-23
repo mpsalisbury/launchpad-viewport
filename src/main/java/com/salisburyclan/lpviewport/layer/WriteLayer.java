@@ -7,7 +7,9 @@ import com.salisburyclan.lpviewport.geom.Range2;
 public interface WriteLayer {
   Range2 getExtent();
 
-  void setPixel(int x, int y, DColor color);
+  default void setPixel(int x, int y, DColor color) {
+    setPixel(x, y, Pixel.create(color));
+  }
 
   default void setPixel(Point p, DColor color) {
     setPixel(p.x(), p.y(), color);

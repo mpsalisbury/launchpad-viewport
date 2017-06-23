@@ -13,14 +13,15 @@ import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
+import com.salisburyclan.lpviewport.layer.DColor;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LinkedViewportBuilder {
   private static final AnimationProvider AWAITING_SELECTION_ANIMATION =
-      BorderSweep.newProvider(Color.RED);
+      BorderSweep.newProvider(DColor.RED);
   private static final AnimationProvider SELECTED_VIEWPORT_ANIMATION =
-      Sweep.newProvider(Color.BLUE, false);
+      Sweep.newProvider(DColor.BLUE, false);
 
   private SettableFuture<RawViewport> futureViewport;
   private List<RawViewport> unselectedViewports;
@@ -88,7 +89,7 @@ public class LinkedViewportBuilder {
 
   // Accept a click on only one edge and register the link.
   private void waitForLinkEnd(RawViewport viewport, Edge requiredEdge, Link partialLink) {
-    AnimatedLayer animation = new EdgeSweep(viewport.getExtent(), requiredEdge, Color.RED);
+    AnimatedLayer animation = new EdgeSweep(viewport.getExtent(), requiredEdge, DColor.RED);
     AnimatedLayerPlayer.play(animation, viewport);
     Button2Listener listener =
         new Button2Listener() {

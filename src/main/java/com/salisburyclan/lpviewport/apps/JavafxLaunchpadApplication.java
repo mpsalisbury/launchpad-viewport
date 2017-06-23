@@ -6,6 +6,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LaunchpadDeviceProvider;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
+import com.salisburyclan.lpviewport.api.RawViewportViewport;
 import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.device.ProdDeviceProvider;
@@ -48,6 +49,7 @@ public abstract class JavafxLaunchpadApplication extends Application {
 
   public abstract void run();
 
+/*
   protected void getLayer(Consumer<LayerBuffer> layerBufferCallback) {
     Futures.addCallback(
         getRawViewport(),
@@ -60,6 +62,7 @@ public abstract class JavafxLaunchpadApplication extends Application {
           public void onFailure(Throwable t) {}
         });
   }
+  */
 
   /*
   protected void getOutputLayers(Consumer<OutputLayers> outputLayersCallback) {
@@ -88,6 +91,7 @@ public abstract class JavafxLaunchpadApplication extends Application {
         });
   }
 
+/*
   protected void getRawViewport(Consumer<RawViewport> viewportCallback) {
     Futures.addCallback(
         getRawViewport(),
@@ -99,9 +103,10 @@ public abstract class JavafxLaunchpadApplication extends Application {
           public void onFailure(Throwable t) {}
         });
   }
+*/
 
   private ListenableFuture<Viewport> getViewport() {
-    return Futures.transform(getRawViewport(), rawViewport -> new Viewport(rawViewport));
+    return Futures.transform(getRawViewport(), rawViewport -> new RawViewportViewport(rawViewport));
   }
 
   // Returns first viewport using clientSpec from args.

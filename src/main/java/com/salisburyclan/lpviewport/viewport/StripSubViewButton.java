@@ -5,6 +5,7 @@ import com.salisburyclan.lpviewport.api.Button1Listener;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport0;
 import com.salisburyclan.lpviewport.api.Viewport1;
+import com.salisburyclan.lpviewport.layer.Pixel;
 
 // A viewport that represents a one-button view of an existing viewport.
 public class StripSubViewButton implements Viewport0 {
@@ -18,8 +19,8 @@ public class StripSubViewButton implements Viewport0 {
   }
 
   @Override
-  public void setLight(Color color) {
-    baseViewStrip.setLight(x, color);
+  public void setPixel(Pixel pixel) {
+    baseViewStrip.setPixel(x, pixel);
   }
 
   @Override

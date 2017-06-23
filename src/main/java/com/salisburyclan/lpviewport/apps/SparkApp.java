@@ -3,10 +3,10 @@ package com.salisburyclan.lpviewport.apps;
 import com.salisburyclan.lpviewport.animation.DecayingAnimation;
 import com.salisburyclan.lpviewport.animation.Spark;
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.layer.DColor;
 
 public class SparkApp extends JavafxLaunchpadApplication {
 
@@ -32,9 +32,9 @@ public class SparkApp extends JavafxLaunchpadApplication {
   }
 
   // Returns a color for the given index.
-  private Color getBaseColor(Point p) {
-    final Color colors[] = {
-      Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.PURPLE,
+  private DColor getBaseColor(Point p) {
+    final DColor colors[] = {
+      DColor.RED, DColor.ORANGE, DColor.YELLOW, DColor.GREEN, DColor.BLUE, DColor.PURPLE,
     };
     int index = p.x() + p.y();
     index = index % colors.length;

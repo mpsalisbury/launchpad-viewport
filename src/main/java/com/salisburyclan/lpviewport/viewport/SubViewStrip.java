@@ -3,20 +3,24 @@ package com.salisburyclan.lpviewport.viewport;
 import com.salisburyclan.lpviewport.api.Button1Listener;
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.Viewport1;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range1;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.layer.Pixel;
+import com.salisburyclan.lpviewport.layer.WriteLayer;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
 public class SubViewStrip implements Viewport1 {
-  private RawViewport baseViewport;
+  private Viewport baseViewport;
+  private WriteLayer writeLayer;
   private Range1 extent;
   private IndexMap indexMap;
 
-  public SubViewStrip(RawViewport baseViewport, Range2 extent) {
+  public SubViewStrip(Viewport baseViewport, Range2 extent) {
     this.baseViewport = baseViewport;
+    this.writeLayer = baseViewport.addLayer();
     this.indexMap = newIndexMap(extent);
   }
 
@@ -44,8 +48,8 @@ public class SubViewStrip implements Viewport1 {
   }
 
   @Override
-  public void setLight(int index, Color color) {
-    baseViewport.getLightLayer().setLight(indexMap.getPoint(index), color);
+  public void setPixel(int index, Pixel pixel) {
+    writeLayer.setPixel(indexMap.getPoint(index), pixel);
   }
 
   @Override

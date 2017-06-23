@@ -3,36 +3,18 @@
 	{
 		"selected_items":
 		[
+			[
+				"Frame",
+				"FrameWriteLayer"
+			],
+			[
+				"Frm",
+				"FrameWriteLayer"
+			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "lpviewport.sublime-project",
-			"settings":
-			{
-				"buffer_size": 189,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/main/java/com/salisburyclan/lpviewport/apps/AllBlue.java",
-			"settings":
-			{
-				"buffer_size": 3817,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/main/java/com/salisburyclan/lpviewport/apps/JavafxLaunchpadApplication.java",
-			"settings":
-			{
-				"buffer_size": 2560,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -41,17 +23,45 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 87.0,
-		"last_filter": ":q",
+		"height": 392.0,
+		"last_filter": "inst",
 		"selected_items":
 		[
 			[
-				":q",
-				"Set Syntax: SQL"
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
 			],
 			[
 				":w",
 				":w - Save"
+			],
+			[
+				":q",
+				"Set Syntax: SQL"
 			],
 			[
 				"sidebar",
@@ -64,13 +74,9 @@
 			[
 				"perl",
 				"Set Syntax: Perl"
-			],
-			[
-				"Package Control: ",
-				"Package Control: Install Package"
 			]
 		],
-		"width": 449.0
+		"width": 470.0
 	},
 	"console":
 	{
@@ -92,23 +98,155 @@
 	"expanded_folders":
 	[
 		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api",
 		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/apps",
-		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport"
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/geom",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/linked",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/util",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport"
 	],
 	"file_history":
 	[
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/apps/DiagRotate.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/DColor.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/geom/Range1.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/device/midi/MidiListener.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/apps/Rainbow.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/AnimatedLayer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/DecayingAnimation.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/CleanupExecutor.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/LayerBuffer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/LayerSandwich.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/AnimatedLayerPlayer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/AnimationProvider.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/FramedAnimation.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/BorderSweep.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/EdgeSweep.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/Spark.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/apps/SparkApp.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/HorizontalLayoutProvider.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/PickOneLayoutProvider.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/Button2ListenerMultiplexer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/device/javafx/JavafxViewport.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/device/midi/MidiViewport.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/ListenerMultiplexer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/linked/LinkedViewportBuilder.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/Sweep.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/CloseListenerMultiplexer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/PixelListenerMultiplexer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/util/ListenerMultiplexer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/Spark2.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/DecayingLayer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/AnimatedLayer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/FramedAnimation.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/AnimationProvider.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/AnimatedLayerPlayer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/Layer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/WriteLayer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/FrameWriteLayer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/PixelListener.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/Viewport.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/DecayingBuffer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/AnimationFramer.java",
+		"/Users/salisbur/Library/Application Support/Sublime Text 3/Packages/User/Package Control.sublime-settings",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/apps/SweepApp.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/apps/JavafxLaunchpadApplication.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/CloseListener.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/LightLayerWriter.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/Pixel.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/OutputLayers.java",
 		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/apps/AllBlue.java",
-		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/Sweep.java"
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/apps/ExplodeApp.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/layout/AggregateViewportTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/layout/linked/LinkAssemblerTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/device/AggregateDeviceProviderTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/device/midi/MidiLaunchpadDeviceProviderTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/device/midi/MidiLaunchpadDeviceTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/layout/linked/LinkTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/RawViewport.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/Viewport0.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/SubView.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/ViewStrip.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/Viewport1.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/ViewButton.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/Explode.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/device/javafx/JavafxDevice.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/LaunchpadDevice.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/linked/Link.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/linked/LinkAssembler.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/linked/LinkedPairsLayoutProvider.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/device/midi/MidiLaunchpadDevice.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/device/midi/MidiViewportTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/AggregateViewport.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/AggregateLayoutProvider.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/StripSubViewButton.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/SubViewButton.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/LayoutProvider.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/SubViewport.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/geom/Range2.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/SubViewStrip.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/device/midi/MidiListenerTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/Button2Listener.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/Button1Listener.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/Button0Listener.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/LightLayer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/ViewportListener.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation/Animation.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layer/PixelNotifier.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/DecayingBuffer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/apps/DecayApp.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/DecayingLayer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/LayeringViewport.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/ViewportBuffer.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/geom/Edge.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/geom/EdgeTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/geom/Range1Test.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/geom/Range2Test.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/geom/Vector.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/geom/VectorTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/layout/LinkedPairsLayoutProviderTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/layout/linked/LinkedPairsLayoutProviderTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/LinkedPairsLayoutProvider.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/ProdLayoutProvider.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/device/javafx/ButtonGridListener.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/ViewStripExtent.java.old",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/ViewStripListener.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/device/javafx/ColorButtonGrid.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/device/midi/PositionCode.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/geom/Point.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/geom/RangeTest.java",
+		"/Users/salisbur/Library/Application Support/Sublime Text 3/Packages/Edge.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/geom/Range.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/device/midi/mk2/LaunchpadMk2ProtocolClientTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/ViewExtent.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/protocol/LaunchpadProtocolClient.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/device/midi/mk2/LaunchpadMk2ProtocolClient.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/device/midi/LaunchpadDevice.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/device/midi/mk2/LaunchpadMk2Device.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/Edge.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/test/java/com/salisburyclan/lpviewport/geom/PointTest.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/geom/ViewExtent.java",
+		"/Users/salisbur/Library/Application Support/Sublime Text 3/Packages/Range.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/Range.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/viewport/Point.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/Point.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/layout/Range.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/ViewButtonListener.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/api/Color.java",
+		"/Users/salisbur/dev/gitrepo/launchpad-viewport/lpviewport.sublime-project"
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -116,6 +254,36 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"LightLayerWriter",
+			"newInputBuffer",
+			"from",
+			"fromViewport",
+			"= fro",
+			"fromV",
+			"edge",
+			"/ViewExtent",
+			";\n",
+			"y",
+			"x",
+			"Point",
+			"oint {\n\tprivate int x;\n\tprivate int y;\n\n  ",
+			"public",
+			"y",
+			"x",
+			"public",
+			"x",
+			"forever",
+			"SELECTED",
+			"AWAITING",
+			"SELECTED",
+			"Inter",
+			"Y",
+			"getConnectingPOint",
+			"class Link",
+			"HashM",
+			"viewportLinks",
+			"getEdge",
+			"barLoca",
 			"YELLOW"
 		],
 		"highlight": true,
@@ -134,108 +302,8 @@
 	"groups":
 	[
 		{
-			"selected": 2,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "lpviewport.sublime-project",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 189,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								138,
-								138
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/main/java/com/salisburyclan/lpviewport/apps/AllBlue.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3817,
-						"regions":
-						{
-							"bookmark_a":
-							{
-								"flags": 144,
-								"regions":
-								[
-									[
-										979,
-										979
-									]
-								]
-							}
-						},
-						"selection":
-						[
-							[
-								975,
-								975
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/main/java/com/salisburyclan/lpviewport/apps/JavafxLaunchpadApplication.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2560,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1538,
-								1538
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 137.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -245,7 +313,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 31.0
 	},
 	"layout":
 	{
@@ -288,16 +356,516 @@
 		"selected_items":
 		[
 			[
+				"midiv",
+				"main/device/midi/MidiViewport.java"
+			],
+			[
+				"midili",
+				"main/device/midi/MidiListener.java"
+			],
+			[
+				"javaf",
+				"main/device/javafx/JavafxViewport.java"
+			],
+			[
+				"midilist",
+				"main/device/midi/MidiListener.java"
+			],
+			[
 				"java",
+				"main/device/javafx/JavafxViewport.java"
+			],
+			[
+				"linked",
+				"main/layout/linked/LinkedViewportBuilder.java"
+			],
+			[
+				"horiz",
+				"main/layout/HorizontalLayoutProvider.java"
+			],
+			[
+				"pick",
+				"main/layout/PickOneLayoutProvider.java"
+			],
+			[
+				"pickone",
+				"main/layout/PickOneLayoutProvider.java"
+			],
+			[
+				"horizon",
+				"main/layout/HorizontalLayoutProvider.java"
+			],
+			[
+				"borderswee",
+				"main/animation/BorderSweep.java"
+			],
+			[
+				"sweepapp",
+				"main/apps/SweepApp.java"
+			],
+			[
+				"linkedview",
+				"main/layout/linked/LinkedViewportBuilder.java"
+			],
+			[
+				"sweep",
+				"main/animation/Sweep.java"
+			],
+			[
+				"pixel",
+				"main/layer/Pixel.java"
+			],
+			[
+				"borders",
+				"main/animation/BorderSweep.java"
+			],
+			[
+				"spark2",
+				"main/animation/Spark2.java"
+			],
+			[
+				"linkedv",
+				"main/layout/linked/LinkedViewportBuilder.java"
+			],
+			[
+				"bordersweep",
+				"main/animation/BorderSweep.java"
+			],
+			[
+				"jaa",
 				"main/apps/JavafxLaunchpadApplication.java"
 			],
 			[
-				"all",
-				"lpviewport/apps/AllBlue.java"
+				"sparkapp",
+				"main/apps/SparkApp.java"
 			],
 			[
-				"anim",
-				"lpviewport/animation/Sweep.java"
+				"s",
+				"main/animation/Spark2.java"
+			],
+			[
+				"pickon",
+				"main/layout/PickOneLayoutProvider.java"
+			],
+			[
+				"rainbow",
+				"main/apps/Rainbow.java"
+			],
+			[
+				"explodeapp",
+				"main/apps/ExplodeApp.java"
+			],
+			[
+				"diagrot",
+				"main/apps/DiagRotate.java"
+			],
+			[
+				"allblue",
+				"main/apps/AllBlue.java"
+			],
+			[
+				"javafx",
+				"main/apps/JavafxLaunchpadApplication.java"
+			],
+			[
+				"linktest",
+				"test/layout/linked/LinkTest.java"
+			],
+			[
+				"aggregateview",
+				"test/layout/AggregateViewportTest.java"
+			],
+			[
+				"mmidilaunch",
+				"test/device/midi/MidiLaunchpadDeviceTest.java"
+			],
+			[
+				"midilaunch",
+				"test/device/midi/MidiLaunchpadDeviceProviderTest.java"
+			],
+			[
+				"aggregatedev",
+				"test/device/AggregateDeviceProviderTest.java"
+			],
+			[
+				"linkass",
+				"test/layout/linked/LinkAssemblerTest.java"
+			],
+			[
+				"outputlayer",
+				"main/layer/OutputLayers.java"
+			],
+			[
+				"linkedviewpo",
+				"main/layout/linked/LinkedViewportBuilder.java"
+			],
+			[
+				"linkedparislay",
+				"main/layout/linked/LinkedPairsLayoutProvider.java"
+			],
+			[
+				"link.",
+				"main/layout/linked/Link.java"
+			],
+			[
+				"launchpaddevice",
+				"main/api/LaunchpadDevice.java"
+			],
+			[
+				"javafxdev",
+				"main/device/javafx/JavafxDevice.java"
+			],
+			[
+				"midilaunchde",
+				"main/device/midi/MidiLaunchpadDevice.java"
+			],
+			[
+				"javade",
+				"main/device/javafx/JavafxDevice.java"
+			],
+			[
+				"mmidilau",
+				"main/device/midi/MidiLaunchpadDevice.java"
+			],
+			[
+				"aggregatelayou",
+				"main/layout/AggregateLayoutProvider.java"
+			],
+			[
+				"pixellistenerm",
+				"main/layer/PixelListenerMultiplexer.java"
+			],
+			[
+				"midiviewpo",
+				"main/device/midi/MidiViewport.java"
+			],
+			[
+				"midilau",
+				"main/device/midi/MidiLaunchpadDevice.java"
+			],
+			[
+				"javafxdevice",
+				"main/device/javafx/JavafxDevice.java"
+			],
+			[
+				"layoutprovider",
+				"main/api/LayoutProvider.java"
+			],
+			[
+				"javafxlau",
+				"main/apps/JavafxLaunchpadApplication.java"
+			],
+			[
+				"subviewbutton",
+				"main/viewport/SubViewButton.java"
+			],
+			[
+				"subviewstrip",
+				"main/viewport/SubViewStrip.java"
+			],
+			[
+				"subview",
+				"main/api/SubView.java"
+			],
+			[
+				"explo",
+				"main/animation/Explode.java"
+			],
+			[
+				"expl",
+				"main/apps/ExplodeApp.java"
+			],
+			[
+				"edgesweep",
+				"main/animation/EdgeSweep.java"
+			],
+			[
+				"range2.",
+				"main/geom/Range2.java"
+			],
+			[
+				"subviewport",
+				"main/viewport/SubViewport.java"
+			],
+			[
+				"aggreg",
+				"main/layout/AggregateViewport.java"
+			],
+			[
+				"aggre",
+				"main/layout/AggregateViewport.java"
+			],
+			[
+				"javafxv",
+				"main/device/javafx/JavafxViewport.java"
+			],
+			[
+				"viewport",
+				"main/api/Viewport.java"
+			],
+			[
+				"stripsub",
+				"main/viewport/StripSubViewButton.java"
+			],
+			[
+				"allbue",
+				"main/apps/AllBlue.java"
+			],
+			[
+				"subv",
+				"main/api/SubView.java"
+			],
+			[
+				"midilistenertest",
+				"test/device/midi/MidiListenerTest.java"
+			],
+			[
+				"midilaun",
+				"test/device/midi/MidiLaunchpadDeviceTest.java"
+			],
+			[
+				"subviewstr",
+				"main/viewport/SubViewStrip.java"
+			],
+			[
+				"subviewbutt",
+				"main/viewport/SubViewButton.java"
+			],
+			[
+				"midiviewport",
+				"test/device/midi/MidiViewportTest.java"
+			],
+			[
+				"listener",
+				"main/viewport/ListenerMultiplexer.java"
+			],
+			[
+				"javafxvi",
+				"main/device/javafx/JavafxViewport.java"
+			],
+			[
+				"viewbutton",
+				"main/api/ViewButton.java"
+			],
+			[
+				"viewstrip",
+				"main/api/ViewStrip.java"
+			],
+			[
+				"a",
+				"test/layout/AggregateViewportTest.java"
+			],
+			[
+				"agg",
+				"test/layout/AggregateViewportTest.java"
+			],
+			[
+				"midiview",
+				"test/device/midi/MidiViewportTest.java"
+			],
+			[
+				"subviewstri",
+				"main/viewport/SubViewStrip.java"
+			],
+			[
+				"hori",
+				"main/layout/HorizontalLayoutProvider.java"
+			],
+			[
+				"rain",
+				"main/apps/Rainbow.java"
+			],
+			[
+				"diagro",
+				"main/apps/DiagRotate.java"
+			],
+			[
+				"output",
+				"main/layer/OutputLayers.java"
+			],
+			[
+				"borderswe",
+				"main/animation/BorderSweep.java"
+			],
+			[
+				"allblu",
+				"main/apps/AllBlue.java"
+			],
+			[
+				"exp",
+				"main/animation/Explode.java"
+			],
+			[
+				"edgesw",
+				"main/animation/EdgeSweep.java"
+			],
+			[
+				"border",
+				"main/animation/BorderSweep.java"
+			],
+			[
+				"decay",
+				"main/layer/DecayingLayer.java"
+			],
+			[
+				"layerbuffer",
+				"main/layer/LayerBuffer.java"
+			],
+			[
+				"sand",
+				"main/layer/LayerSandwich.java"
+			],
+			[
+				"layerbuff",
+				"main/layer/LayerBuffer.java"
+			],
+			[
+				"dec",
+				"main/layer/DecayingLayer.java"
+			],
+			[
+				"range1",
+				"main/geom/Range1.java"
+			],
+			[
+				"range2",
+				"main/geom/Range2.java"
+			],
+			[
+				"animation",
+				"main/animation/Animation.java"
+			],
+			[
+				"layer",
+				"main/layer/Layer.java"
+			],
+			[
+				"layersan",
+				"main/layer/LayerSandwich.java"
+			],
+			[
+				"decayingbuffer",
+				"main/layer/DecayingBuffer.java"
+			],
+			[
+				"decayinglayer",
+				"main/layer/DecayingLayer.java"
+			],
+			[
+				"spark",
+				"main/animation/Spark.java"
+			],
+			[
+				"edgeswee",
+				"main/animation/EdgeSweep.java"
+			],
+			[
+				"layering",
+				"main/viewport/LayeringViewport.java"
+			],
+			[
+				"decayapp",
+				"main/apps/DecayApp.java"
+			],
+			[
+				"viewpo",
+				"main/api/Viewport.java"
+			],
+			[
+				"edgetest",
+				"test/device/AggregateDeviceProviderTest.java"
+			],
+			[
+				"edge",
+				"main/geom/Edge.java"
+			],
+			[
+				"range2test",
+				"test/geom/Range2Test.java"
+			],
+			[
+				"range1test",
+				"test/geom/Range1Test.java"
+			],
+			[
+				"vector",
+				"main/geom/Vector.java"
+			],
+			[
+				"link",
+				"main/layout/linked/Link.java"
+			],
+			[
+				"midilis",
+				"test/device/midi/MidiListenerTest.java"
+			],
+			[
+				"subviewpo",
+				"main/viewport/SubViewport.java"
+			],
+			[
+				"subview.j",
+				"main/api/SubView.java"
+			],
+			[
+				"vec",
+				"main/geom/Vector.java"
+			],
+			[
+				"point.",
+				"main/geom/Point.java"
+			],
+			[
+				"positioncode",
+				"main/device/midi/PositionCode.java"
+			],
+			[
+				"colorbutt",
+				"main/device/javafx/ColorButtonGrid.java"
+			],
+			[
+				"button",
+				"main/device/javafx/ButtonGridListener.java"
+			],
+			[
+				"li",
+				"main/viewport/ListenerMultiplexer.java"
+			],
+			[
+				"rangetes",
+				"test/geom/RangeTest.java"
+			],
+			[
+				"viewext",
+				"main/api/ViewStripExtent.java.old"
+			],
+			[
+				"edge.java",
+				"main/geom/Edge.java"
+			],
+			[
+				"range",
+				"main/geom/Range.java"
+			],
+			[
+				"viewextent",
+				"main/api/ViewExtent.java"
+			],
+			[
+				"launchpadmk2pro",
+				"test/device/midi/mk2/LaunchpadMk2ProtocolClientTest.java"
+			],
+			[
+				"midiviewporttest",
+				"test/device/midi/MidiViewportTest.java"
+			],
+			[
+				"midila",
+				"test/device/midi/MidiLaunchpadDeviceTest.java"
+			],
+			[
+				"point",
+				"main/geom/Point.java"
 			]
 		],
 		"width": 0.0
@@ -323,11 +891,20 @@
 	"selected_group": 0,
 	"settings":
 	{
+		"_vintageous_last_buffer_search": "BLACK",
+		"_vintageous_last_buffer_search_command": "vi_slash",
+		"_vintageous_last_char_search_command": "vi_f",
+		"_vintageous_last_character_search": "j",
+		"_vintageous_reset_during_init": true,
+		"vintage":
+		{
+			"_cmdline_cd": "/Users/salisbur/dev/gitrepo/launchpad-viewport/src/main/java/com/salisburyclan/lpviewport/animation"
+		}
 	},
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 197.0,
 	"status_bar_visible": true,
 	"template_settings":

@@ -9,7 +9,23 @@ import com.salisburyclan.lpviewport.api.Color;
 public abstract class DColor {
   private static final double CHANNEL_TOLERANCE = 0.00001;
 
-  public static final DColor BLACK = create(Color.BLACK);
+  // Common colors
+  public static final DColor BLACK = create(0, 0, 0);
+  public static final DColor BLUE = create(0, 0, 1);
+  public static final DColor CYAN = create(0, 1, 1);
+  public static final DColor DARK_GRAY = create(0.08, 0.08, 0.08);
+  public static final DColor GRAY = create(0.22, 0.22, 0.22);
+  public static final DColor GREEN = create(0, 1, 0);
+  public static final DColor LIGHT_GRAY = create(0.45, 0.45, 0.45);
+  public static final DColor MAGENTA = create(1, 0, 1);
+  public static final DColor ORANGE = create(1, 0.22, 0);
+  public static final DColor PINK = create(1, 0.22, 0.50);
+  public static final DColor PURPLE = create(0.50, 0, 0.88);
+  public static final DColor RED = create(1, 0, 0);
+  public static final DColor SKY_BLUE = create(0.45, 0.85, 0.66);
+  public static final DColor WHITE = create(1, 1, 1);
+  public static final DColor YELLOW = create(1, 1, 0);
+  public static final DColor YELLOW_GREEN = create(0.35, 1, 0);
 
   public static DColor create(Color color) {
     return new AutoValue_DColor(

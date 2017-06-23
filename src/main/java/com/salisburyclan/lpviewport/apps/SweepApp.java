@@ -1,8 +1,8 @@
 package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.animation.Sweep;
-import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.layer.DColor;
 
 public class SweepApp extends JavafxLaunchpadApplication {
 
@@ -12,7 +12,7 @@ public class SweepApp extends JavafxLaunchpadApplication {
   }
 
   private void setupViewport(Viewport viewport) {
-    Sweep sweep = new Sweep(viewport.getExtent(), Color.RED, true);
+    Sweep sweep = new Sweep(viewport.getExtent(), DColor.RED, true);
     viewport.addLayer(sweep);
     sweep.play();
   }

@@ -1,20 +1,20 @@
 package com.salisburyclan.lpviewport.apps;
 
-import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LightLayer;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.layer.DColor;
+import com.salisburyclan.lpviewport.layer.WriteLayer;
 
 public class Rainbow extends JavafxLaunchpadApplication {
 
-  private LightLayer outputLayer;
+  private WriteLayer outputLayer;
 
   @Override
   public void run() {
-    getRawViewport(this::setupViewport);
+    getViewport(this::setupViewport);
   }
 
-  private void setupViewport(RawViewport viewport) {
-    this.outputLayer = viewport.getLightLayer();
+  private void setupViewport(Viewport viewport) {
+    this.outputLayer = viewport.addLayer();
     setRainbow();
   }
 
@@ -22,7 +22,6 @@ public class Rainbow extends JavafxLaunchpadApplication {
     outputLayer
         .getExtent()
         .xRange()
-        .stream()
         .forEach(
             x -> {
               setBar(x, getColor(x));
@@ -31,16 +30,16 @@ public class Rainbow extends JavafxLaunchpadApplication {
 
   // Returns a color for the given index.
   // Cycle forward and backward through color list.
-  private Color getColor(int index) {
-    final Color colors[] = {
-      Color.RED,
-      Color.ORANGE,
-      Color.YELLOW,
-      Color.YELLOW_GREEN,
-      Color.GREEN,
-      Color.BLUE,
-      Color.MAGENTA,
-      Color.PURPLE,
+  private DColor getColor(int index) {
+    final DColor colors[] = {
+      DColor.RED,
+      DColor.ORANGE,
+      DColor.YELLOW,
+      DColor.YELLOW_GREEN,
+      DColor.GREEN,
+      DColor.BLUE,
+      DColor.MAGENTA,
+      DColor.PURPLE,
     };
 
     int cycleLength = (colors.length - 1) * 2;
@@ -52,14 +51,13 @@ public class Rainbow extends JavafxLaunchpadApplication {
     }
   }
 
-  private void setBar(int x, Color color) {
+  private void setBar(int x, DColor color) {
     outputLayer
         .getExtent()
         .yRange()
-        .stream()
         .forEach(
             y -> {
-              outputLayer.setLight(x, y, color);
+              outputLayer.setPixel(x, y, color);
             });
   }
 }

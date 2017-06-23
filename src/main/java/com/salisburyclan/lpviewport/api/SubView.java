@@ -12,7 +12,7 @@ public class SubView {
   private SubView() {}
 
   // Returns a new viewport relative to this one.
-  public static RawViewport getSubViewport(RawViewport viewport, Range2 extent) {
+  public static Viewport getSubViewport(Viewport viewport, Range2 extent) {
     return new SubViewport(viewport, extent);
   }
 

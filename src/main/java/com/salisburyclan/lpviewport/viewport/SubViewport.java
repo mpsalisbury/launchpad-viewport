@@ -2,22 +2,23 @@ package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LightLayer;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.layer.Pixel;
+import com.salisburyclan.lpviewport.layer.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
-public class SubViewport implements RawViewport {
-  private RawViewport baseViewport;
-  private LightLayer outputLayer;
+public class SubViewport implements Viewport {
+  private Viewport baseViewport;
+  private WriteLayer outputLayer;
   private Range2 extent;
   private Vector originOffset;
 
-  public SubViewport(RawViewport baseViewport, Range2 extent) {
+  public SubViewport(Viewport baseViewport, Range2 extent) {
     this.baseViewport = baseViewport;
-    this.outputLayer = new SubLightLayer(baseViewport.getLightLayer());
+    this.outputLayer = new SubWriteLayer(baseViewport.addLayer());
     this.extent = extent;
     this.originOffset = extent.origin().subtract(Point.create(0, 0));
     checkExtent(extent);
@@ -35,16 +36,14 @@ public class SubViewport implements RawViewport {
     return extent;
   }
 
-  @Override
-  public LightLayer getLightLayer() {
-    return outputLayer;
-  }
+ // LayerBuffer addLayer();
+ // void addLayer(Layer layer);
 
-  private class SubLightLayer implements LightLayer {
-    private LightLayer baseLightLayer;
+  private class SubWriteLayer implements WriteLayer {
+    private WriteLayer baseWriteLayer;
 
-    public SubLightLayer(LightLayer baseLightLayer) {
-      this.baseLightLayer = baseLightLayer;
+    public SubWriteLayer(WriteLayer baseWriteLayer) {
+      this.baseWriteLayer = baseWriteLayer;
     }
 
     @Override
@@ -53,13 +52,13 @@ public class SubViewport implements RawViewport {
     }
 
     @Override
-    public void setLight(int x, int y, Color color) {
-      baseLightLayer.setLight(originOffset.add(Point.create(x, y)), color);
+    public void setPixel(int x, int y, Pixel pixel) {
+      baseWriteLayer.setPixel(originOffset.add(Point.create(x, y)), pixel);
     }
 
     @Override
-    public void setAllLights(Color color) {
-      extent.forEach((x, y) -> baseLightLayer.setLight(x, y, color));
+    public void close() {
+      // Don't close parent.
     }
   }
 

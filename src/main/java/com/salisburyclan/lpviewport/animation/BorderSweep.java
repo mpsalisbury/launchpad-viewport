@@ -1,8 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
-import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
+import com.salisburyclan.lpviewport.layer.DColor;
 import com.salisburyclan.lpviewport.layer.FrameWriteLayer;
 import com.salisburyclan.lpviewport.layer.Pixel;
 import javafx.animation.KeyFrame;
@@ -18,14 +18,14 @@ public class BorderSweep extends FramedAnimation {
   private FrameWriteLayer outputLayer;
   private Pixel pixel;
 
-  public BorderSweep(Range2 extent, Color color) {
+  public BorderSweep(Range2 extent, DColor color) {
     super(extent);
     this.outputLayer = getWriteLayer();
     this.pixel = Pixel.create(color);
     init();
   }
 
-  public static AnimationProvider newProvider(Color color) {
+  public static AnimationProvider newProvider(DColor color) {
     return new AnimationProvider() {
       @Override
       public AnimatedLayer newAnimation(Range2 extent) {
