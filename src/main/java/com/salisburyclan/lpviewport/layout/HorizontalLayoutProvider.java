@@ -119,7 +119,8 @@ public class HorizontalLayoutProvider implements LayoutProvider {
             });
       } else {
         RawViewport chosenViewport = viewportBuilder.build();
-        Spark spark = new Spark(chosenViewport.getExtent(), chosenViewport.getExtent().middle(), DColor.BLUE);
+        Spark spark =
+            new Spark(chosenViewport.getExtent(), chosenViewport.getExtent().middle(), DColor.BLUE);
         AnimatedLayerPlayer.play(spark, chosenViewport);
         futureViewport.set(chosenViewport);
       }

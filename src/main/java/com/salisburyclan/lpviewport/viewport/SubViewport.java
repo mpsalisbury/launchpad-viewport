@@ -1,24 +1,24 @@
 package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.layer.Pixel;
-import com.salisburyclan.lpviewport.layer.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
+import com.salisburyclan.lpviewport.layer.CloseListener;
+import com.salisburyclan.lpviewport.layer.Layer;
+import com.salisburyclan.lpviewport.layer.LayerBuffer;
+import com.salisburyclan.lpviewport.layer.Pixel;
+import com.salisburyclan.lpviewport.layer.PixelListener;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
 public class SubViewport implements Viewport {
   private Viewport baseViewport;
-  private WriteLayer outputLayer;
   private Range2 extent;
   private Vector originOffset;
 
   public SubViewport(Viewport baseViewport, Range2 extent) {
     this.baseViewport = baseViewport;
-    this.outputLayer = new SubWriteLayer(baseViewport.addLayer());
     this.extent = extent;
     this.originOffset = extent.origin().subtract(Point.create(0, 0));
     checkExtent(extent);
@@ -36,29 +36,66 @@ public class SubViewport implements Viewport {
     return extent;
   }
 
- // LayerBuffer addLayer();
- // void addLayer(Layer layer);
+  @Override
+  public LayerBuffer addLayer() {
+    LayerBuffer subLayer = new LayerBuffer(extent);
+    addLayer(subLayer);
+    return subLayer;
+  }
 
-  private class SubWriteLayer implements WriteLayer {
-    private WriteLayer baseWriteLayer;
+  @Override
+  public void addLayer(Layer subLayer) {
+    baseViewport.addLayer(new WrappingLayer(subLayer));
+  }
 
-    public SubWriteLayer(WriteLayer baseWriteLayer) {
-      this.baseWriteLayer = baseWriteLayer;
+  // Wraps subview layer to act like baseview layer.
+  private class WrappingLayer implements Layer {
+    private Layer innerLayer;
+
+    public WrappingLayer(Layer innerLayer) {
+      this.innerLayer = innerLayer;
     }
 
     @Override
     public Range2 getExtent() {
-      return extent;
+      return baseViewport.getExtent();
     }
 
     @Override
-    public void setPixel(int x, int y, Pixel pixel) {
-      baseWriteLayer.setPixel(originOffset.add(Point.create(x, y)), pixel);
+    public Pixel getPixel(int x, int y) {
+      return innerLayer.getPixel(Point.create(x, y).subtract(originOffset));
     }
 
     @Override
-    public void close() {
-      // Don't close parent.
+    public void addPixelListener(PixelListener listener) {
+      innerLayer.addPixelListener(
+          new PixelListener() {
+            @Override
+            public void onNextFrame() {
+              listener.onNextFrame();
+            }
+
+            @Override
+            public void onSetPixel(int x, int y) {
+              Point p = Point.create(x, y);
+              if (extent.isPointWithin(p)) {
+                // TODO: check direction of this transform.
+                Point offsetP = p.subtract(originOffset);
+                listener.onSetPixel(offsetP.x(), offsetP.y());
+              }
+            }
+          });
+    }
+
+    @Override
+    public void removePixelListener(PixelListener listener) {
+      // TODO implement
+      throw new UnsupportedOperationException("WrappingLayer::removePixelListener");
+    }
+
+    @Override
+    public void addCloseListener(CloseListener listener) {
+      innerLayer.addCloseListener(listener);
     }
   }
 

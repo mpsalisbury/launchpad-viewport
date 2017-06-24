@@ -1,7 +1,5 @@
 package com.salisburyclan.lpviewport.animation;
 
-import com.salisburyclan.lpviewport.api.RawViewport;
-import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.layer.DColor;
@@ -21,15 +19,6 @@ public class Spark extends FramedAnimation {
   private final Point center;
   private final DColor color;
   private FrameWriteLayer layer;
-
-/*
-  public static void play(RawViewport rawViewport, Point center, Color color) {
-    Spark spark = new Spark(rawViewport.getExtent(), center, color);
-    Viewport viewport = new Viewport(rawViewport);
-    viewport.addLayer(new DecayingAnimation(spark));
-    spark.play();
-  }
-*/
 
   public Spark(Range2 extent, Point center, DColor color) {
     super(extent);

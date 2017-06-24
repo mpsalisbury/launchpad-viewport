@@ -1,5 +1,6 @@
 package com.salisburyclan.lpviewport.layer;
 
+import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 
 // An image layer holding a set of readable pixels and transparencies.
@@ -10,6 +11,10 @@ public interface Layer {
 
   // Reads one pixel in this layer.
   Pixel getPixel(int x, int y);
+
+  default Pixel getPixel(Point p) {
+    return getPixel(p.x(), p.y());
+  }
 
   void addPixelListener(PixelListener listener);
 

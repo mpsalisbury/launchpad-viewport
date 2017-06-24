@@ -2,7 +2,6 @@ package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Button0Listener;
 import com.salisburyclan.lpviewport.api.Button1Listener;
-import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport0;
 import com.salisburyclan.lpviewport.api.Viewport1;
 import com.salisburyclan.lpviewport.layer.Pixel;

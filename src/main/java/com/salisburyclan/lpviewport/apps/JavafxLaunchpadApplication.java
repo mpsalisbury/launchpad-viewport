@@ -6,11 +6,10 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LaunchpadDeviceProvider;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
-import com.salisburyclan.lpviewport.api.RawViewportViewport;
 import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.RawViewportViewport;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.device.ProdDeviceProvider;
-import com.salisburyclan.lpviewport.layer.LayerBuffer;
 import com.salisburyclan.lpviewport.layout.ProdLayoutProvider;
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +48,7 @@ public abstract class JavafxLaunchpadApplication extends Application {
 
   public abstract void run();
 
-/*
+  /*
   protected void getLayer(Consumer<LayerBuffer> layerBufferCallback) {
     Futures.addCallback(
         getRawViewport(),
@@ -91,19 +90,19 @@ public abstract class JavafxLaunchpadApplication extends Application {
         });
   }
 
-/*
-  protected void getRawViewport(Consumer<RawViewport> viewportCallback) {
-    Futures.addCallback(
-        getRawViewport(),
-        new FutureCallback<RawViewport>() {
-          public void onSuccess(RawViewport viewport) {
-            viewportCallback.accept(viewport);
-          }
+  /*
+    protected void getRawViewport(Consumer<RawViewport> viewportCallback) {
+      Futures.addCallback(
+          getRawViewport(),
+          new FutureCallback<RawViewport>() {
+            public void onSuccess(RawViewport viewport) {
+              viewportCallback.accept(viewport);
+            }
 
-          public void onFailure(Throwable t) {}
-        });
-  }
-*/
+            public void onFailure(Throwable t) {}
+          });
+    }
+  */
 
   private ListenableFuture<Viewport> getViewport() {
     return Futures.transform(getRawViewport(), rawViewport -> new RawViewportViewport(rawViewport));

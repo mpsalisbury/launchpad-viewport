@@ -20,8 +20,6 @@ public class Explode extends FramedAnimation {
   private final Point center;
   private final DColor color;
 
-  private static final int FADE_LENGTH = 5;
-
   public Explode(Range2 extent, Point center, DColor color) {
     super(extent);
     this.layer = getWriteLayer();
@@ -31,7 +29,7 @@ public class Explode extends FramedAnimation {
   }
 
   private void init() {
-    final int maxDistance = getMaxDistanceToCorner() + FADE_LENGTH + 1;
+    final int maxDistance = getMaxDistanceToCorner() + 1;
     IntegerProperty explodeDistance = new SimpleIntegerProperty();
     Timeline timeline = new Timeline();
     timeline
@@ -58,6 +56,7 @@ public class Explode extends FramedAnimation {
   }
 
   private void renderExplodeFrame(int radius) {
+    layer.nextFrame();
     for (int pos = 0; pos <= radius; pos++) {
       layer.setPixel(center.add(Vector.create(pos, radius - pos)), color);
       layer.setPixel(center.add(Vector.create(pos, -(radius - pos))), color);

@@ -12,6 +12,7 @@ public abstract class DColor {
   // Common colors
   public static final DColor BLACK = create(0, 0, 0);
   public static final DColor BLUE = create(0, 0, 1);
+  public static final DColor BROWN = create(0.55, 0.27, 0.07);
   public static final DColor CYAN = create(0, 1, 1);
   public static final DColor DARK_GRAY = create(0.08, 0.08, 0.08);
   public static final DColor GRAY = create(0.22, 0.22, 0.22);

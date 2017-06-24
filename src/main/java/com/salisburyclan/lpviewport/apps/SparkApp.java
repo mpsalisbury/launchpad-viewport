@@ -34,7 +34,13 @@ public class SparkApp extends JavafxLaunchpadApplication {
   // Returns a color for the given index.
   private DColor getBaseColor(Point p) {
     final DColor colors[] = {
-      DColor.RED, DColor.ORANGE, DColor.YELLOW, DColor.GREEN, DColor.BLUE, DColor.PURPLE,
+      DColor.RED,
+      DColor.ORANGE,
+      DColor.YELLOW,
+      DColor.GREEN,
+      DColor.BLUE,
+      DColor.PURPLE,
+      DColor.BROWN,
     };
     int index = p.x() + p.y();
     index = index % colors.length;
