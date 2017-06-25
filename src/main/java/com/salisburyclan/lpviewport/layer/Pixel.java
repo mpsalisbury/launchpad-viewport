@@ -2,7 +2,6 @@ package com.salisburyclan.lpviewport.layer;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.math.DoubleMath;
-import com.salisburyclan.lpviewport.api.Color;
 import java.util.function.Function;
 
 // Pixel is color + transparency.
@@ -12,14 +11,6 @@ public abstract class Pixel {
   public static final Pixel BLACK = create(DColor.BLACK, 1.0);
   public static final Pixel EMPTY = create(DColor.BLACK, 0.0);
   private static final double ALPHA_TOLERANCE = 0.00001;
-
-  public static Pixel create(Color color) {
-    return new AutoValue_Pixel(DColor.create(color), 1.0);
-  }
-
-  public static Pixel create(Color color, double alpha) {
-    return new AutoValue_Pixel(DColor.create(color), alpha);
-  }
 
   public static Pixel create(DColor color) {
     return new AutoValue_Pixel(color, 1.0);

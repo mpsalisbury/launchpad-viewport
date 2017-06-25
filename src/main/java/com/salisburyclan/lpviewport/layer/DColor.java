@@ -2,7 +2,6 @@ package com.salisburyclan.lpviewport.layer;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.math.DoubleMath;
-import com.salisburyclan.lpviewport.api.Color;
 
 // DColor is an RGB color with double-valued components.
 @AutoValue
@@ -28,13 +27,6 @@ public abstract class DColor {
   public static final DColor YELLOW = create(1, 1, 0);
   public static final DColor YELLOW_GREEN = create(0.35, 1, 0);
 
-  public static DColor create(Color color) {
-    return new AutoValue_DColor(
-        (double) color.getRed() / Color.MAX_INTENSITY,
-        (double) color.getGreen() / Color.MAX_INTENSITY,
-        (double) color.getBlue() / Color.MAX_INTENSITY);
-  }
-
   public static DColor create(double red, double green, double blue) {
     return new AutoValue_DColor(red, green, blue);
   }
@@ -44,13 +36,6 @@ public abstract class DColor {
   public abstract double green();
 
   public abstract double blue();
-
-  public Color color() {
-    return Color.of(
-        (int) (red() * Color.MAX_INTENSITY),
-        (int) (green() * Color.MAX_INTENSITY),
-        (int) (blue() * Color.MAX_INTENSITY));
-  }
 
   @Override
   public boolean equals(Object o) {
