@@ -11,7 +11,6 @@ import com.salisburyclan.lpviewport.animation.AnimationProvider;
 import com.salisburyclan.lpviewport.animation.Spark;
 import com.salisburyclan.lpviewport.animation.Sweep;
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.LaunchpadDevice;
 import com.salisburyclan.lpviewport.api.LayoutProvider;
 import com.salisburyclan.lpviewport.api.RawViewport;
@@ -94,7 +93,7 @@ public class PickOneLayoutProvider implements LayoutProvider {
       tearDowners.add(
           () -> {
             animation.stop();
-            viewport.getLightLayer().setAllLights(Color.BLACK);
+            viewport.getRawLayer().setAllPixels(DColor.BLACK);
             viewport.removeListener(listener);
           });
     }

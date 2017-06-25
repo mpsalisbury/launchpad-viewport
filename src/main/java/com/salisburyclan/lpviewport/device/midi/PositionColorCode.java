@@ -2,13 +2,13 @@ package com.salisburyclan.lpviewport.device.midi;
 
 /**
  * Encodes an xy position and rgb color in a single long. x and y must be in range 0..15. r, g, and
- * b must be in range 0..63.
+ * b must be in range 0..1.
  */
 public class PositionColorCode {
   private PositionColorCode() {}
 
   // Builds a positioncolor from components.
-  public static long fromXYRGB(int x, int y, int r, int g, int b) {
+  public static long fromXYRGB(int x, int y, double r, double g, double b) {
     int position = PositionCode.fromXY(x, y);
     int color = ColorCode.fromRGB(r, g, b);
     return fromPositionAndColor(position, color);

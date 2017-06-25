@@ -11,4 +11,10 @@ public class AnimatedLayerPlayer {
     viewport.addLayer(animation);
     animation.play();
   }
+
+  public static void playDecay(AnimatedLayer animation, RawViewport rawViewport) {
+    Viewport viewport = new RawViewportViewport(rawViewport);
+    viewport.addLayer(new DecayingAnimation(animation));
+    animation.play();
+  }
 }

@@ -12,6 +12,8 @@ public interface Viewport {
 
   void addLayer(Layer layer);
 
+  void removeLayer(Layer layer);
+
   void addListener(Button2Listener listener);
 
   void removeListener(Button2Listener listener);

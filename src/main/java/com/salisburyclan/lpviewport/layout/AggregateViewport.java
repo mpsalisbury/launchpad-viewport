@@ -1,12 +1,12 @@
 package com.salisburyclan.lpviewport.layout;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LightLayer;
+import com.salisburyclan.lpviewport.api.RawLayer;
 import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
+import com.salisburyclan.lpviewport.layer.DColor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +14,12 @@ import java.util.List;
 public class AggregateViewport implements RawViewport {
   private List<Viewpart> viewparts;
   private Range2 extent;
-  private LightLayer outputLayer;
+  private RawLayer outputLayer;
 
   private AggregateViewport(List<Viewpart> viewparts, Range2 extent) {
     this.viewparts = viewparts;
     this.extent = extent;
-    this.outputLayer = new AggregateLightLayer();
+    this.outputLayer = new AggregateRawLayer();
   }
 
   // Builds an AggregateViewport
@@ -61,7 +61,7 @@ public class AggregateViewport implements RawViewport {
   }
 
   @Override
-  public LightLayer getLightLayer() {
+  public RawLayer getRawLayer() {
     return outputLayer;
   }
 
@@ -103,28 +103,28 @@ public class AggregateViewport implements RawViewport {
     }
   }
 
-  private class AggregateLightLayer implements LightLayer {
+  private class AggregateRawLayer implements RawLayer {
     @Override
     public Range2 getExtent() {
       return extent;
     }
 
     @Override
-    public void setLight(int x, int y, Color color) {
+    public void setPixel(int x, int y, DColor color) {
       Point p = Point.create(x, y);
       viewparts.forEach(
           viewpart -> {
             if (viewpart.extent.isPointWithin(p)) {
-              viewpart.viewport.getLightLayer().setLight(p.subtract(viewpart.offset), color);
+              viewpart.viewport.getRawLayer().setPixel(p.subtract(viewpart.offset), color);
             }
           });
     }
 
     @Override
-    public void setAllLights(Color color) {
+    public void setAllPixels(DColor color) {
       viewparts.forEach(
           viewpart -> {
-            viewpart.viewport.getLightLayer().setAllLights(color);
+            viewpart.viewport.getRawLayer().setAllPixels(color);
           });
     }
   }

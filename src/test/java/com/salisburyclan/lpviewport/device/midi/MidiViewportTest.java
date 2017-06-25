@@ -5,8 +5,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.layer.DColor;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,14 +46,14 @@ public class MidiViewportTest {
   public void testSetLight() throws Exception {
     int testX = 4;
     int testY = 2;
-    Color testColor = Color.ORANGE;
+    DColor testColor = DColor.ORANGE;
 
-    viewport.getLightLayer().setLight(testX, testY, testColor);
+    viewport.getRawLayer().setPixel(testX, testY, testColor);
 
     verify(mockClient)
         .setLight(
             PositionCode.fromXY(testX, testY),
-            ColorCode.fromRGB(testColor.getRed(), testColor.getGreen(), testColor.getBlue()));
+            ColorCode.fromRGB(testColor.red(), testColor.green(), testColor.blue()));
   }
 
   @Test

@@ -12,10 +12,10 @@ public class PositionColorCodeTest {
 
   @Test
   public void testPositionAndColor() {
-    testPositionAndColor(1, 2, 3, 4, 5);
+    testPositionAndColor(1, 2, 0.0, 0.2, 1.0);
   }
 
-  public void testPositionAndColor(int x, int y, int r, int g, int b) {
+  public void testPositionAndColor(int x, int y, double r, double g, double b) {
     int positionCode = PositionCode.fromXY(x, y);
     int colorCode = ColorCode.fromRGB(r, g, b);
 
@@ -27,18 +27,19 @@ public class PositionColorCodeTest {
 
   @Test
   public void testXYRGB() {
-    testFromXYRGB(0, 0, 0, 0, 0);
-    testFromXYRGB(1, 2, 3, 4, 5);
-    testFromXYRGB(0x0f, 0x0f, 0x3f, 0x3f, 0x3f);
+    testFromXYRGB(0, 0, 0.0, 0.0, 0.0, 0, 0, 0);
+    testFromXYRGB(1, 2, 0.0, 0.5, 1.0, 0, 31, 63);
+    testFromXYRGB(0x0f, 0x0f, 1.0, 1.0, 1.0, 63, 63, 63);
   }
 
-  public void testFromXYRGB(int x, int y, int r, int g, int b) {
+  public void testFromXYRGB(
+      int x, int y, double r, double g, double b, int expectedR, int expectedG, int expectedB) {
     long colorCode = PositionColorCode.fromXYRGB(x, y, r, g, b);
     assertThat(PositionColorCode.getX(colorCode)).isEqualTo(x);
     assertThat(PositionColorCode.getY(colorCode)).isEqualTo(y);
-    assertThat(PositionColorCode.getRed(colorCode)).isEqualTo(r);
-    assertThat(PositionColorCode.getGreen(colorCode)).isEqualTo(g);
-    assertThat(PositionColorCode.getBlue(colorCode)).isEqualTo(b);
+    assertThat(PositionColorCode.getRed(colorCode)).isEqualTo(expectedR);
+    assertThat(PositionColorCode.getGreen(colorCode)).isEqualTo(expectedG);
+    assertThat(PositionColorCode.getBlue(colorCode)).isEqualTo(expectedB);
   }
 
   @Test
@@ -51,12 +52,12 @@ public class PositionColorCodeTest {
 
     testFromXYRGBOutOfRange(0x10, 0, 0, 0, 0);
     testFromXYRGBOutOfRange(0, 0x10, 0, 0, 0);
-    testFromXYRGBOutOfRange(0, 0, 0x40, 0, 0);
-    testFromXYRGBOutOfRange(0, 0, 0, 0x40, 0);
-    testFromXYRGBOutOfRange(0, 0, 0, 0, 0x40);
+    testFromXYRGBOutOfRange(0, 0, 1.1, 0, 0);
+    testFromXYRGBOutOfRange(0, 0, 0, 1.1, 0);
+    testFromXYRGBOutOfRange(0, 0, 0, 0, 1.1);
   }
 
-  public void testFromXYRGBOutOfRange(int x, int y, int r, int g, int b) {
+  public void testFromXYRGBOutOfRange(int x, int y, double r, double g, double b) {
     assertThrows(IllegalArgumentException.class, () -> PositionColorCode.fromXYRGB(x, y, r, g, b));
   }
 }

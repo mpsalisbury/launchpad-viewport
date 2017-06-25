@@ -68,11 +68,14 @@ public class LayerBuffer implements Layer, FrameWriteLayer {
 
   @Override
   public void setPixel(int x, int y, Pixel pixel) {
+    System.out.println("in setPixel " + x + "," + y);
     if (extent.isPointWithin(x, y)) {
+      System.out.println("  point is within");
       Point origin = extent.origin();
       Pixel oldPixel = buffer[x - origin.x()][y - origin.y()];
       if (!pixel.equals(oldPixel)) {
         buffer[x - origin.x()][y - origin.y()] = pixel;
+        System.out.println("notifying of setPixel " + x + "," + y);
         pixelListeners.onSetPixel(x, y);
       }
     }

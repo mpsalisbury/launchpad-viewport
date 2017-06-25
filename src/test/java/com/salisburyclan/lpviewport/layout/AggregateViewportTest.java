@@ -5,11 +5,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LightLayer;
+import com.salisburyclan.lpviewport.api.RawLayer;
 import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.layer.DColor;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,8 +27,8 @@ public class AggregateViewportTest {
   @Rule public MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.LENIENT);
   @Mock private RawViewport mockViewport1;
   @Mock private RawViewport mockViewport2;
-  @Mock private LightLayer mockLightLayer1;
-  @Mock private LightLayer mockLightLayer2;
+  @Mock private RawLayer mockRawLayer1;
+  @Mock private RawLayer mockRawLayer2;
   @Mock private Button2Listener mockListener;
 
   private RawViewport viewport;
@@ -38,8 +38,8 @@ public class AggregateViewportTest {
     // Two 10x20 Viewports, attached left-to-right.
     when(mockViewport1.getExtent()).thenReturn(Range2.create(0, 0, 9, 19));
     when(mockViewport2.getExtent()).thenReturn(Range2.create(10, 10, 19, 29));
-    when(mockViewport1.getLightLayer()).thenReturn(mockLightLayer1);
-    when(mockViewport2.getLightLayer()).thenReturn(mockLightLayer2);
+    when(mockViewport1.getRawLayer()).thenReturn(mockRawLayer1);
+    when(mockViewport2.getRawLayer()).thenReturn(mockRawLayer2);
 
     AggregateViewport.Builder builder = new AggregateViewport.Builder();
     builder.add(mockViewport1, Point.create(0, 0));
@@ -56,17 +56,17 @@ public class AggregateViewportTest {
   // sub-viewport lights get set.
   @Test
   public void testSetLight() throws Exception {
-    LightLayer layer = viewport.getLightLayer();
-    Color color = Color.RED;
-    layer.setLight(Point.create(0, 0), color);
-    layer.setLight(Point.create(9, 19), color);
-    verify(mockLightLayer1).setLight(Point.create(0, 0), color);
-    verify(mockLightLayer1).setLight(Point.create(9, 19), color);
+    RawLayer layer = viewport.getRawLayer();
+    DColor color = DColor.RED;
+    layer.setPixel(Point.create(0, 0), color);
+    layer.setPixel(Point.create(9, 19), color);
+    verify(mockRawLayer1).setPixel(Point.create(0, 0), color);
+    verify(mockRawLayer1).setPixel(Point.create(9, 19), color);
 
-    layer.setLight(Point.create(10, 0), color);
-    layer.setLight(Point.create(19, 19), color);
-    verify(mockLightLayer2).setLight(Point.create(10, 10), color);
-    verify(mockLightLayer2).setLight(Point.create(19, 29), color);
+    layer.setPixel(Point.create(10, 0), color);
+    layer.setPixel(Point.create(19, 19), color);
+    verify(mockRawLayer2).setPixel(Point.create(10, 10), color);
+    verify(mockRawLayer2).setPixel(Point.create(19, 29), color);
 
     // TODO Check out of range
   }

@@ -73,7 +73,6 @@ public class Sweep extends FramedAnimation {
     layer
         .getExtent()
         .yRange()
-        .stream()
         .forEach(
             y -> {
               layer.setPixel(x, y, pixel);

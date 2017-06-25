@@ -1,22 +1,22 @@
 package com.salisburyclan.lpviewport.device.javafx;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LightLayer;
+import com.salisburyclan.lpviewport.api.RawLayer;
 import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.layer.DColor;
 import com.salisburyclan.lpviewport.viewport.Button2ListenerMultiplexer;
 
 public class JavafxViewport implements RawViewport {
   ColorButtonGrid buttonGrid;
   Button2ListenerMultiplexer listenerMultiplexer;
   Range2 extent;
-  LightLayer outputLayer;
+  RawLayer outputLayer;
 
   public JavafxViewport(ColorButtonGrid buttonGrid) {
     this.buttonGrid = buttonGrid;
-    outputLayer = new ButtonGridLightLayer();
+    outputLayer = new ButtonGridRawLayer();
     extent = Range2.create(0, 0, buttonGrid.getWidth() - 1, buttonGrid.getHeight() - 1);
 
     listenerMultiplexer = new Button2ListenerMultiplexer();
@@ -35,7 +35,7 @@ public class JavafxViewport implements RawViewport {
   }
 
   @Override
-  public LightLayer getLightLayer() {
+  public RawLayer getRawLayer() {
     return outputLayer;
   }
 
@@ -54,19 +54,19 @@ public class JavafxViewport implements RawViewport {
     listenerMultiplexer.remove(listener);
   }
 
-  private class ButtonGridLightLayer implements LightLayer {
+  private class ButtonGridRawLayer implements RawLayer {
     @Override
     public Range2 getExtent() {
       return extent;
     }
 
     @Override
-    public void setLight(int x, int y, Color color) {
+    public void setPixel(int x, int y, DColor color) {
       buttonGrid.setButtonColor(x, y, launchpadColorToJavafxColor(color));
     }
 
     @Override
-    public void setAllLights(Color color) {
+    public void setAllPixels(DColor color) {
       javafx.scene.paint.Color javafxColor = launchpadColorToJavafxColor(color);
       extent.forEach(
           (x, y) -> {
@@ -74,10 +74,10 @@ public class JavafxViewport implements RawViewport {
           });
     }
 
-    private javafx.scene.paint.Color launchpadColorToJavafxColor(Color color) {
-      int red = color.getRed() * 255 / Color.MAX_INTENSITY;
-      int green = color.getGreen() * 255 / Color.MAX_INTENSITY;
-      int blue = color.getBlue() * 255 / Color.MAX_INTENSITY;
+    private javafx.scene.paint.Color launchpadColorToJavafxColor(DColor color) {
+      int red = (int) (color.red() * 255.0);
+      int green = (int) (color.green() * 255.0);
+      int blue = (int) (color.blue() * 255.0);
       return javafx.scene.paint.Color.rgb(red, green, blue);
     }
   }

@@ -42,9 +42,13 @@ public class RawViewportViewport implements Viewport {
     layers.addLayer(layer);
   }
 
+  public void removeLayer(Layer layer) {
+    layers.removeLayer(layer);
+  }
+
   private void writeRawPixel(int x, int y) {
     Pixel pixel = Pixel.BLACK.combine(layers.getPixel(x, y));
-    rawViewport.getLightLayer().setLight(x, y, pixel.color().color());
+    rawViewport.getRawLayer().setPixel(x, y, pixel.color());
   }
 
   // Adds a listener for this viewport.
