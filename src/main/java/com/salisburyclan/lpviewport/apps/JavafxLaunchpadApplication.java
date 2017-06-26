@@ -48,36 +48,10 @@ public abstract class JavafxLaunchpadApplication extends Application {
 
   public abstract void run();
 
-  /*
-  protected void getLayer(Consumer<LayerBuffer> layerBufferCallback) {
-    Futures.addCallback(
-        getRawViewport(),
-        new FutureCallback<RawViewport>() {
-          public void onSuccess(RawViewport rawViewport) {
-            Viewport viewport = new Viewport(rawViewport);
-            layerBufferCallback.accept(viewport.addLayer());
-          }
-
-          public void onFailure(Throwable t) {}
-        });
-  }
-  */
-
-  /*
-  protected void getOutputLayers(Consumer<OutputLayers> outputLayersCallback) {
-    Futures.addCallback(
-        getRawViewport(),
-        new FutureCallback<RawViewport>() {
-          public void onSuccess(RawViewport viewport) {
-            OutputLayers outputLayers = new OutputLayers(viewport.getLightLayer());
-            outputLayersCallback.accept(outputLayers);
-          }
-
-          public void onFailure(Throwable t) {}
-        });
-  }
-  */
-
+  /**
+   * Provides the user-specified Viewport to the given callback
+   * when it has been constructed.
+   */
   protected void getViewport(Consumer<Viewport> viewportCallback) {
     Futures.addCallback(
         getViewport(),
@@ -89,20 +63,6 @@ public abstract class JavafxLaunchpadApplication extends Application {
           public void onFailure(Throwable t) {}
         });
   }
-
-  /*
-    protected void getRawViewport(Consumer<RawViewport> viewportCallback) {
-      Futures.addCallback(
-          getRawViewport(),
-          new FutureCallback<RawViewport>() {
-            public void onSuccess(RawViewport viewport) {
-              viewportCallback.accept(viewport);
-            }
-
-            public void onFailure(Throwable t) {}
-          });
-    }
-  */
 
   private ListenableFuture<Viewport> getViewport() {
     return Futures.transform(getRawViewport(), rawViewport -> new RawViewportViewport(rawViewport));
@@ -124,8 +84,6 @@ public abstract class JavafxLaunchpadApplication extends Application {
     if (devices.isEmpty()) {
       throw new IllegalArgumentException("No Devices available for DeviceSpec: " + deviceSpec);
     }
-    // TODO: consider sending deviceSpec directly to layoutProvider, or combine into a prod
-    // ViewportProvider..
     return layoutProvider.createLayout(layoutSpec, devices);
   }
 }

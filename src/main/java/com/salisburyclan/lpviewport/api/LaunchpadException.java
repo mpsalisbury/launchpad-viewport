@@ -1,5 +1,6 @@
 package com.salisburyclan.lpviewport.api;
 
+// TODO: Where to use this? (Currently unused.)
 public class LaunchpadException extends RuntimeException {
 
   public LaunchpadException(String message) {
