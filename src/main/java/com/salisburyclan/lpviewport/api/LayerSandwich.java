@@ -1,14 +1,14 @@
-package com.salisburyclan.lpviewport.layer;
+package com.salisburyclan.lpviewport.api;
 
 import com.salisburyclan.lpviewport.geom.Range2;
 import java.util.ArrayList;
 import java.util.List;
 
 // A layer consisting of multiple layers.
-public class LayerSandwich implements Layer {
+public class LayerSandwich implements ReadLayer {
   private Range2 extent;
   // Layers in this sandwich, ordered bottom-to-top.
-  private List<Layer> layers;
+  private List<ReadLayer> layers;
   private PixelListenerMultiplexer pixelListeners;
   private CloseListenerMultiplexer closeListeners;
 
@@ -19,7 +19,7 @@ public class LayerSandwich implements Layer {
     this.closeListeners = new CloseListenerMultiplexer();
   }
 
-  public void addLayer(Layer layer) {
+  public void addLayer(ReadLayer layer) {
     if (!layer.getExtent().equals(extent)) {
       throw new IllegalArgumentException("LayerSandwich::addLayer has incorrect extent");
     }
@@ -28,7 +28,7 @@ public class LayerSandwich implements Layer {
     layers.add(layer);
   }
 
-  public void removeLayer(Layer layer) {
+  public void removeLayer(ReadLayer layer) {
     layers.remove(layer);
   }
 
@@ -44,7 +44,7 @@ public class LayerSandwich implements Layer {
   @Override
   public Pixel getPixel(int x, int y) {
     Pixel pixel = Pixel.EMPTY;
-    for (Layer layer : layers) {
+    for (ReadLayer layer : layers) {
       pixel = pixel.combine(layer.getPixel(x, y));
     }
     return pixel;

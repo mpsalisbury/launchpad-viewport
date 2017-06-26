@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.layer;
+package com.salisburyclan.lpviewport.api;
 
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
@@ -7,11 +7,11 @@ import com.salisburyclan.lpviewport.geom.Range2;
 public interface WriteLayer {
   Range2 getExtent();
 
-  default void setPixel(int x, int y, DColor color) {
+  default void setPixel(int x, int y, Color color) {
     setPixel(x, y, Pixel.create(color));
   }
 
-  default void setPixel(Point p, DColor color) {
+  default void setPixel(Point p, Color color) {
     setPixel(p.x(), p.y(), color);
   }
 

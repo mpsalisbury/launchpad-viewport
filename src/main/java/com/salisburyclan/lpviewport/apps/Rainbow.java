@@ -1,8 +1,8 @@
 package com.salisburyclan.lpviewport.apps;
 
+import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
-import com.salisburyclan.lpviewport.layer.DColor;
-import com.salisburyclan.lpviewport.layer.WriteLayer;
+import com.salisburyclan.lpviewport.api.WriteLayer;
 
 public class Rainbow extends JavafxLaunchpadApplication {
 
@@ -30,16 +30,16 @@ public class Rainbow extends JavafxLaunchpadApplication {
 
   // Returns a color for the given index.
   // Cycle forward and backward through color list.
-  private DColor getColor(int index) {
-    final DColor colors[] = {
-      DColor.RED,
-      DColor.ORANGE,
-      DColor.YELLOW,
-      DColor.YELLOW_GREEN,
-      DColor.GREEN,
-      DColor.BLUE,
-      DColor.MAGENTA,
-      DColor.PURPLE,
+  private Color getColor(int index) {
+    final Color colors[] = {
+      Color.RED,
+      Color.ORANGE,
+      Color.YELLOW,
+      Color.YELLOW_GREEN,
+      Color.GREEN,
+      Color.BLUE,
+      Color.MAGENTA,
+      Color.PURPLE,
     };
 
     int cycleLength = (colors.length - 1) * 2;
@@ -51,7 +51,7 @@ public class Rainbow extends JavafxLaunchpadApplication {
     }
   }
 
-  private void setBar(int x, DColor color) {
+  private void setBar(int x, Color color) {
     outputLayer
         .getExtent()
         .yRange()

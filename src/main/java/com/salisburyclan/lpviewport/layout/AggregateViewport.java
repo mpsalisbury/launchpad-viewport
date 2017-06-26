@@ -1,12 +1,12 @@
 package com.salisburyclan.lpviewport.layout;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.RawLayer;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
-import com.salisburyclan.lpviewport.layer.DColor;
+import com.salisburyclan.lpviewport.viewport.RawLayer;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,7 +110,7 @@ public class AggregateViewport implements RawViewport {
     }
 
     @Override
-    public void setPixel(int x, int y, DColor color) {
+    public void setPixel(int x, int y, Color color) {
       Point p = Point.create(x, y);
       viewparts.forEach(
           viewpart -> {
@@ -121,7 +121,7 @@ public class AggregateViewport implements RawViewport {
     }
 
     @Override
-    public void setAllPixels(DColor color) {
+    public void setAllPixels(Color color) {
       viewparts.forEach(
           viewpart -> {
             viewpart.viewport.getRawLayer().setAllPixels(color);

@@ -1,13 +1,10 @@
 package com.salisburyclan.lpviewport.api;
 
-import com.salisburyclan.lpviewport.layer.DColor;
-import com.salisburyclan.lpviewport.layer.Pixel;
-
 // Viewport0 is a 1-button (0-dimensional) Viewport.
 public interface Viewport0 {
   void setPixel(Pixel pixel);
 
-  default void setPixel(DColor color) {
+  default void setPixel(Color color) {
     setPixel(Pixel.create(color));
   }
 

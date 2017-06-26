@@ -1,15 +1,15 @@
 package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.animation.DiagRotate;
+import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.DColor;
-import com.salisburyclan.lpviewport.layer.WriteLayer;
 
 public class DiagRotateApp extends JavafxLaunchpadApplication {
 
-  private static final DColor BOX_COLOR = DColor.BLUE;
-  private static final DColor BAR_COLOR = DColor.ORANGE;
+  private static final Color BOX_COLOR = Color.BLUE;
+  private static final Color BAR_COLOR = Color.ORANGE;
   private WriteLayer outputLayer;
   private Range2 barExtent;
 

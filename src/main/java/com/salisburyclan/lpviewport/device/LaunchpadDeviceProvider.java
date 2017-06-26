@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.api;
+package com.salisburyclan.lpviewport.device;
 
 import java.util.List;
 import java.util.Set;

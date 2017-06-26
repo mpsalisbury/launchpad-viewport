@@ -1,6 +1,8 @@
-package com.salisburyclan.lpviewport.api;
+package com.salisburyclan.lpviewport.layout;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.salisburyclan.lpviewport.device.LaunchpadDevice;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import java.util.Collection;
 import java.util.List;
 

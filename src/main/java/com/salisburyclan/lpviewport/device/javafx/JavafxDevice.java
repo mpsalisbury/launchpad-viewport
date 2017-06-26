@@ -1,7 +1,7 @@
 package com.salisburyclan.lpviewport.device.javafx;
 
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.device.LaunchpadDevice;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;

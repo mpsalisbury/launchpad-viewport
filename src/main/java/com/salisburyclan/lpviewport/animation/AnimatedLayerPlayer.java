@@ -1,8 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
-import com.salisburyclan.lpviewport.api.RawViewport;
-import com.salisburyclan.lpviewport.api.RawViewportViewport;
 import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
+import com.salisburyclan.lpviewport.viewport.RawViewportViewport;
 
 public class AnimatedLayerPlayer {
   // Plays the given animation as the sole layer in the given rawViewport.

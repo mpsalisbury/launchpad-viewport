@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.layer;
+package com.salisburyclan.lpviewport.api;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.math.DoubleMath;
@@ -8,19 +8,19 @@ import java.util.function.Function;
 // Transparency allows flexible combining of overlapping pixels colors.
 @AutoValue
 public abstract class Pixel {
-  public static final Pixel BLACK = create(DColor.BLACK, 1.0);
-  public static final Pixel EMPTY = create(DColor.BLACK, 0.0);
+  public static final Pixel BLACK = create(Color.BLACK, 1.0);
+  public static final Pixel EMPTY = create(Color.BLACK, 0.0);
   private static final double ALPHA_TOLERANCE = 0.00001;
 
-  public static Pixel create(DColor color) {
+  public static Pixel create(Color color) {
     return new AutoValue_Pixel(color, 1.0);
   }
 
-  public static Pixel create(DColor color, double alpha) {
+  public static Pixel create(Color color, double alpha) {
     return new AutoValue_Pixel(color, alpha);
   }
 
-  public abstract DColor color();
+  public abstract Color color();
 
   // Transparency. 0.0 = fully transparent. 1.0 = fully opaque.
   public abstract double alpha();
@@ -32,22 +32,19 @@ public abstract class Pixel {
     double overAlpha = overPixel.alpha();
 
     double combinedAlpha = 1.0 - (1.0 - underAlpha) * (1.0 - overAlpha);
-    DColor combinedColor = DColor.BLACK;
+    Color combinedColor = Color.BLACK;
     if (combinedAlpha > 0.0) {
       combinedColor =
-          DColor.create(
-              combineChannel(combinedAlpha, this, overPixel, DColor::red),
-              combineChannel(combinedAlpha, this, overPixel, DColor::green),
-              combineChannel(combinedAlpha, this, overPixel, DColor::blue));
+          Color.create(
+              combineChannel(combinedAlpha, this, overPixel, Color::red),
+              combineChannel(combinedAlpha, this, overPixel, Color::green),
+              combineChannel(combinedAlpha, this, overPixel, Color::blue));
     }
     return create(combinedColor, combinedAlpha);
   }
 
   private double combineChannel(
-      double combinedAlpha,
-      Pixel underPixel,
-      Pixel overPixel,
-      Function<DColor, Double> getChannel) {
+      double combinedAlpha, Pixel underPixel, Pixel overPixel, Function<Color, Double> getChannel) {
     double underChannel = getChannel.apply(underPixel.color());
     double overChannel = getChannel.apply(overPixel.color());
     double underAlpha = underPixel.alpha();

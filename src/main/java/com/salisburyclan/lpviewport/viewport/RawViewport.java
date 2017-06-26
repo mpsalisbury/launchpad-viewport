@@ -1,5 +1,6 @@
-package com.salisburyclan.lpviewport.api;
+package com.salisburyclan.lpviewport.viewport;
 
+import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.geom.Range2;
 
 // RawViewport is a rectangular set of buttons/lights.

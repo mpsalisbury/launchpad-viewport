@@ -3,12 +3,12 @@ package com.salisburyclan.lpviewport.layout.linked;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.salisburyclan.lpviewport.api.RawLayer;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.DColor;
+import com.salisburyclan.lpviewport.viewport.RawLayer;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class LinkAssemblerTest {
   @Mock private RawViewport mockViewport2;
   @Mock private RawLayer mockRawLayer1;
   @Mock private RawLayer mockRawLayer2;
-  private static final DColor COLOR = DColor.RED;
+  private static final Color COLOR = Color.RED;
 
   private RawViewport linkedViewport;
 

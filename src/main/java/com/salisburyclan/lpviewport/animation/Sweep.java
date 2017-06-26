@@ -1,9 +1,9 @@
 package com.salisburyclan.lpviewport.animation;
 
+import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.FrameWriteLayer;
+import com.salisburyclan.lpviewport.api.Pixel;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.DColor;
-import com.salisburyclan.lpviewport.layer.FrameWriteLayer;
-import com.salisburyclan.lpviewport.layer.Pixel;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -18,14 +18,14 @@ public class Sweep extends FramedAnimation {
   private FrameWriteLayer layer;
   private Pixel pixel;
 
-  public Sweep(Range2 extent, DColor color, boolean forever) {
+  public Sweep(Range2 extent, Color color, boolean forever) {
     super(extent);
     this.layer = getWriteLayer();
     this.pixel = Pixel.create(color);
     init(forever);
   }
 
-  public static AnimationProvider newProvider(DColor color, boolean forever) {
+  public static AnimationProvider newProvider(Color color, boolean forever) {
     return new AnimationProvider() {
       @Override
       public AnimatedLayer newAnimation(Range2 extent) {

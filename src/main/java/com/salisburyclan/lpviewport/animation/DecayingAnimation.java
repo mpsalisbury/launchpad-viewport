@@ -1,12 +1,12 @@
 package com.salisburyclan.lpviewport.animation;
 
+import com.salisburyclan.lpviewport.api.CleanupExecutor;
+import com.salisburyclan.lpviewport.api.CloseListener;
+import com.salisburyclan.lpviewport.api.LayerBuffer;
+import com.salisburyclan.lpviewport.api.Pixel;
+import com.salisburyclan.lpviewport.api.PixelListener;
+import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.CleanupExecutor;
-import com.salisburyclan.lpviewport.layer.CloseListener;
-import com.salisburyclan.lpviewport.layer.Layer;
-import com.salisburyclan.lpviewport.layer.LayerBuffer;
-import com.salisburyclan.lpviewport.layer.Pixel;
-import com.salisburyclan.lpviewport.layer.PixelListener;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,11 +15,11 @@ import javafx.util.Duration;
 // Copies the inputLayer into the decayingLayer, decaying it
 // with each time tick.
 // TODO make this an AnimatedLayer
-public class DecayingAnimation implements Layer {
+public class DecayingAnimation implements ReadLayer {
   private Range2 extent;
 
   // The layer into which the source layer draws.
-  private Layer inputLayer;
+  private ReadLayer inputLayer;
   // The decay from the input layer.
   private LayerBuffer decayLayer;
 
@@ -36,7 +36,7 @@ public class DecayingAnimation implements Layer {
   // How much to decay the buffer for each tick.
   private double decayPerTick;
 
-  public DecayingAnimation(Layer inputLayer) {
+  public DecayingAnimation(ReadLayer inputLayer) {
     this.inputLayer = inputLayer;
     this.extent = inputLayer.getExtent();
     this.decayLayer = new LayerBuffer(extent);

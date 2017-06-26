@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.layer;
+package com.salisburyclan.lpviewport.api;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -10,7 +10,7 @@ import org.junit.runners.JUnit4;
 public class PixelTest {
 
   private Pixel gray(double intensity, double alpha) {
-    return Pixel.create(DColor.create(intensity, intensity, intensity), alpha);
+    return Pixel.create(Color.create(intensity, intensity, intensity), alpha);
   }
 
   @Test

@@ -2,13 +2,13 @@ package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Button1Listener;
 import com.salisburyclan.lpviewport.api.Button2Listener;
+import com.salisburyclan.lpviewport.api.Pixel;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.Viewport1;
+import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range1;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.Pixel;
-import com.salisburyclan.lpviewport.layer.WriteLayer;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
 public class SubViewStrip implements Viewport1 {

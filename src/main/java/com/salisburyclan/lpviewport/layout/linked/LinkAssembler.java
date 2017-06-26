@@ -1,9 +1,9 @@
 package com.salisburyclan.lpviewport.layout.linked;
 
-import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Vector;
 import com.salisburyclan.lpviewport.layout.AggregateViewport;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import java.util.HashMap;
 import java.util.Map;
 

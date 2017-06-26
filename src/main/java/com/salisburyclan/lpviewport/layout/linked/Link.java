@@ -1,9 +1,9 @@
 package com.salisburyclan.lpviewport.layout.linked;
 
-import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Vector;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 
 /**
  * Represents a link between two viewports. Used to align adjacent viewports when building a grid of

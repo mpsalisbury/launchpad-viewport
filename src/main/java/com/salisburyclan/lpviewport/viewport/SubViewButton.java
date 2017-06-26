@@ -2,11 +2,11 @@ package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Button0Listener;
 import com.salisburyclan.lpviewport.api.Button2Listener;
+import com.salisburyclan.lpviewport.api.Pixel;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.Viewport0;
+import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Point;
-import com.salisburyclan.lpviewport.layer.Pixel;
-import com.salisburyclan.lpviewport.layer.WriteLayer;
 
 // A viewport that represents a one-button view of an existing viewport.
 public class SubViewButton implements Viewport0 {

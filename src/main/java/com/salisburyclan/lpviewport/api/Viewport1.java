@@ -1,8 +1,6 @@
 package com.salisburyclan.lpviewport.api;
 
 import com.salisburyclan.lpviewport.geom.Range1;
-import com.salisburyclan.lpviewport.layer.DColor;
-import com.salisburyclan.lpviewport.layer.Pixel;
 
 // Viewport1 is a 1-dimensional Viewport.
 public interface Viewport1 {
@@ -11,7 +9,7 @@ public interface Viewport1 {
 
   void setPixel(int p, Pixel pixel);
 
-  default void setPixel(int p, DColor color) {
+  default void setPixel(int p, Color color) {
     setPixel(p, Pixel.create(color));
   }
 

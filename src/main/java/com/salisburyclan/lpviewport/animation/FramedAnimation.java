@@ -1,11 +1,11 @@
 package com.salisburyclan.lpviewport.animation;
 
+import com.salisburyclan.lpviewport.api.CloseListener;
+import com.salisburyclan.lpviewport.api.FrameWriteLayer;
+import com.salisburyclan.lpviewport.api.LayerBuffer;
+import com.salisburyclan.lpviewport.api.Pixel;
+import com.salisburyclan.lpviewport.api.PixelListener;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.CloseListener;
-import com.salisburyclan.lpviewport.layer.FrameWriteLayer;
-import com.salisburyclan.lpviewport.layer.LayerBuffer;
-import com.salisburyclan.lpviewport.layer.Pixel;
-import com.salisburyclan.lpviewport.layer.PixelListener;
 
 public abstract class FramedAnimation extends AnimatedLayer {
   private LayerBuffer layer;

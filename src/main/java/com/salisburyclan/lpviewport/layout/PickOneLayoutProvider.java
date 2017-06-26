@@ -11,11 +11,10 @@ import com.salisburyclan.lpviewport.animation.AnimationProvider;
 import com.salisburyclan.lpviewport.animation.Spark;
 import com.salisburyclan.lpviewport.animation.Sweep;
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.LayoutProvider;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.device.LaunchpadDevice;
 import com.salisburyclan.lpviewport.geom.Point;
-import com.salisburyclan.lpviewport.layer.DColor;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +26,7 @@ public class PickOneLayoutProvider implements LayoutProvider {
   private static final String DESCRIPTION =
       TYPE + " : Chooses one viewport of the specified devices";
   private static final AnimationProvider AWAITING_SELECTION_ANIMATION =
-      Sweep.newProvider(DColor.RED, true);
+      Sweep.newProvider(Color.RED, true);
 
   @Override
   public List<String> getLayoutSpecDescriptions() {
@@ -80,7 +79,7 @@ public class PickOneLayoutProvider implements LayoutProvider {
           new Button2Listener() {
             public void onButtonPressed(Point p) {
               shutDownChooser();
-              Spark spark = new Spark(viewport.getExtent(), p, DColor.BLUE);
+              Spark spark = new Spark(viewport.getExtent(), p, Color.BLUE);
               AnimatedLayerPlayer.play(spark, viewport);
               futureViewport.set(viewport);
             }
@@ -93,7 +92,7 @@ public class PickOneLayoutProvider implements LayoutProvider {
       tearDowners.add(
           () -> {
             animation.stop();
-            viewport.getRawLayer().setAllPixels(DColor.BLACK);
+            viewport.getRawLayer().setAllPixels(Color.BLACK);
             viewport.removeListener(listener);
           });
     }

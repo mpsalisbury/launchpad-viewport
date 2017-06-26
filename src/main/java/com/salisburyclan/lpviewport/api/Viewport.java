@@ -1,8 +1,6 @@
 package com.salisburyclan.lpviewport.api;
 
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.Layer;
-import com.salisburyclan.lpviewport.layer.LayerBuffer;
 
 // Viewport is a rectangular set of buttons/lights.
 public interface Viewport {
@@ -10,9 +8,9 @@ public interface Viewport {
 
   LayerBuffer addLayer();
 
-  void addLayer(Layer layer);
+  void addLayer(ReadLayer layer);
 
-  void removeLayer(Layer layer);
+  void removeLayer(ReadLayer layer);
 
   void addListener(Button2Listener listener);
 

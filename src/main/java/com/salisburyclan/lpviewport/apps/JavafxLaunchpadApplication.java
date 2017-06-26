@@ -3,14 +3,14 @@ package com.salisburyclan.lpviewport.apps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.LaunchpadDeviceProvider;
-import com.salisburyclan.lpviewport.api.LayoutProvider;
-import com.salisburyclan.lpviewport.api.RawViewport;
-import com.salisburyclan.lpviewport.api.RawViewportViewport;
 import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.device.LaunchpadDevice;
+import com.salisburyclan.lpviewport.device.LaunchpadDeviceProvider;
 import com.salisburyclan.lpviewport.device.ProdDeviceProvider;
+import com.salisburyclan.lpviewport.layout.LayoutProvider;
 import com.salisburyclan.lpviewport.layout.ProdLayoutProvider;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
+import com.salisburyclan.lpviewport.viewport.RawViewportViewport;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -48,10 +48,7 @@ public abstract class JavafxLaunchpadApplication extends Application {
 
   public abstract void run();
 
-  /**
-   * Provides the user-specified Viewport to the given callback
-   * when it has been constructed.
-   */
+  /** Provides the user-specified Viewport to the given callback when it has been constructed. */
   protected void getViewport(Consumer<Viewport> viewportCallback) {
     Futures.addCallback(
         getViewport(),

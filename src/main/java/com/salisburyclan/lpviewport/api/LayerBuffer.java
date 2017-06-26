@@ -1,10 +1,10 @@
-package com.salisburyclan.lpviewport.layer;
+package com.salisburyclan.lpviewport.api;
 
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 
 // A buffer of colored pixels for staging images.
-public class LayerBuffer implements Layer, FrameWriteLayer {
+public class LayerBuffer implements ReadLayer, FrameWriteLayer {
   private Range2 extent;
   private Pixel[][] buffer;
   private PixelListenerMultiplexer pixelListeners;
@@ -62,7 +62,7 @@ public class LayerBuffer implements Layer, FrameWriteLayer {
   }
 
   @Override
-  public void setPixel(int x, int y, DColor color) {
+  public void setPixel(int x, int y, Color color) {
     setPixel(x, y, Pixel.create(color));
   }
 

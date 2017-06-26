@@ -3,11 +3,11 @@ package com.salisburyclan.lpviewport.layout.linked;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.when;
 
-import com.salisburyclan.lpviewport.api.RawViewport;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -8,10 +8,10 @@ import com.salisburyclan.lpviewport.animation.BorderSweep;
 import com.salisburyclan.lpviewport.animation.EdgeSweep;
 import com.salisburyclan.lpviewport.animation.Sweep;
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
-import com.salisburyclan.lpviewport.layer.DColor;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class LinkedViewportBuilder {
 
   // Accept a click on any edge and then wait for linked click.
   private void waitForLinkStart(RawViewport viewport) {
-    AnimatedLayer animation = new BorderSweep(viewport.getExtent(), DColor.RED);
+    AnimatedLayer animation = new BorderSweep(viewport.getExtent(), Color.RED);
     AnimatedLayerPlayer.playDecay(animation, viewport);
     Button2Listener listener =
         new Button2Listener() {
@@ -55,7 +55,7 @@ public class LinkedViewportBuilder {
     viewportCleanups.add(
         () -> {
           animation.stop();
-          viewport.getRawLayer().setAllPixels(DColor.BLACK);
+          viewport.getRawLayer().setAllPixels(Color.BLACK);
           viewport.removeListener(listener);
         });
   }
@@ -82,7 +82,7 @@ public class LinkedViewportBuilder {
 
   // Accept a click on only one edge and register the link.
   private void waitForLinkEnd(RawViewport viewport, Edge requiredEdge, Link partialLink) {
-    AnimatedLayer animation = new EdgeSweep(viewport.getExtent(), requiredEdge, DColor.RED);
+    AnimatedLayer animation = new EdgeSweep(viewport.getExtent(), requiredEdge, Color.RED);
     AnimatedLayerPlayer.playDecay(animation, viewport);
     Button2Listener listener =
         new Button2Listener() {
@@ -99,7 +99,7 @@ public class LinkedViewportBuilder {
     viewportCleanups.add(
         () -> {
           animation.stop();
-          viewport.getRawLayer().setAllPixels(DColor.BLACK);
+          viewport.getRawLayer().setAllPixels(Color.BLACK);
           viewport.removeListener(listener);
         });
   }
@@ -124,7 +124,7 @@ public class LinkedViewportBuilder {
 
   private void finalizeViewport() {
     RawViewport finalViewport = linkAssembler.build();
-    AnimatedLayer animation = new Sweep(finalViewport.getExtent(), DColor.BLUE, false);
+    AnimatedLayer animation = new Sweep(finalViewport.getExtent(), Color.BLUE, false);
     AnimatedLayerPlayer.playDecay(animation, finalViewport);
     futureViewport.set(finalViewport);
   }

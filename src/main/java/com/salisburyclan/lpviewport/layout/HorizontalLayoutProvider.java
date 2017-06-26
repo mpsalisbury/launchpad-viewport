@@ -10,11 +10,10 @@ import com.salisburyclan.lpviewport.animation.AnimationProvider;
 import com.salisburyclan.lpviewport.animation.Spark;
 import com.salisburyclan.lpviewport.animation.Sweep;
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.LayoutProvider;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.device.LaunchpadDevice;
 import com.salisburyclan.lpviewport.geom.Point;
-import com.salisburyclan.lpviewport.layer.DColor;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,9 +24,9 @@ public class HorizontalLayoutProvider implements LayoutProvider {
   private static final String DESCRIPTION =
       TYPE + " : combines the viewports specified by typespec horizontally left-to-right";
   private static final AnimationProvider AWAITING_SELECTION_ANIMATION =
-      Sweep.newProvider(DColor.RED, true);
+      Sweep.newProvider(Color.RED, true);
   private static final AnimationProvider SELECTED_VIEWPORT_ANIMATION =
-      Sweep.newProvider(DColor.BLUE, true);
+      Sweep.newProvider(Color.BLUE, true);
 
   @Override
   public List<String> getLayoutSpecDescriptions() {
@@ -87,7 +86,7 @@ public class HorizontalLayoutProvider implements LayoutProvider {
           new Button2Listener() {
             public void onButtonPressed(Point p) {
               animation.stop();
-              viewport.getRawLayer().setAllPixels(DColor.BLACK);
+              viewport.getRawLayer().setAllPixels(Color.BLACK);
               viewport.removeListener(this);
               appendViewport(viewport);
             }
@@ -114,12 +113,12 @@ public class HorizontalLayoutProvider implements LayoutProvider {
         teardownTemporaryViewport =
             (() -> {
               animation.stop();
-              temporaryViewport.getRawLayer().setAllPixels(DColor.BLACK);
+              temporaryViewport.getRawLayer().setAllPixels(Color.BLACK);
             });
       } else {
         RawViewport chosenViewport = viewportBuilder.build();
         Spark spark =
-            new Spark(chosenViewport.getExtent(), chosenViewport.getExtent().middle(), DColor.BLUE);
+            new Spark(chosenViewport.getExtent(), chosenViewport.getExtent().middle(), Color.BLUE);
         AnimatedLayerPlayer.play(spark, chosenViewport);
         futureViewport.set(chosenViewport);
       }

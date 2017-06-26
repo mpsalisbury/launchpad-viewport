@@ -1,11 +1,11 @@
-package com.salisburyclan.lpviewport.layer;
+package com.salisburyclan.lpviewport.api;
 
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 
 // An image layer holding a set of readable pixels and transparencies.
 // Interface for reading from a layer.
-public interface Layer {
+public interface ReadLayer {
   // Returns the pixel extent for this layer.
   Range2 getExtent();
 

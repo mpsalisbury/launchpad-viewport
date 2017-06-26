@@ -5,11 +5,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.RawLayer;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.DColor;
+import com.salisburyclan.lpviewport.viewport.RawLayer;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -57,7 +57,7 @@ public class AggregateViewportTest {
   @Test
   public void testSetLight() throws Exception {
     RawLayer layer = viewport.getRawLayer();
-    DColor color = DColor.RED;
+    Color color = Color.RED;
     layer.setPixel(Point.create(0, 0), color);
     layer.setPixel(Point.create(9, 19), color);
     verify(mockRawLayer1).setPixel(Point.create(0, 0), color);

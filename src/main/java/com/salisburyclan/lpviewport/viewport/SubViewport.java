@@ -1,16 +1,16 @@
 package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
+import com.salisburyclan.lpviewport.api.CloseListener;
+import com.salisburyclan.lpviewport.api.LayerBuffer;
+import com.salisburyclan.lpviewport.api.Pixel;
+import com.salisburyclan.lpviewport.api.PixelListener;
+import com.salisburyclan.lpviewport.api.PixelListenerMultiplexer;
+import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
-import com.salisburyclan.lpviewport.layer.CloseListener;
-import com.salisburyclan.lpviewport.layer.Layer;
-import com.salisburyclan.lpviewport.layer.LayerBuffer;
-import com.salisburyclan.lpviewport.layer.Pixel;
-import com.salisburyclan.lpviewport.layer.PixelListener;
-import com.salisburyclan.lpviewport.layer.PixelListenerMultiplexer;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
 public class SubViewport implements Viewport {
@@ -46,26 +46,26 @@ public class SubViewport implements Viewport {
 
   // TODO consider allowing any sublayer extent of same shape but arbitrary origin.
   @Override
-  public void addLayer(Layer subLayer) {
+  public void addLayer(ReadLayer subLayer) {
     if (!subLayer.getExtent().equals(subExtent)) {
       throw new IllegalArgumentException("SubViewport::addLayer has incorrect extent");
     }
-    Layer wrapLayer = new WrappingLayer(subLayer);
+    ReadLayer wrapLayer = new WrappingLayer(subLayer);
     subLayer.addCloseListener(() -> removeLayer(wrapLayer));
     baseViewport.addLayer(wrapLayer);
   }
 
   @Override
-  public void removeLayer(Layer layer) {
+  public void removeLayer(ReadLayer layer) {
     baseViewport.removeLayer(layer);
   }
 
   // Wraps subview layer to act like baseview layer.
-  private class WrappingLayer implements Layer {
-    private Layer subLayer;
+  private class WrappingLayer implements ReadLayer {
+    private ReadLayer subLayer;
     private PixelListenerMultiplexer pixelListeners;
 
-    public WrappingLayer(Layer subLayer) {
+    public WrappingLayer(ReadLayer subLayer) {
       this.subLayer = subLayer;
       this.pixelListeners = new PixelListenerMultiplexer();
       subLayer.addPixelListener(new ShiftingPixelListener());

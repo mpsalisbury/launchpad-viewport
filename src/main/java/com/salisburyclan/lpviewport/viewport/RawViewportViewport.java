@@ -1,11 +1,13 @@
-package com.salisburyclan.lpviewport.api;
+package com.salisburyclan.lpviewport.viewport;
 
+import com.salisburyclan.lpviewport.api.Button2Listener;
+import com.salisburyclan.lpviewport.api.LayerBuffer;
+import com.salisburyclan.lpviewport.api.LayerSandwich;
+import com.salisburyclan.lpviewport.api.Pixel;
+import com.salisburyclan.lpviewport.api.PixelListener;
+import com.salisburyclan.lpviewport.api.ReadLayer;
+import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.Layer;
-import com.salisburyclan.lpviewport.layer.LayerBuffer;
-import com.salisburyclan.lpviewport.layer.LayerSandwich;
-import com.salisburyclan.lpviewport.layer.Pixel;
-import com.salisburyclan.lpviewport.layer.PixelListener;
 
 // Viewport is a rectangular set of buttons/lights.
 public class RawViewportViewport implements Viewport {
@@ -38,11 +40,11 @@ public class RawViewportViewport implements Viewport {
     return buffer;
   }
 
-  public void addLayer(Layer layer) {
+  public void addLayer(ReadLayer layer) {
     layers.addLayer(layer);
   }
 
-  public void removeLayer(Layer layer) {
+  public void removeLayer(ReadLayer layer) {
     layers.removeLayer(layer);
   }
 

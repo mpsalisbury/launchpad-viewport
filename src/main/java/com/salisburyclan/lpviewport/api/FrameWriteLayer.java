@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.layer;
+package com.salisburyclan.lpviewport.api;
 
 // Interface for writing to a layer that supports
 // frames (draw frame, clear, draw next frame).

@@ -1,12 +1,12 @@
 package com.salisburyclan.lpviewport.device.midi;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.RawLayer;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.DColor;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
+import com.salisburyclan.lpviewport.viewport.RawLayer;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 
 public class MidiViewport implements RawViewport {
 
@@ -49,7 +49,7 @@ public class MidiViewport implements RawViewport {
     }
 
     @Override
-    public void setPixel(int x, int y, DColor color) {
+    public void setPixel(int x, int y, Color color) {
       if (extent.isPointWithin(Point.create(x, y))) {
         int pos = PositionCode.fromXY(x, y);
         int colorNum = ColorCode.fromRGB(color.red(), color.green(), color.blue());
@@ -58,7 +58,7 @@ public class MidiViewport implements RawViewport {
     }
 
     @Override
-    public void setAllPixels(DColor color) {
+    public void setAllPixels(Color color) {
       int colorNum = ColorCode.fromRGB(color.red(), color.green(), color.blue());
       client.setLights(extent, colorNum);
     }
