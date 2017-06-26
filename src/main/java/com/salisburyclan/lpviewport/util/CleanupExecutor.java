@@ -1,6 +1,4 @@
-package com.salisburyclan.lpviewport.api;
-
-import com.salisburyclan.lpviewport.util.Multiplexer;
+package com.salisburyclan.lpviewport.util;
 
 /** Collects cleanup commands. */
 public class CleanupExecutor extends Multiplexer<Runnable> {

@@ -1,6 +1,6 @@
-package com.salisburyclan.lpviewport.api;
+package com.salisburyclan.lpviewport.util;
 
-import com.salisburyclan.lpviewport.util.Multiplexer;
+import com.salisburyclan.lpviewport.api.PixelListener;
 
 /** Forwards PixelListener calls to a set of PixelListeners. */
 public class PixelListenerMultiplexer extends Multiplexer<PixelListener> implements PixelListener {

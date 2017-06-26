@@ -1,6 +1,8 @@
 package com.salisburyclan.lpviewport.api;
 
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.util.CloseListenerMultiplexer;
+import com.salisburyclan.lpviewport.util.PixelListenerMultiplexer;
 import java.util.ArrayList;
 import java.util.List;
 

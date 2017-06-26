@@ -80,13 +80,13 @@ public class PickOneLayoutProvider implements LayoutProvider {
             public void onButtonPressed(Point p) {
               shutDownChooser();
               Spark spark = new Spark(viewport.getExtent(), p, Color.BLUE);
-              AnimatedLayerPlayer.play(spark, viewport);
+              AnimatedLayerPlayer.playDecay(spark, viewport);
               futureViewport.set(viewport);
             }
 
             public void onButtonReleased(Point p) {}
           };
-      AnimatedLayerPlayer.play(animation, viewport);
+      AnimatedLayerPlayer.playDecay(animation, viewport);
       viewport.addListener(listener);
 
       tearDowners.add(

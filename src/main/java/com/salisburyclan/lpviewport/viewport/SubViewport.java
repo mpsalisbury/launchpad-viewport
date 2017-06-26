@@ -5,12 +5,12 @@ import com.salisburyclan.lpviewport.api.CloseListener;
 import com.salisburyclan.lpviewport.api.LayerBuffer;
 import com.salisburyclan.lpviewport.api.Pixel;
 import com.salisburyclan.lpviewport.api.PixelListener;
-import com.salisburyclan.lpviewport.api.PixelListenerMultiplexer;
 import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
+import com.salisburyclan.lpviewport.util.PixelListenerMultiplexer;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
 public class SubViewport implements Viewport {

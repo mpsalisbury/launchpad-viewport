@@ -2,6 +2,8 @@ package com.salisburyclan.lpviewport.api;
 
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.util.CloseListenerMultiplexer;
+import com.salisburyclan.lpviewport.util.PixelListenerMultiplexer;
 
 // A buffer of colored pixels for staging images.
 public class LayerBuffer implements ReadLayer, FrameWriteLayer {
@@ -68,14 +70,11 @@ public class LayerBuffer implements ReadLayer, FrameWriteLayer {
 
   @Override
   public void setPixel(int x, int y, Pixel pixel) {
-    System.out.println("in setPixel " + x + "," + y);
     if (extent.isPointWithin(x, y)) {
-      System.out.println("  point is within");
       Point origin = extent.origin();
       Pixel oldPixel = buffer[x - origin.x()][y - origin.y()];
       if (!pixel.equals(oldPixel)) {
         buffer[x - origin.x()][y - origin.y()] = pixel;
-        System.out.println("notifying of setPixel " + x + "," + y);
         pixelListeners.onSetPixel(x, y);
       }
     }

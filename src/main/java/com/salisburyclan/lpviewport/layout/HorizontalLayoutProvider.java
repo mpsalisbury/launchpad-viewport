@@ -81,7 +81,7 @@ public class HorizontalLayoutProvider implements LayoutProvider {
     private void setupViewport(RawViewport viewport) {
       remainingViewportCount++;
       AnimatedLayer animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
-      AnimatedLayerPlayer.play(animation, viewport);
+      AnimatedLayerPlayer.playDecay(animation, viewport);
       viewport.addListener(
           new Button2Listener() {
             public void onButtonPressed(Point p) {
@@ -109,7 +109,7 @@ public class HorizontalLayoutProvider implements LayoutProvider {
         RawViewport temporaryViewport = viewportBuilder.build();
         AnimatedLayer animation =
             SELECTED_VIEWPORT_ANIMATION.newAnimation(temporaryViewport.getExtent());
-        AnimatedLayerPlayer.play(animation, temporaryViewport);
+        AnimatedLayerPlayer.playDecay(animation, temporaryViewport);
         teardownTemporaryViewport =
             (() -> {
               animation.stop();
@@ -119,7 +119,7 @@ public class HorizontalLayoutProvider implements LayoutProvider {
         RawViewport chosenViewport = viewportBuilder.build();
         Spark spark =
             new Spark(chosenViewport.getExtent(), chosenViewport.getExtent().middle(), Color.BLUE);
-        AnimatedLayerPlayer.play(spark, chosenViewport);
+        AnimatedLayerPlayer.playDecay(spark, chosenViewport);
         futureViewport.set(chosenViewport);
       }
     }

@@ -1,12 +1,12 @@
 package com.salisburyclan.lpviewport.animation;
 
-import com.salisburyclan.lpviewport.api.CleanupExecutor;
 import com.salisburyclan.lpviewport.api.CloseListener;
 import com.salisburyclan.lpviewport.api.LayerBuffer;
 import com.salisburyclan.lpviewport.api.Pixel;
 import com.salisburyclan.lpviewport.api.PixelListener;
 import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.geom.Range2;
+import com.salisburyclan.lpviewport.util.CleanupExecutor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
