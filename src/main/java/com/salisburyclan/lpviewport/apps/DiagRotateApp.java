@@ -1,5 +1,6 @@
 package com.salisburyclan.lpviewport.apps;
 
+import com.salisburyclan.lpviewport.animation.DecayingAnimation;
 import com.salisburyclan.lpviewport.animation.DiagRotate;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
@@ -23,9 +24,8 @@ public class DiagRotateApp extends JavafxLaunchpadApplication {
     renderBox();
 
     barExtent = viewport.getExtent().inset(1, 1, 1, 1);
-    DiagRotate diagRotate = new DiagRotate(viewport.getExtent(), barExtent, BAR_COLOR);
-    viewport.addLayer(diagRotate);
-    //viewport.addLayer(new DecayingAnimation(diagRotate));
+    DiagRotate diagRotate = new DiagRotate(barExtent, BAR_COLOR);
+    viewport.addLayer(new DecayingAnimation(diagRotate));
     diagRotate.play();
   }
 

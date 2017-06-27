@@ -15,12 +15,10 @@ import javafx.util.Duration;
 public class DiagRotate extends FramedAnimation {
 
   private final FrameWriteLayer layer;
-  private final Range2 animationExtent;
   private final Color color;
 
-  public DiagRotate(Range2 frameExtent, Range2 animationExtent, Color color) {
-    super(frameExtent);
-    this.animationExtent = animationExtent;
+  public DiagRotate(Range2 extent, Color color) {
+    super(extent);
     this.layer = getWriteLayer();
     this.color = color;
     init();
@@ -48,15 +46,14 @@ public class DiagRotate extends FramedAnimation {
 
   private void renderBars(int linePosition) {
     layer.nextFrame();
-    for (int x = linePosition;
-        x < animationExtent.getWidth() + animationExtent.getHeight();
-        x += 4) {
+    Range2 extent = getExtent();
+    for (int x = linePosition; x < extent.getWidth() + extent.getHeight(); x += 4) {
       renderBar(x);
     }
   }
 
   private void renderBar(int linePosition) {
-    Range2 extent = animationExtent;
+    Range2 extent = getExtent();
     int x1 = extent.xRange().low();
     int y1 = extent.yRange().low() + linePosition;
     int x2 = extent.xRange().low() + linePosition;

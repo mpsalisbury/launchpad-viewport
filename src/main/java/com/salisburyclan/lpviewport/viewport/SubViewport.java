@@ -1,16 +1,12 @@
 package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.CloseListener;
 import com.salisburyclan.lpviewport.api.LayerBuffer;
-import com.salisburyclan.lpviewport.api.Pixel;
-import com.salisburyclan.lpviewport.api.PixelListener;
 import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
-import com.salisburyclan.lpviewport.util.PixelListenerMultiplexer;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
 public class SubViewport implements Viewport {
@@ -46,77 +42,14 @@ public class SubViewport implements Viewport {
 
   // TODO consider allowing any sublayer extent of same shape but arbitrary origin.
   @Override
-  public void addLayer(ReadLayer subLayer) {
-    if (!subLayer.getExtent().equals(subExtent)) {
-      throw new IllegalArgumentException("SubViewport::addLayer has incorrect extent");
-    }
-    ReadLayer wrapLayer = new WrappingLayer(subLayer);
-    subLayer.addCloseListener(() -> removeLayer(wrapLayer));
-    baseViewport.addLayer(wrapLayer);
+  public void addLayer(ReadLayer layer) {
+    layer.addCloseListener(() -> removeLayer(layer));
+    baseViewport.addLayer(layer);
   }
 
   @Override
   public void removeLayer(ReadLayer layer) {
     baseViewport.removeLayer(layer);
-  }
-
-  // Wraps subview layer to act like baseview layer.
-  private class WrappingLayer implements ReadLayer {
-    private ReadLayer subLayer;
-    private PixelListenerMultiplexer pixelListeners;
-
-    public WrappingLayer(ReadLayer subLayer) {
-      this.subLayer = subLayer;
-      this.pixelListeners = new PixelListenerMultiplexer();
-      subLayer.addPixelListener(new ShiftingPixelListener());
-    }
-
-    @Override
-    public Range2 getExtent() {
-      return baseViewport.getExtent();
-    }
-
-    @Override
-    public Pixel getPixel(int x, int y) {
-      return subLayer.getPixel(Point.create(x, y));
-      //return subLayer.getPixel(Point.create(x, y).subtract(originOffset));
-    }
-
-    @Override
-    public void addPixelListener(PixelListener listener) {
-      pixelListeners.add(listener);
-    }
-
-    private class ShiftingPixelListener implements PixelListener {
-      @Override
-      public void onNextFrame() {
-        System.out.println("Got onNextFrame()");
-        pixelListeners.onNextFrame();
-      }
-
-      @Override
-      public void onSetPixel(int x, int y) {
-        System.out.println("Got onSetPixel " + x + "," + y);
-        Point p = Point.create(x, y);
-        if (subExtent.isPointWithin(p)) {
-          // TODO: check direction of this transform.
-          //          Point offsetP = p.subtract(originOffset);
-          //          pixelListeners.onSetPixel(offsetP.x(), offsetP.y());
-          pixelListeners.onSetPixel(x, y);
-        }
-      }
-    };
-
-    @Override
-    public void removePixelListener(PixelListener listener) {
-      // TODO implement
-      throw new UnsupportedOperationException("WrappingLayer::removePixelListener");
-    }
-
-    @Override
-    public void addCloseListener(CloseListener listener) {
-      subLayer.addCloseListener(listener);
-    }
   }
 
   @Override
@@ -126,14 +59,12 @@ public class SubViewport implements Viewport {
           public void onButtonPressed(Point p) {
             if (subExtent.isPointWithin(p)) {
               listener.onButtonPressed(p);
-              //listener.onButtonPressed(p.subtract(originOffset));
             }
           }
 
           public void onButtonReleased(Point p) {
             if (subExtent.isPointWithin(p)) {
               listener.onButtonReleased(p);
-              //listener.onButtonReleased(p.subtract(originOffset));
             }
           }
         });

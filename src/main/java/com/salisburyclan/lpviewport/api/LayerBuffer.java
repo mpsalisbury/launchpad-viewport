@@ -59,7 +59,7 @@ public class LayerBuffer implements ReadLayer, FrameWriteLayer {
       Point origin = extent.origin();
       return buffer[x - origin.x()][y - origin.y()];
     } else {
-      return Pixel.EMPTY; // TODO error instead?
+      return Pixel.EMPTY;
     }
   }
 

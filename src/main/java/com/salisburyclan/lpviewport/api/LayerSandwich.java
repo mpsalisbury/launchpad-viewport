@@ -21,8 +21,10 @@ public class LayerSandwich implements ReadLayer {
     this.closeListeners = new CloseListenerMultiplexer();
   }
 
+  // Adds the given layer as the top layer of this sandwich.
+  // Given layer must not extend beyond the extent of the sandwich.
   public void addLayer(ReadLayer layer) {
-    if (!layer.getExtent().equals(extent)) {
+    if (!extent.isRangeWithin(layer.getExtent())) {
       throw new IllegalArgumentException("LayerSandwich::addLayer has incorrect extent");
     }
     layer.addPixelListener(pixelListeners);
@@ -66,7 +68,4 @@ public class LayerSandwich implements ReadLayer {
   public void addCloseListener(CloseListener listener) {
     closeListeners.add(listener);
   }
-
-  // TODO implement
-  //public Layer flatten() { }
 }
