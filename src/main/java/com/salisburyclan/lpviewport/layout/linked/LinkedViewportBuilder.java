@@ -2,11 +2,11 @@ package com.salisburyclan.lpviewport.layout.linked;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
-import com.salisburyclan.lpviewport.animation.AnimatedLayer;
-import com.salisburyclan.lpviewport.animation.AnimatedLayerPlayer;
 import com.salisburyclan.lpviewport.animation.BorderSweep;
 import com.salisburyclan.lpviewport.animation.EdgeSweep;
 import com.salisburyclan.lpviewport.animation.Sweep;
+import com.salisburyclan.lpviewport.api.AnimatedLayer;
+import com.salisburyclan.lpviewport.api.AnimatedLayerPlayer;
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Edge;

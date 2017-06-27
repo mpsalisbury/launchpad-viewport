@@ -6,7 +6,7 @@ import com.salisburyclan.lpviewport.util.CloseListenerMultiplexer;
 import com.salisburyclan.lpviewport.util.PixelListenerMultiplexer;
 
 // A buffer of colored pixels for staging images.
-public class LayerBuffer implements ReadLayer, FrameWriteLayer {
+public class LayerBuffer implements ReadLayer, WriteLayer {
   private Range2 extent;
   private Pixel[][] buffer;
   private PixelListenerMultiplexer pixelListeners;

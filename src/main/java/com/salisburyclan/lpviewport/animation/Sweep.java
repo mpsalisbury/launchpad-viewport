@@ -1,8 +1,11 @@
 package com.salisburyclan.lpviewport.animation;
 
+import com.salisburyclan.lpviewport.api.AnimatedLayer;
+import com.salisburyclan.lpviewport.api.AnimationProvider;
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.FrameWriteLayer;
+import com.salisburyclan.lpviewport.api.FramedAnimation;
 import com.salisburyclan.lpviewport.api.Pixel;
+import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Range2;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -15,7 +18,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
 public class Sweep extends FramedAnimation {
-  private FrameWriteLayer layer;
+  private WriteLayer layer;
   private Pixel pixel;
 
   public Sweep(Range2 extent, Color color, boolean forever) {

@@ -2,6 +2,7 @@ package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.animation.Sweep;
 import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.JavafxLaunchpadApplication;
 import com.salisburyclan.lpviewport.api.Viewport;
 
 public class SweepApp extends JavafxLaunchpadApplication {

@@ -1,9 +1,8 @@
-package com.salisburyclan.lpviewport.apps;
+package com.salisburyclan.lpviewport.api;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.device.LaunchpadDevice;
 import com.salisburyclan.lpviewport.device.LaunchpadDeviceProvider;
 import com.salisburyclan.lpviewport.device.ProdDeviceProvider;

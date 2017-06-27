@@ -1,8 +1,9 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.FrameWriteLayer;
+import com.salisburyclan.lpviewport.api.FramedAnimation;
 import com.salisburyclan.lpviewport.api.Pixel;
+import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range1;
@@ -18,7 +19,7 @@ import javafx.util.Duration;
 
 public class EdgeSweep extends FramedAnimation {
 
-  private FrameWriteLayer writeLayer;
+  private WriteLayer writeLayer;
   private Edge edge;
   private Pixel pixel;
 

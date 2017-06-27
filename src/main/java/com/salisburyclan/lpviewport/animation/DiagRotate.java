@@ -1,7 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.FrameWriteLayer;
+import com.salisburyclan.lpviewport.api.FramedAnimation;
+import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Range2;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -14,7 +15,7 @@ import javafx.util.Duration;
 
 public class DiagRotate extends FramedAnimation {
 
-  private final FrameWriteLayer layer;
+  private final WriteLayer layer;
   private final Color color;
 
   public DiagRotate(Range2 extent, Color color) {

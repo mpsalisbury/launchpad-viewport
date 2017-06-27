@@ -21,5 +21,9 @@ public interface WriteLayer {
     setPixel(p.x(), p.y(), pixel);
   }
 
+  // Marks the current frame as done.
+  // Used only for frame-based animations.
+  void nextFrame();
+
   void close();
 }

@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.animation;
+package com.salisburyclan.lpviewport.api;
 
 import java.util.ArrayList;
 import java.util.List;

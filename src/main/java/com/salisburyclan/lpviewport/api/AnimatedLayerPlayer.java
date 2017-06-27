@@ -1,6 +1,5 @@
-package com.salisburyclan.lpviewport.animation;
+package com.salisburyclan.lpviewport.api;
 
-import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.viewport.RawViewport;
 import com.salisburyclan.lpviewport.viewport.RawViewportViewport;
 

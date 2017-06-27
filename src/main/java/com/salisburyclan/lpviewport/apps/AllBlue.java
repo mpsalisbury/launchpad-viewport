@@ -4,6 +4,7 @@ import com.salisburyclan.lpviewport.api.Button0Listener;
 import com.salisburyclan.lpviewport.api.Button1Listener;
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.JavafxLaunchpadApplication;
 import com.salisburyclan.lpviewport.api.SubView;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.Viewport0;
