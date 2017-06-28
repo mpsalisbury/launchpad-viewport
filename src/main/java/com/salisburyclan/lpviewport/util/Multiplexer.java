@@ -15,6 +15,10 @@ public class Multiplexer<ItemT> {
     items.remove(item);
   }
 
+  public void clear() {
+    items.clear();
+  }
+
   // Return defensive copy of listeners for subclasses to iterate over.
   protected List<ItemT> getItemsCopy() {
     return new ArrayList<>(items);

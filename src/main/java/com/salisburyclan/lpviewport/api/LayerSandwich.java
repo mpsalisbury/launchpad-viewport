@@ -33,6 +33,7 @@ public class LayerSandwich implements ReadLayer {
   }
 
   public void removeLayer(ReadLayer layer) {
+    layer.removePixelListener(pixelListeners);
     layers.remove(layer);
   }
 

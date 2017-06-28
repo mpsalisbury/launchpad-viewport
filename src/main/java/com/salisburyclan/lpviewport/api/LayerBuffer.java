@@ -46,6 +46,8 @@ public class LayerBuffer implements ReadLayer, WriteLayer {
   public void close() {
     setAllPixels(Pixel.EMPTY);
     closeListeners.onClose();
+    pixelListeners.clear();
+    closeListeners.clear();
   }
 
   @Override
