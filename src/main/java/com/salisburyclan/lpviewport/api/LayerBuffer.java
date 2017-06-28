@@ -5,9 +5,11 @@ import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.util.CloseListenerMultiplexer;
 import com.salisburyclan.lpviewport.util.PixelListenerMultiplexer;
 
-// A buffer of colored pixels for staging images.
+// A buffer of pixels for staging images.
 public class LayerBuffer implements ReadLayer, WriteLayer {
+  // The 2d extent of this buffer.
   private Range2 extent;
+  // The pixels[x][y] in this buffer. Indices are 0-based.
   private Pixel[][] buffer;
   private PixelListenerMultiplexer pixelListeners;
   private CloseListenerMultiplexer closeListeners;
@@ -41,7 +43,6 @@ public class LayerBuffer implements ReadLayer, WriteLayer {
     setAllPixels(Pixel.EMPTY);
   }
 
-  // Remove this buffer from container.
   @Override
   public void close() {
     setAllPixels(Pixel.EMPTY);
@@ -89,6 +90,7 @@ public class LayerBuffer implements ReadLayer, WriteLayer {
     }
   }
 
+  // Sets all pixels of this buffer to given pixel value.
   private void setAllPixels(Pixel pixel) {
     extent.forEach((x, y) -> setPixel(x, y, pixel));
   }

@@ -1,8 +1,10 @@
-package com.salisburyclan.lpviewport.api;
+package com.salisburyclan.lpviewport.viewport;
 
-import com.salisburyclan.lpviewport.viewport.RawViewport;
-import com.salisburyclan.lpviewport.viewport.RawViewportViewport;
+import com.salisburyclan.lpviewport.api.AnimatedLayer;
+import com.salisburyclan.lpviewport.api.DecayingAnimation;
+import com.salisburyclan.lpviewport.api.Viewport;
 
+// Utilities for playing AnimatedLayers in a RawViewport.
 public class AnimatedLayerPlayer {
   // Plays the given animation as the sole layer in the given rawViewport.
   public static void play(AnimatedLayer animation, RawViewport rawViewport) {

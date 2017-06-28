@@ -4,12 +4,12 @@ import com.salisburyclan.lpviewport.animation.Explode;
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.DecayingAnimation;
-import com.salisburyclan.lpviewport.api.JavafxLaunchpadApplication;
+import com.salisburyclan.lpviewport.api.LaunchpadApplication;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 
-public class ExplodeApp extends JavafxLaunchpadApplication {
+public class ExplodeApp extends LaunchpadApplication {
 
   @Override
   public void run() {

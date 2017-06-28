@@ -4,7 +4,7 @@ import com.salisburyclan.lpviewport.api.Button0Listener;
 import com.salisburyclan.lpviewport.api.Button1Listener;
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.JavafxLaunchpadApplication;
+import com.salisburyclan.lpviewport.api.LaunchpadApplication;
 import com.salisburyclan.lpviewport.api.SubView;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.Viewport0;
@@ -14,7 +14,7 @@ import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range1;
 import com.salisburyclan.lpviewport.geom.Range2;
 
-public class AllBlue extends JavafxLaunchpadApplication {
+public class AllBlue extends LaunchpadApplication {
 
   private Viewport viewport;
 
@@ -54,7 +54,7 @@ public class AllBlue extends JavafxLaunchpadApplication {
 
   private void addButtonStripListener(int x, int y, Color color) {
     Range2 extent = viewport.getExtent();
-    Viewport1 rowViewStrip = SubView.getSubViewStrip(viewport, Range2.create(extent.xRange(), y));
+    Viewport1 rowViewStrip = SubView.getSubViewport1(viewport, Range2.create(extent.xRange(), y));
     Viewport0 button = SubView.getSubViewport0(rowViewStrip, x);
     button.addListener(
         new Button0Listener() {
@@ -73,7 +73,7 @@ public class AllBlue extends JavafxLaunchpadApplication {
   // Handles single row presses.
   private void addStripListener(int row, Color colorOn, Color colorOff) {
     Range2 extent = viewport.getExtent();
-    Viewport1 rowViewStrip = SubView.getSubViewStrip(viewport, Range2.create(extent.xRange(), row));
+    Viewport1 rowViewStrip = SubView.getSubViewport1(viewport, Range2.create(extent.xRange(), row));
     rowViewStrip.addListener(
         new Button1Listener() {
           @Override

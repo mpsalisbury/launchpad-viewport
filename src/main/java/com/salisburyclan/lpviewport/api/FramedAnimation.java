@@ -2,9 +2,11 @@ package com.salisburyclan.lpviewport.api;
 
 import com.salisburyclan.lpviewport.geom.Range2;
 
+// An animated layer that supports frames (draw/erase cycles).
 public abstract class FramedAnimation extends AnimatedLayer {
   private LayerBuffer layer;
 
+  // @param extent The extent represented by this layer.
   public FramedAnimation(Range2 extent) {
     layer = new LayerBuffer(extent);
   }

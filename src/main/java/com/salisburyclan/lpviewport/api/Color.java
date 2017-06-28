@@ -3,9 +3,10 @@ package com.salisburyclan.lpviewport.api;
 import com.google.auto.value.AutoValue;
 import com.google.common.math.DoubleMath;
 
-// Color is an RGB color with double-valued components.
+// An RGB color with (0.0..1.0)-valued components.
 @AutoValue
 public abstract class Color {
+  // Per-channel tolerance used for equality tests.
   private static final double CHANNEL_TOLERANCE = 0.00001;
 
   // Common colors
@@ -27,6 +28,7 @@ public abstract class Color {
   public static final Color YELLOW = create(1, 1, 0);
   public static final Color YELLOW_GREEN = create(0.35, 1, 0);
 
+  // Constructs a new Color instance.
   public static Color create(double red, double green, double blue) {
     return new AutoValue_Color(red, green, blue);
   }

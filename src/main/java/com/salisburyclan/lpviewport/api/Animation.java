@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.Timeline;
 
+// An object supporting play/pause/stop.
+// Subclasses should add their animation Timelines via addTimeline().
 public abstract class Animation {
 
   private List<Timeline> timelines;

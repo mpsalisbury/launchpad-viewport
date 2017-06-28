@@ -19,7 +19,13 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
-public abstract class JavafxLaunchpadApplication extends Application {
+// The base class for an animated launchpad application.
+// Subclass should implement run() as its entrypoint.
+// Use getViewport() to request a Viewport to render your application within.
+// User will specify the devices and layout that the Viewport represents via command-line arguments.
+// See ProdDeviceProvider for available devices (default = javafx).
+// See ProdLayoutProvider for available layouts (default = pickone).
+public abstract class LaunchpadApplication extends Application {
 
   private static final String DEVICE_SPEC_FLAG_NAME = "device";
   private static final String LAYOUT_SPEC_FLAG_NAME = "layout";
@@ -45,9 +51,10 @@ public abstract class JavafxLaunchpadApplication extends Application {
     }
   }
 
+  // Entrypoint for application.
   public abstract void run();
 
-  /** Provides the user-specified Viewport to the given callback when it has been constructed. */
+  // Provides the user-specified Viewport to the given callback when it has been constructed.
   protected void getViewport(Consumer<Viewport> viewportCallback) {
     Futures.addCallback(
         getViewport(),
@@ -60,11 +67,11 @@ public abstract class JavafxLaunchpadApplication extends Application {
         });
   }
 
-  private ListenableFuture<Viewport> getViewport() {
+  // Returns the user-specified Viewport when it has been constructed.
+  protected ListenableFuture<Viewport> getViewport() {
     return Futures.transform(getRawViewport(), rawViewport -> new RawViewportViewport(rawViewport));
   }
 
-  // Returns first viewport using clientSpec from args.
   private ListenableFuture<RawViewport> getRawViewport() {
     Map<String, String> parameters = getParameters().getNamed();
     String deviceSpec = parameters.getOrDefault(DEVICE_SPEC_FLAG_NAME, DEFAULT_DEVICE_SPEC);
@@ -72,6 +79,7 @@ public abstract class JavafxLaunchpadApplication extends Application {
     return getRawViewport(layoutSpec, deviceSpec);
   }
 
+  // Builds a viewport by passing all specified devices to the specified layout provider.
   private ListenableFuture<RawViewport> getRawViewport(String layoutSpec, String deviceSpec) {
     List<LaunchpadDevice> devices =
         Arrays.stream(deviceSpec.split(","))

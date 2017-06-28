@@ -97,6 +97,7 @@ public class LayerSandwichTest {
 
     // Just underLayer;
     sandwich.addLayer(underLayer);
+    // TODO: add/remove layer should notify of changed pixels.
     underLayer.setPixel(0, 1, pixel);
     verify(mockPixelListener).onSetPixel(0, 1);
 

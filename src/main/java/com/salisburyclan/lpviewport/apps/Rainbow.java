@@ -1,11 +1,11 @@
 package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.JavafxLaunchpadApplication;
+import com.salisburyclan.lpviewport.api.LaunchpadApplication;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.api.WriteLayer;
 
-public class Rainbow extends JavafxLaunchpadApplication {
+public class Rainbow extends LaunchpadApplication {
 
   private WriteLayer outputLayer;
 

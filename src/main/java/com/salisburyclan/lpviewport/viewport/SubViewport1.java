@@ -11,13 +11,13 @@ import com.salisburyclan.lpviewport.geom.Range1;
 import com.salisburyclan.lpviewport.geom.Range2;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
-public class SubViewStrip implements Viewport1 {
+public class SubViewport1 implements Viewport1 {
   private Viewport baseViewport;
   private WriteLayer writeLayer;
   private Range1 extent;
   private IndexMap indexMap;
 
-  public SubViewStrip(Viewport baseViewport, Range2 extent) {
+  public SubViewport1(Viewport baseViewport, Range2 extent) {
     this.baseViewport = baseViewport;
     this.writeLayer = baseViewport.addLayer();
     this.indexMap = newIndexMap(extent);

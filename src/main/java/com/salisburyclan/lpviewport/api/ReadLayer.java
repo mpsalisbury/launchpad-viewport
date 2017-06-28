@@ -16,9 +16,11 @@ public interface ReadLayer {
     return getPixel(p.x(), p.y());
   }
 
+  // Adds a listener that is notified when a pixel has changed value.
   void addPixelListener(PixelListener listener);
 
   void removePixelListener(PixelListener listener);
 
+  // Adds a listener that is notified when this layer is closed.
   void addCloseListener(CloseListener listener);
 }

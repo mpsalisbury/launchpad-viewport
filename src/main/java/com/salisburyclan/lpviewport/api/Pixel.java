@@ -10,6 +10,7 @@ import java.util.function.Function;
 public abstract class Pixel {
   public static final Pixel BLACK = create(Color.BLACK, 1.0);
   public static final Pixel EMPTY = create(Color.BLACK, 0.0);
+  // Tolerance allowed in equality tests.
   private static final double ALPHA_TOLERANCE = 0.00001;
 
   public static Pixel create(Color color) {

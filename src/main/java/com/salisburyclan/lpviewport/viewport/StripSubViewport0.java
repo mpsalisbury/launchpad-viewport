@@ -7,11 +7,11 @@ import com.salisburyclan.lpviewport.api.Viewport0;
 import com.salisburyclan.lpviewport.api.Viewport1;
 
 // A viewport that represents a one-button view of an existing viewport.
-public class StripSubViewButton implements Viewport0 {
+public class StripSubViewport0 implements Viewport0 {
   private Viewport1 baseViewStrip;
   private int x;
 
-  public StripSubViewButton(Viewport1 baseViewStrip, int x) {
+  public StripSubViewport0(Viewport1 baseViewStrip, int x) {
     baseViewStrip.getExtent().assertPointWithin(x);
     this.baseViewStrip = baseViewStrip;
     this.x = x;

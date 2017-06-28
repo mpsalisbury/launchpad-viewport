@@ -9,12 +9,12 @@ import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Point;
 
 // A viewport that represents a one-button view of an existing viewport.
-public class SubViewButton implements Viewport0 {
+public class SubViewport0 implements Viewport0 {
   private Viewport baseViewport;
   private WriteLayer baseWriteLayer;
   private Point p;
 
-  public SubViewButton(Viewport baseViewport, Point p) {
+  public SubViewport0(Viewport baseViewport, Point p) {
     baseViewport.getExtent().assertPointWithin(p);
     this.baseViewport = baseViewport;
     this.baseWriteLayer = baseViewport.addLayer();
