@@ -1,6 +1,7 @@
 package com.salisburyclan.lpviewport.api;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
@@ -11,6 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -96,18 +98,22 @@ public class LayerSandwichTest {
 
     sandwich.addPixelListener(mockPixelListener);
 
+    InOrder inOrder = inOrder(mockPixelListener);
+
     // Just underLayer;
     sandwich.addLayer(underLayer);
+    inOrder.verify(mockPixelListener).onPixelsChanged(FULL_EXTENT);
     // TODO: add/remove layer should notify of changed pixels.
     underLayer.setPixel(0, 1, pixel);
-    verify(mockPixelListener).onPixelChanged(Point.create(0, 1));
+    inOrder.verify(mockPixelListener).onPixelChanged(Point.create(0, 1));
 
     // Underlayer + overlayer.
     sandwich.addLayer(overLayer);
+    inOrder.verify(mockPixelListener).onPixelsChanged(FULL_EXTENT);
     overLayer.setPixel(0, 2, pixel);
-    verify(mockPixelListener).onPixelChanged(Point.create(0, 2));
+    inOrder.verify(mockPixelListener).onPixelChanged(Point.create(0, 2));
     underLayer.setPixel(0, 3, pixel);
-    verify(mockPixelListener).onPixelChanged(Point.create(0, 3));
+    inOrder.verify(mockPixelListener).onPixelChanged(Point.create(0, 3));
 
     // Remove listener
     sandwich.removePixelListener(mockPixelListener);
@@ -117,16 +123,23 @@ public class LayerSandwichTest {
     // Replace listener, remove underlayer.
     sandwich.addPixelListener(mockPixelListener);
     sandwich.removeLayer(underLayer);
+    inOrder.verify(mockPixelListener).onPixelsChanged(FULL_EXTENT);
     overLayer.setPixel(0, 6, pixel);
-    verify(mockPixelListener).onPixelChanged(Point.create(0, 6));
+    inOrder.verify(mockPixelListener).onPixelChanged(Point.create(0, 6));
     underLayer.setPixel(0, 7, pixel);
 
     // Remove overlayer too.  No layers remaining.
     sandwich.removeLayer(overLayer);
+    inOrder.verify(mockPixelListener).onPixelsChanged(FULL_EXTENT);
     overLayer.setPixel(0, 8, pixel);
     underLayer.setPixel(0, 9, pixel);
 
-    verifyNoMoreInteractions(mockPixelListener);
+    // Add layer with different extent.
+    LayerBuffer halfLayer = new LayerBuffer(HALF_EXTENT);
+    sandwich.addLayer(halfLayer);
+    inOrder.verify(mockPixelListener).onPixelsChanged(HALF_EXTENT);
+
+    inOrder.verifyNoMoreInteractions();
   }
 
   @Test

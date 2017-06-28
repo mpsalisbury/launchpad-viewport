@@ -30,11 +30,13 @@ public class LayerSandwich implements ReadLayer {
     layer.addPixelListener(pixelListeners);
     layer.addCloseListener(() -> removeLayer(layer));
     layers.add(layer);
+    pixelListeners.onPixelsChanged(layer.getExtent());
   }
 
   public void removeLayer(ReadLayer layer) {
     layer.removePixelListener(pixelListeners);
     layers.remove(layer);
+    pixelListeners.onPixelsChanged(layer.getExtent());
   }
 
   public void close() {

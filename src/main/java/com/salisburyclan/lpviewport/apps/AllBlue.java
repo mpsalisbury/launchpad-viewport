@@ -29,7 +29,6 @@ public class AllBlue extends LaunchpadApplication {
     addStripListener(1, Color.YELLOW, Color.BLUE);
     addStripListener(2, Color.RED, Color.BLUE);
     addStripListener(3, Color.ORANGE, Color.BLUE);
-    // TODO: fix extentlistener
     addExtentListener(4, 7, Color.PURPLE);
     addButtonListener(6, 4, Color.GREEN);
     addButtonStripListener(5, 5, Color.GREEN);

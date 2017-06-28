@@ -11,12 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiUnavailableException;
 
 /** Provides Devices for Midi devices. */
 public class MidiLaunchpadDeviceProvider implements LaunchpadDeviceProvider {
+  private static final Logger logger = Logger.getLogger(MidiLaunchpadDeviceProvider.class.getName());
 
   // Identifier for OSX
   private static final String OSX_ID = "macosx";
@@ -84,7 +86,7 @@ public class MidiLaunchpadDeviceProvider implements LaunchpadDeviceProvider {
                 Arrays.stream(deviceProvider.getMidiDeviceInfo())
                     .forEach(
                         info -> {
-                          System.out.println(
+                          logger.info(
                               String.format(
                                   "Got midi info %s / %s", info.getName(), info.getDescription()));
                           if (deviceSpec.equals(spec.getType())) {
@@ -98,10 +100,9 @@ public class MidiLaunchpadDeviceProvider implements LaunchpadDeviceProvider {
               });
       if (devices.isEmpty()) {
         if (foundValidType.get()) {
-          // TODO(mpsalisbury) Use logger rather than System.err
-          System.err.println("Requested device(s) not connected");
+          logger.warning("Requested device(s) not connected");
         } else {
-          System.err.println("Invalid TypeSpec requested");
+          logger.warning("Invalid TypeSpec requested");
         }
       }
     }
@@ -146,7 +147,7 @@ public class MidiLaunchpadDeviceProvider implements LaunchpadDeviceProvider {
         device.close();
         return false;
       } catch (MidiUnavailableException e) {
-        System.err.println(
+        logger.warning(
             String.format(
                 "Unable to access midi device %s\n%s", info.getDescription(), e.getMessage()));
         return false;
