@@ -78,7 +78,7 @@ public class LayerBuffer implements ReadLayer, WriteLayer {
       Pixel oldPixel = buffer[x - origin.x()][y - origin.y()];
       if (!pixel.equals(oldPixel)) {
         buffer[x - origin.x()][y - origin.y()] = pixel;
-        pixelListeners.onSetPixel(x, y);
+        pixelListeners.onPixelChanged(Point.create(x, y));
       }
     }
   }

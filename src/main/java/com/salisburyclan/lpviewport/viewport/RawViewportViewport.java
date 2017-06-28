@@ -7,6 +7,7 @@ import com.salisburyclan.lpviewport.api.Pixel;
 import com.salisburyclan.lpviewport.api.PixelListener;
 import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.api.Viewport;
+import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 
 // Viewport is a rectangular set of buttons/lights.
@@ -23,8 +24,13 @@ public class RawViewportViewport implements Viewport {
           public void onNextFrame() {}
 
           @Override
-          public void onSetPixel(int x, int y) {
-            writeRawPixel(x, y);
+          public void onPixelChanged(Point p) {
+            writeRawPixel(p.x(), p.y());
+          }
+
+          @Override
+          public void onPixelsChanged(Range2 range) {
+            writeRawPixels(range);
           }
         });
   }
@@ -48,9 +54,15 @@ public class RawViewportViewport implements Viewport {
     layers.removeLayer(layer);
   }
 
+  // Write pixel from our layers into the raw viewport.
   private void writeRawPixel(int x, int y) {
     Pixel pixel = Pixel.BLACK.combine(layers.getPixel(x, y));
     rawViewport.getRawLayer().setPixel(x, y, pixel.color());
+  }
+
+  // Write pixels from our layers into the raw viewport.
+  private void writeRawPixels(Range2 range) {
+    range.forEach(this::writeRawPixel);
   }
 
   // Adds a listener for this viewport.

@@ -1,5 +1,6 @@
 package com.salisburyclan.lpviewport.api;
 
+import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.util.CleanupExecutor;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -53,7 +54,10 @@ public class DecayingAnimation implements ReadLayer {
           }
 
           @Override
-          public void onSetPixel(int x, int y) {}
+          public void onPixelChanged(Point p) {}
+
+          @Override
+          public void onPixelsChanged(Range2 range) {}
         });
 
     setupDecay(ticks_per_second, millis_to_decay);

@@ -4,6 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.util.CloseListenerMultiplexer;
 import org.junit.Rule;
@@ -99,14 +100,14 @@ public class LayerSandwichTest {
     sandwich.addLayer(underLayer);
     // TODO: add/remove layer should notify of changed pixels.
     underLayer.setPixel(0, 1, pixel);
-    verify(mockPixelListener).onSetPixel(0, 1);
+    verify(mockPixelListener).onPixelChanged(Point.create(0, 1));
 
     // Underlayer + overlayer.
     sandwich.addLayer(overLayer);
     overLayer.setPixel(0, 2, pixel);
-    verify(mockPixelListener).onSetPixel(0, 2);
+    verify(mockPixelListener).onPixelChanged(Point.create(0, 2));
     underLayer.setPixel(0, 3, pixel);
-    verify(mockPixelListener).onSetPixel(0, 3);
+    verify(mockPixelListener).onPixelChanged(Point.create(0, 3));
 
     // Remove listener
     sandwich.removePixelListener(mockPixelListener);
@@ -117,7 +118,7 @@ public class LayerSandwichTest {
     sandwich.addPixelListener(mockPixelListener);
     sandwich.removeLayer(underLayer);
     overLayer.setPixel(0, 6, pixel);
-    verify(mockPixelListener).onSetPixel(0, 6);
+    verify(mockPixelListener).onPixelChanged(Point.create(0, 6));
     underLayer.setPixel(0, 7, pixel);
 
     // Remove overlayer too.  No layers remaining.
