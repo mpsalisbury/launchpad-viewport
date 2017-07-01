@@ -66,6 +66,9 @@ public class SubViewport0Test {
     baseViewport.pushButton(point);
     verify(mockListener).onButtonPressed();
 
+    baseViewport.releaseButton(point);
+    verify(mockListener).onButtonReleased();
+
     baseViewport.pushButton(point.add(Vector.create(1, 1)));
     verifyZeroInteractions(mockListener);
 

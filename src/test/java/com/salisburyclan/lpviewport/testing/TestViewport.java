@@ -30,6 +30,11 @@ public class TestViewport implements Viewport {
     listeners.onButtonPressed(p);
   }
 
+  // Simulate the pushing of a button at Point p.
+  public void releaseButton(Point p) {
+    listeners.onButtonReleased(p);
+  }
+
   @Override
   public Range2 getExtent() {
     return extent;
@@ -61,6 +66,11 @@ public class TestViewport implements Viewport {
     @Override
     public void onButtonPressed(Point p) {
       getItemsCopy().forEach(listener -> listener.onButtonPressed(p));
+    }
+
+    @Override
+    public void onButtonReleased(Point p) {
+      getItemsCopy().forEach(listener -> listener.onButtonReleased(p));
     }
   }
 }
