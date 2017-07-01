@@ -18,7 +18,8 @@ import javax.sound.midi.MidiUnavailableException;
 
 /** Provides Devices for Midi devices. */
 public class MidiLaunchpadDeviceProvider implements LaunchpadDeviceProvider {
-  private static final Logger logger = Logger.getLogger(MidiLaunchpadDeviceProvider.class.getName());
+  private static final Logger logger =
+      Logger.getLogger(MidiLaunchpadDeviceProvider.class.getName());
 
   // Identifier for OSX
   private static final String OSX_ID = "macosx";

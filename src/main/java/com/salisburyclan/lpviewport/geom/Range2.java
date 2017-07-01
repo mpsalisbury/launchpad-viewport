@@ -33,7 +33,6 @@ public abstract class Range2 {
 
   public abstract Range1 yRange();
 
-  // TODO test
   public Point origin() {
     return Point.create(xRange().low(), yRange().low());
   }

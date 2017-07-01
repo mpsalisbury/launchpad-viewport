@@ -90,8 +90,6 @@ public class HorizontalLayoutProvider implements LayoutProvider {
               viewport.removeListener(this);
               appendViewport(viewport);
             }
-
-            public void onButtonReleased(Point p) {}
           });
     }
 

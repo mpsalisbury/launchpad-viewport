@@ -26,9 +26,6 @@ public class ExplodeApp extends LaunchpadApplication {
             viewport.addLayer(new DecayingAnimation(explode));
             explode.play();
           }
-
-          @Override
-          public void onButtonReleased(Point p) {}
         });
   }
 

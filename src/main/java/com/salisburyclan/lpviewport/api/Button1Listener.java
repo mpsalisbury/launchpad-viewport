@@ -6,5 +6,5 @@ public interface Button1Listener {
   void onButtonPressed(int p);
 
   // Button at position p was released.
-  void onButtonReleased(int p);
+  default void onButtonReleased(int p) {}
 }

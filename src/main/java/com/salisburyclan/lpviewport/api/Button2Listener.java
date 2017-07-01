@@ -8,5 +8,5 @@ public interface Button2Listener {
   void onButtonPressed(Point p);
 
   // Button at position p was released.
-  void onButtonReleased(Point p);
+  default void onButtonReleased(Point p) {}
 }

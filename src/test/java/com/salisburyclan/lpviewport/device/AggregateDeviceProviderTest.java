@@ -28,7 +28,9 @@ public class AggregateDeviceProviderTest {
 
   @Test
   public void testGetAvailableTypes() throws Exception {
-    assertThat(deviceProvider.getAvailableTypes()).containsExactly("A", "B", "C", "D", "E");
+    assertThat(deviceProvider.getAvailableTypes())
+        .containsExactly("A", "B", "C", "D", "E")
+        .inOrder();
   }
 
   @Test

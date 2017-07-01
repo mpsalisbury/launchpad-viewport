@@ -100,8 +100,6 @@ public class AllBlue extends LaunchpadApplication {
             System.out.println(String.format("ExtentPressed(%s) row %s", p, row1));
             rowWriteLayer.setPixel(p, color);
           }
-
-          public void onButtonReleased(Point p) {}
         });
   }
 }

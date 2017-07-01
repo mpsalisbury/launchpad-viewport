@@ -18,6 +18,11 @@ public abstract class Pixel {
   }
 
   public static Pixel create(Color color, double alpha) {
+    checkRange(alpha);
+    if (alpha <= ALPHA_TOLERANCE) {
+      // For transparent pixels, don't care about color.
+      color = Color.BLACK;
+    }
     return new AutoValue_Pixel(color, alpha);
   }
 
@@ -66,5 +71,11 @@ public abstract class Pixel {
           && DoubleMath.fuzzyEquals(this.alpha(), that.alpha(), ALPHA_TOLERANCE);
     }
     return false;
+  }
+
+  private static void checkRange(double alpha) {
+    if (alpha < 0.0 || alpha > 1.0) {
+      throw new IllegalArgumentException("Alpha out of range: " + alpha);
+    }
   }
 }

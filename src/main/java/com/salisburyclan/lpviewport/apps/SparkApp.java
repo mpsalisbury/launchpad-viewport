@@ -26,9 +26,6 @@ public class SparkApp extends LaunchpadApplication {
             viewport.addLayer(new DecayingAnimation(spark));
             spark.play();
           }
-
-          @Override
-          public void onButtonReleased(Point p) {}
         });
   }
 

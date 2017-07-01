@@ -48,8 +48,6 @@ public class LinkedViewportBuilder {
               selectLinkStart(viewport, p);
             }
           }
-
-          public void onButtonReleased(Point p) {}
         };
     viewport.addListener(listener);
     viewportCleanups.add(
@@ -92,8 +90,6 @@ public class LinkedViewportBuilder {
               selectLinkEnd(partialLink, viewport, p);
             }
           }
-
-          public void onButtonReleased(Point p) {}
         };
     viewport.addListener(listener);
     viewportCleanups.add(

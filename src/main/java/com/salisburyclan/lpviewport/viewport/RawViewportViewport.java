@@ -21,9 +21,6 @@ public class RawViewportViewport implements Viewport {
     layers.addPixelListener(
         new PixelListener() {
           @Override
-          public void onNextFrame() {}
-
-          @Override
           public void onPixelChanged(Point p) {
             writeRawPixel(p.x(), p.y());
           }

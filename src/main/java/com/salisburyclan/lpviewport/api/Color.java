@@ -30,6 +30,9 @@ public abstract class Color {
 
   // Constructs a new Color instance.
   public static Color create(double red, double green, double blue) {
+    checkRange(red);
+    checkRange(green);
+    checkRange(blue);
     return new AutoValue_Color(red, green, blue);
   }
 
@@ -51,5 +54,11 @@ public abstract class Color {
           && DoubleMath.fuzzyEquals(this.blue(), that.blue(), CHANNEL_TOLERANCE);
     }
     return false;
+  }
+
+  private static void checkRange(double component) {
+    if (component < 0.0 || component > 1.0) {
+      throw new IllegalArgumentException("Color Component out of range: " + component);
+    }
   }
 }

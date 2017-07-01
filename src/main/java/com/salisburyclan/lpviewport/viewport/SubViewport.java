@@ -40,11 +40,10 @@ public class SubViewport implements Viewport {
     return subLayer;
   }
 
-  // TODO consider allowing any sublayer extent of same shape but arbitrary origin.
   @Override
   public void addLayer(ReadLayer layer) {
-    layer.addCloseListener(() -> removeLayer(layer));
     baseViewport.addLayer(layer);
+    layer.addCloseListener(() -> removeLayer(layer));
   }
 
   @Override

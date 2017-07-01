@@ -2,7 +2,9 @@ package com.salisburyclan.lpviewport.api;
 
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.util.CleanupExecutor;
+import com.salisburyclan.lpviewport.util.CloseListenerMultiplexer;
+import com.salisburyclan.lpviewport.util.CommandExecutor;
+import com.salisburyclan.lpviewport.util.PixelListenerMultiplexer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,12 +22,15 @@ public class DecayingAnimation implements ReadLayer {
   // The decay from the input layer.
   private LayerBuffer decayLayer;
 
+  private CloseListenerMultiplexer closeListeners;
+  private PixelListenerMultiplexer pixelListeners;
+
   // Indicator that inputLayer has closed and that
   // we should close when decay has completed.
   private boolean shuttingDown = false;
 
   // Methods to execute at cleanup time.
-  private CleanupExecutor onCleanup;
+  private CommandExecutor onCleanup;
 
   // How much to decay the buffer transparency for each tick.
   private double decayPerTick;
@@ -33,19 +38,39 @@ public class DecayingAnimation implements ReadLayer {
   private static final int DEFAULT_TICKS_PER_SECOND = 30;
   private static final int DEFAULT_MILLIS_TO_DECAY = 500;
 
+  // @Param inputLayer Frame Layer that we will decay over time.
   public DecayingAnimation(ReadLayer inputLayer) {
     this(inputLayer, DEFAULT_TICKS_PER_SECOND, DEFAULT_MILLIS_TO_DECAY);
   }
 
-  // @Param ticks_per_second how frequently to update the buffer and output pixels.
-  // @Param millis_to_decay How long for an opaque pixel to decay to fully transparent.
-  public DecayingAnimation(ReadLayer inputLayer, int ticks_per_second, int millis_to_decay) {
+  // @Param inputLayer Frame Layer that we will decay over time.
+  // @Param ticksPerSecond how frequently to update the buffer and output pixels.
+  // @Param millisToDecay How long for an opaque pixel to decay to fully transparent.
+  public DecayingAnimation(ReadLayer inputLayer, int ticksPerSecond, int millisToDecay) {
+    this(
+        inputLayer,
+        newTimelineTickProvider(ticksPerSecond),
+        getDecayPerTick(ticksPerSecond, millisToDecay));
+  }
+
+  public interface TickProvider {
+    void addTicker(Runnable listener);
+  }
+
+  // @Param inputLayer Frame Layer that we will decay over time.
+  // @Param tickProvider Provides a tick for each decay update.
+  // @Param decayPerTick Amount of alpha to decay each pixel on each tick.
+  public DecayingAnimation(ReadLayer inputLayer, TickProvider tickProvider, double decayPerTick) {
     this.inputLayer = inputLayer;
     this.extent = inputLayer.getExtent();
     this.decayLayer = new LayerBuffer(extent);
-    this.onCleanup = new CleanupExecutor();
+    this.onCleanup = new CommandExecutor();
+    this.closeListeners = new CloseListenerMultiplexer();
+    this.pixelListeners = new PixelListenerMultiplexer();
+    this.decayPerTick = decayPerTick;
+    tickProvider.addTicker(this::decayCycle);
 
-    inputLayer.addPixelListener(
+    PixelListener layerPixelListener =
         new PixelListener() {
           @Override
           public void onNextFrame() {
@@ -54,13 +79,31 @@ public class DecayingAnimation implements ReadLayer {
           }
 
           @Override
-          public void onPixelChanged(Point p) {}
+          public void onPixelChanged(Point p) {
+            pixelListeners.onPixelChanged(p);
+          }
 
           @Override
-          public void onPixelsChanged(Range2 range) {}
-        });
+          public void onPixelsChanged(Range2 range) {
+            pixelListeners.onPixelsChanged(range);
+          }
+        };
+    inputLayer.addPixelListener(layerPixelListener);
+    decayLayer.addPixelListener(layerPixelListener);
 
-    setupDecay(ticks_per_second, millis_to_decay);
+    inputLayer.addCloseListener(
+        new CloseListener() {
+          @Override
+          public void onClose() {
+            pixelListeners.clear();
+            shuttingDown = true;
+          }
+        });
+  }
+
+  private void shutDown() {
+    closeListeners.onClose();
+    closeListeners.clear();
   }
 
   @Override
@@ -70,44 +113,27 @@ public class DecayingAnimation implements ReadLayer {
 
   @Override
   public Pixel getPixel(int x, int y) {
-    return decayLayer.getPixel(x, y).combine(inputLayer.getPixel(x, y));
+    if (shuttingDown) {
+      // If shutting down, ignore inputLayer.
+      return decayLayer.getPixel(x, y);
+    } else {
+      return decayLayer.getPixel(x, y).combine(inputLayer.getPixel(x, y));
+    }
   }
 
   @Override
   public void addPixelListener(PixelListener listener) {
-    decayLayer.addPixelListener(listener);
-    inputLayer.addPixelListener(listener);
-    onCleanup.add(() -> removePixelListener(listener));
+    pixelListeners.add(listener);
   }
 
   @Override
   public void removePixelListener(PixelListener listener) {
-    decayLayer.removePixelListener(listener);
-    inputLayer.removePixelListener(listener);
+    pixelListeners.remove(listener);
   }
 
   @Override
   public void addCloseListener(CloseListener listener) {
-    inputLayer.addCloseListener(
-        new CloseListener() {
-          @Override
-          public void onClose() {
-            shuttingDown = true;
-          }
-        });
-  }
-
-  // Set up decay animation.
-  private void setupDecay(int ticksPerSecond, double millisToDecay) {
-    Timeline timeline = new Timeline();
-    timeline.setCycleCount(Timeline.INDEFINITE);
-    int millisPerTick = 1000 / ticksPerSecond;
-    timeline
-        .getKeyFrames()
-        .add(new KeyFrame(Duration.millis(millisPerTick), event -> decayCycle()));
-    this.decayPerTick = millisPerTick / millisToDecay;
-    timeline.play();
-    onCleanup.add(() -> timeline.stop());
+    closeListeners.add(listener);
   }
 
   // Executed at every decay tick.
@@ -122,7 +148,7 @@ public class DecayingAnimation implements ReadLayer {
           }
         });
     if (!foundNonEmptyPixel.get() && shuttingDown) {
-      onCleanup.execute();
+      shutDown();
     }
   }
 
@@ -137,7 +163,10 @@ public class DecayingAnimation implements ReadLayer {
   }
 
   // Copy input frame into decaying frame.
-  public void pushFrame() {
+  private void pushFrame() {
+    if (shuttingDown) {
+      return;
+    }
     extent.forEach(
         (x, y) -> {
           Pixel inputPixel = inputLayer.getPixel(x, y);
@@ -145,5 +174,39 @@ public class DecayingAnimation implements ReadLayer {
             decayLayer.combinePixel(x, y, inputPixel);
           }
         });
+  }
+
+  // TickProvider that fires with each call to fireTick().
+  public static class SimpleTickProvider implements TickProvider {
+    private CommandExecutor executor = new CommandExecutor();
+
+    @Override
+    public void addTicker(Runnable ticker) {
+      executor.add(ticker);
+    }
+
+    public void fireTick() {
+      executor.execute();
+    }
+  }
+
+  // Returns Timeline-driven TickProvider.
+  private static TickProvider newTimelineTickProvider(int ticksPerSecond) {
+    SimpleTickProvider tickProvider = new SimpleTickProvider();
+    Timeline timeline = new Timeline();
+    timeline.setCycleCount(Timeline.INDEFINITE);
+    int millisPerTick = 1000 / ticksPerSecond;
+    timeline
+        .getKeyFrames()
+        .add(new KeyFrame(Duration.millis(millisPerTick), event -> tickProvider.fireTick()));
+    timeline.play();
+    // TODO: Figure out another way to stop the timeline.
+    //    onCleanup.add(() -> timeline.stop());
+    return tickProvider;
+  }
+
+  // Computes amount to decay buffer with every tick.
+  private static double getDecayPerTick(int ticksPerSecond, int millisToDecay) {
+    return 1000 / (ticksPerSecond * millisToDecay);
   }
 }

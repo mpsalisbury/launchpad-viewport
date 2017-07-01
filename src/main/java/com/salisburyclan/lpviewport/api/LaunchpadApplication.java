@@ -3,18 +3,13 @@ package com.salisburyclan.lpviewport.api;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.salisburyclan.lpviewport.device.LaunchpadDevice;
-import com.salisburyclan.lpviewport.device.LaunchpadDeviceProvider;
 import com.salisburyclan.lpviewport.device.ProdDeviceProvider;
-import com.salisburyclan.lpviewport.layout.LayoutProvider;
 import com.salisburyclan.lpviewport.layout.ProdLayoutProvider;
 import com.salisburyclan.lpviewport.viewport.RawViewport;
+import com.salisburyclan.lpviewport.viewport.RawViewportConstructor;
 import com.salisburyclan.lpviewport.viewport.RawViewportViewport;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -31,13 +26,13 @@ public abstract class LaunchpadApplication extends Application {
   private static final String LAYOUT_SPEC_FLAG_NAME = "layout";
   private static final String DEFAULT_DEVICE_SPEC = "javafx";
   private static final String DEFAULT_LAYOUT_SPEC = "pickone";
-  private LaunchpadDeviceProvider deviceProvider;
-  private LayoutProvider layoutProvider;
+  private RawViewportConstructor viewportConstructor;
 
   @Override
   public void init() {
-    deviceProvider = ProdDeviceProvider.getEverythingProvider();
-    layoutProvider = ProdLayoutProvider.getEverythingProvider();
+    viewportConstructor =
+        new RawViewportConstructor(
+            ProdDeviceProvider.getEverythingProvider(), ProdLayoutProvider.getEverythingProvider());
   }
 
   @Override
@@ -76,18 +71,6 @@ public abstract class LaunchpadApplication extends Application {
     Map<String, String> parameters = getParameters().getNamed();
     String deviceSpec = parameters.getOrDefault(DEVICE_SPEC_FLAG_NAME, DEFAULT_DEVICE_SPEC);
     String layoutSpec = parameters.getOrDefault(LAYOUT_SPEC_FLAG_NAME, DEFAULT_LAYOUT_SPEC);
-    return getRawViewport(layoutSpec, deviceSpec);
-  }
-
-  // Builds a viewport by passing all specified devices to the specified layout provider.
-  private ListenableFuture<RawViewport> getRawViewport(String layoutSpec, String deviceSpec) {
-    List<LaunchpadDevice> devices =
-        Arrays.stream(deviceSpec.split(","))
-            .flatMap(spec -> deviceProvider.getDevices(spec).stream())
-            .collect(Collectors.toList());
-    if (devices.isEmpty()) {
-      throw new IllegalArgumentException("No Devices available for DeviceSpec: " + deviceSpec);
-    }
-    return layoutProvider.createLayout(layoutSpec, devices);
+    return viewportConstructor.getRawViewport(layoutSpec, deviceSpec);
   }
 }

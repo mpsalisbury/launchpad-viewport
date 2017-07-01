@@ -34,10 +34,7 @@ public class ColorCode {
   }
 
   private static void checkRange(double component) {
-    if (component < 0.0) {
-      throw new IllegalArgumentException("Color Component out of range: " + component);
-    }
-    if (component > 1.0) {
+    if (component < 0.0 || component > 1.0) {
       throw new IllegalArgumentException("Color Component out of range: " + component);
     }
   }

@@ -6,7 +6,7 @@ import com.salisburyclan.lpviewport.geom.Range2;
 // Listen for pixel changes.
 public interface PixelListener {
   // Called when layer is ready to start a new frame.
-  void onNextFrame();
+  default void onNextFrame() {}
 
   // Called when layer sets a pixel.
   void onPixelChanged(Point p);

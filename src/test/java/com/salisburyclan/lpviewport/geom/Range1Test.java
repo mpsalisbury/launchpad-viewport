@@ -116,6 +116,6 @@ public class Range1Test {
     Range1 range = Range1.create(3, 5);
     List<Integer> values = new ArrayList<>();
     range.forEach(x -> values.add(x));
-    assertThat(values).containsExactly(3, 4, 5);
+    assertThat(values).containsExactly(3, 4, 5).inOrder();
   }
 }

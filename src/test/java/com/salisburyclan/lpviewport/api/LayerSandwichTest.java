@@ -1,13 +1,15 @@
 package com.salisburyclan.lpviewport.api;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.salisburyclan.lpviewport.testing.AssertThrows.assertThrows;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.util.CloseListenerMultiplexer;
+import com.salisburyclan.lpviewport.geom.Vector;
+import com.salisburyclan.lpviewport.testing.FlatLayer;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +33,14 @@ public class LayerSandwichTest {
 
   private Pixel gray(double intensity) {
     return Pixel.create(Color.create(intensity, intensity, intensity));
+  }
+
+  @Test
+  public void testAddLayerInvalidExtent() {
+    LayerSandwich sandwich = new LayerSandwich(FULL_EXTENT);
+    Range2 nonContainedExtent = FULL_EXTENT.shift(Vector.create(1, 0));
+    ReadLayer nonContainedLayer = new FlatLayer(nonContainedExtent, BLACK);
+    assertThrows(IllegalArgumentException.class, () -> sandwich.addLayer(nonContainedLayer));
   }
 
   @Test
@@ -74,7 +84,7 @@ public class LayerSandwichTest {
   }
 
   @Test
-  public void testClose() {
+  public void testLayerClose() {
     FlatLayer layer = new FlatLayer(FULL_EXTENT, gray(0.6));
 
     LayerSandwich sandwich = new LayerSandwich(FULL_EXTENT);
@@ -83,6 +93,7 @@ public class LayerSandwichTest {
     sandwich.addLayer(layer);
     assertThat(sandwich.getPixel(0, 0)).isEqualTo(gray(0.6));
 
+    // When layer closes, it should be removed from sandwich.
     layer.close();
     assertThat(sandwich.getPixel(0, 0)).isEqualTo(Pixel.EMPTY);
   }
@@ -103,7 +114,6 @@ public class LayerSandwichTest {
     // Just underLayer;
     sandwich.addLayer(underLayer);
     inOrder.verify(mockPixelListener).onPixelsChanged(FULL_EXTENT);
-    // TODO: add/remove layer should notify of changed pixels.
     underLayer.setPixel(0, 1, pixel);
     inOrder.verify(mockPixelListener).onPixelChanged(Point.create(0, 1));
 
@@ -150,46 +160,5 @@ public class LayerSandwichTest {
 
     verify(mockCloseListener).onClose();
     verifyNoMoreInteractions(mockCloseListener);
-  }
-
-  // TODO Consider moving someplace public.
-  private class FlatLayer implements ReadLayer {
-    private Range2 extent;
-    private Pixel pixel;
-    private CloseListenerMultiplexer closeListeners;
-
-    public FlatLayer(Range2 extent, Pixel pixel) {
-      this.extent = extent;
-      this.pixel = pixel;
-      this.closeListeners = new CloseListenerMultiplexer();
-    }
-
-    public Range2 getExtent() {
-      return extent;
-    }
-
-    public Pixel getPixel(int x, int y) {
-      if (extent.isPointWithin(x, y)) {
-        return pixel;
-      } else {
-        return Pixel.EMPTY;
-      }
-    }
-
-    public void close() {
-      closeListeners.onClose();
-    }
-
-    public void addPixelListener(PixelListener listener) {
-      // Pixels don't change. Do nothing.
-    }
-
-    public void removePixelListener(PixelListener listener) {
-      // Pixels don't change. Do nothing.
-    }
-
-    public void addCloseListener(CloseListener listener) {
-      closeListeners.add(listener);
-    }
   }
 }
