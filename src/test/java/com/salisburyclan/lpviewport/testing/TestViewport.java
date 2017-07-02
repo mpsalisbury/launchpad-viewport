@@ -2,6 +2,7 @@ package com.salisburyclan.lpviewport.testing;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.LayerBuffer;
+import com.salisburyclan.lpviewport.api.LayerSandwich;
 import com.salisburyclan.lpviewport.api.Pixel;
 import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.api.Viewport;
@@ -12,17 +13,17 @@ import com.salisburyclan.lpviewport.util.Multiplexer;
 // Sample Viewport for testing subviews.
 public class TestViewport implements Viewport {
   private Range2 extent;
-  private LayerBuffer layer;
+  private LayerSandwich layers;
   private Button2ListenerMultiplexer listeners;
 
   public TestViewport(Range2 extent) {
     this.extent = extent;
-    this.layer = new LayerBuffer(extent);
+    this.layers = new LayerSandwich(extent);
     this.listeners = new Button2ListenerMultiplexer();
   }
 
   public Pixel getPixel(Point p) {
-    return layer.getPixel(p);
+    return layers.getPixel(p);
   }
 
   // Simulate the pushing of a button at Point p.
@@ -42,14 +43,20 @@ public class TestViewport implements Viewport {
 
   @Override
   public LayerBuffer addLayer() {
-    return layer;
+    LayerBuffer buffer = new LayerBuffer(getExtent());
+    addLayer(buffer);
+    return buffer;
   }
 
   @Override
-  public void addLayer(ReadLayer layer) {}
+  public void addLayer(ReadLayer layer) {
+    layers.addLayer(layer);
+  }
 
   @Override
-  public void removeLayer(ReadLayer layer) {}
+  public void removeLayer(ReadLayer layer) {
+    layers.removeLayer(layer);
+  }
 
   @Override
   public void addListener(Button2Listener listener) {

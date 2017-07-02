@@ -15,6 +15,10 @@ public class Multiplexer<ItemT> {
     items.remove(item);
   }
 
+  public int getNumItems() {
+    return items.size();
+  }
+
   public void clear() {
     items.clear();
   }

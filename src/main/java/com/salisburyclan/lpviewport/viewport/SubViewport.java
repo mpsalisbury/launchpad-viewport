@@ -6,19 +6,22 @@ import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.geom.Vector;
+import java.util.HashMap;
+import java.util.Map;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
 public class SubViewport implements Viewport {
   private Viewport baseViewport;
   private Range2 subExtent;
-  private Vector originOffset;
+  // Keep track of derived listeners so we can remove them
+  // from baseViewport upon request.
+  private Map<Button2Listener, Button2Listener> listenerMap;
 
   public SubViewport(Viewport baseViewport, Range2 subExtent) {
     this.baseViewport = baseViewport;
     this.subExtent = subExtent;
-    this.originOffset = subExtent.origin().subtract(Point.create(0, 0));
     checkExtent(subExtent);
+    this.listenerMap = new HashMap<>();
   }
 
   private void checkExtent(Range2 subExtent) {
@@ -53,7 +56,7 @@ public class SubViewport implements Viewport {
 
   @Override
   public void addListener(Button2Listener listener) {
-    baseViewport.addListener(
+    Button2Listener subListener =
         new Button2Listener() {
           public void onButtonPressed(Point p) {
             if (subExtent.isPointWithin(p)) {
@@ -66,12 +69,16 @@ public class SubViewport implements Viewport {
               listener.onButtonReleased(p);
             }
           }
-        });
+        };
+    listenerMap.put(listener, subListener);
+    baseViewport.addListener(subListener);
   }
 
   @Override
   public void removeListener(Button2Listener listener) {
-    // TODO implement
-    throw new UnsupportedOperationException("SubViewport::removeListener");
+    Button2Listener subListener = listenerMap.remove(listener);
+    if (subListener != null) {
+      baseViewport.removeListener(subListener);
+    }
   }
 }
