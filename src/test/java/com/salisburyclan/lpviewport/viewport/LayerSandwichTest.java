@@ -1,4 +1,4 @@
-package com.salisburyclan.lpviewport.api;
+package com.salisburyclan.lpviewport.viewport;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.salisburyclan.lpviewport.testing.AssertThrows.assertThrows;
@@ -6,6 +6,12 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import com.salisburyclan.lpviewport.api.CloseListener;
+import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.LayerBuffer;
+import com.salisburyclan.lpviewport.api.Pixel;
+import com.salisburyclan.lpviewport.api.PixelListener;
+import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;

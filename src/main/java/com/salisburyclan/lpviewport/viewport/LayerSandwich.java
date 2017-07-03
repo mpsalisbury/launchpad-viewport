@@ -1,5 +1,9 @@
-package com.salisburyclan.lpviewport.api;
+package com.salisburyclan.lpviewport.viewport;
 
+import com.salisburyclan.lpviewport.api.CloseListener;
+import com.salisburyclan.lpviewport.api.Pixel;
+import com.salisburyclan.lpviewport.api.PixelListener;
+import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.util.CloseListenerMultiplexer;
 import com.salisburyclan.lpviewport.util.PixelListenerMultiplexer;

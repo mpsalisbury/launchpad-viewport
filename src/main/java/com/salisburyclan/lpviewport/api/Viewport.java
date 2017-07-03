@@ -6,7 +6,7 @@ import com.salisburyclan.lpviewport.geom.Range2;
 public interface Viewport {
   Range2 getExtent();
 
-  LayerBuffer addLayer();
+  ReadWriteLayer addLayer();
 
   void addLayer(ReadLayer layer);
 

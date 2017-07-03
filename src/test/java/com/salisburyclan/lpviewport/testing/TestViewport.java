@@ -2,13 +2,13 @@ package com.salisburyclan.lpviewport.testing;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.LayerBuffer;
-import com.salisburyclan.lpviewport.api.LayerSandwich;
 import com.salisburyclan.lpviewport.api.Pixel;
 import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.util.Multiplexer;
+import com.salisburyclan.lpviewport.viewport.LayerSandwich;
 
 // Sample Viewport for testing subviews.
 public class TestViewport implements Viewport {

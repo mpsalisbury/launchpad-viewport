@@ -2,7 +2,6 @@ package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.LayerBuffer;
-import com.salisburyclan.lpviewport.api.LayerSandwich;
 import com.salisburyclan.lpviewport.api.Pixel;
 import com.salisburyclan.lpviewport.api.PixelListener;
 import com.salisburyclan.lpviewport.api.ReadLayer;

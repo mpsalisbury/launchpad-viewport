@@ -6,7 +6,7 @@ import com.salisburyclan.lpviewport.util.CloseListenerMultiplexer;
 import com.salisburyclan.lpviewport.util.PixelListenerMultiplexer;
 
 // A buffer of pixels for staging images.
-public class LayerBuffer implements ReadLayer, WriteLayer {
+public class LayerBuffer implements ReadWriteLayer {
   // The 2d extent of this buffer.
   private Range2 extent;
   // The pixels[x][y] in this buffer. Indices are 0-based.
