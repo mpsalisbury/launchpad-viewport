@@ -1,8 +1,8 @@
 package com.salisburyclan.lpviewport.device.javafx;
 
 import com.google.common.collect.ImmutableSet;
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.LaunchpadDeviceProvider;
+import com.salisburyclan.lpviewport.device.LaunchpadDevice;
+import com.salisburyclan.lpviewport.device.LaunchpadDeviceProvider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

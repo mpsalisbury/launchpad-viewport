@@ -1,7 +1,7 @@
 package com.salisburyclan.lpviewport.device.midi;
 
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.device.LaunchpadDevice;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import javax.sound.midi.MidiUnavailableException;
 
 /** Represents a physical MIDI Launchpad device. */

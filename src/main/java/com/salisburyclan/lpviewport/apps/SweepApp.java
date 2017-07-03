@@ -2,9 +2,10 @@ package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.animation.Sweep;
 import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.LaunchpadApplication;
 import com.salisburyclan.lpviewport.api.Viewport;
 
-public class SweepApp extends JavafxLaunchpadApplication {
+public class SweepApp extends LaunchpadApplication {
 
   @Override
   public void run() {

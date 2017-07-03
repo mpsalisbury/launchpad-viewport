@@ -1,89 +1,84 @@
 package com.salisburyclan.lpviewport.viewport;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
-import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LightLayer;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.LayerBuffer;
+import com.salisburyclan.lpviewport.api.ReadLayer;
+import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.geom.Vector;
+import java.util.HashMap;
+import java.util.Map;
 
 // A viewport that represents a sub-rectangle of an existing viewport.
-public class SubViewport implements RawViewport {
-  private RawViewport baseViewport;
-  private LightLayer outputLayer;
-  private Range2 extent;
-  private Vector originOffset;
+public class SubViewport implements Viewport {
+  private Viewport baseViewport;
+  private Range2 subExtent;
+  // Keep track of derived listeners so we can remove them
+  // from baseViewport upon request.
+  private Map<Button2Listener, Button2Listener> listenerMap;
 
-  public SubViewport(RawViewport baseViewport, Range2 extent) {
+  public SubViewport(Viewport baseViewport, Range2 subExtent) {
     this.baseViewport = baseViewport;
-    this.outputLayer = new SubLightLayer(baseViewport.getLightLayer());
-    this.extent = extent;
-    this.originOffset = extent.origin().subtract(Point.create(0, 0));
-    checkExtent(extent);
+    this.subExtent = subExtent;
+    checkExtent(subExtent);
+    this.listenerMap = new HashMap<>();
   }
 
-  private void checkExtent(Range2 extent) {
-    if (!baseViewport.getExtent().isRangeWithin(extent)) {
+  private void checkExtent(Range2 subExtent) {
+    if (!baseViewport.getExtent().isRangeWithin(subExtent)) {
       throw new IllegalArgumentException(
-          "Extent extends beyond base viewport: " + extent.toString());
+          "Extent extends beyond base viewport: " + subExtent.toString());
     }
   }
 
   @Override
   public Range2 getExtent() {
-    return extent;
+    return subExtent;
   }
 
   @Override
-  public LightLayer getLightLayer() {
-    return outputLayer;
+  public LayerBuffer addLayer() {
+    LayerBuffer subLayer = new LayerBuffer(subExtent);
+    addLayer(subLayer);
+    return subLayer;
   }
 
-  private class SubLightLayer implements LightLayer {
-    private LightLayer baseLightLayer;
+  @Override
+  public void addLayer(ReadLayer layer) {
+    baseViewport.addLayer(layer);
+    layer.addCloseListener(() -> removeLayer(layer));
+  }
 
-    public SubLightLayer(LightLayer baseLightLayer) {
-      this.baseLightLayer = baseLightLayer;
-    }
-
-    @Override
-    public Range2 getExtent() {
-      return extent;
-    }
-
-    @Override
-    public void setLight(int x, int y, Color color) {
-      baseLightLayer.setLight(originOffset.add(Point.create(x, y)), color);
-    }
-
-    @Override
-    public void setAllLights(Color color) {
-      extent.forEach((x, y) -> baseLightLayer.setLight(x, y, color));
-    }
+  @Override
+  public void removeLayer(ReadLayer layer) {
+    baseViewport.removeLayer(layer);
   }
 
   @Override
   public void addListener(Button2Listener listener) {
-    baseViewport.addListener(
+    Button2Listener subListener =
         new Button2Listener() {
           public void onButtonPressed(Point p) {
-            if (extent.isPointWithin(p)) {
-              listener.onButtonPressed(p.subtract(originOffset));
+            if (subExtent.isPointWithin(p)) {
+              listener.onButtonPressed(p);
             }
           }
 
           public void onButtonReleased(Point p) {
-            if (extent.isPointWithin(p)) {
-              listener.onButtonReleased(p.subtract(originOffset));
+            if (subExtent.isPointWithin(p)) {
+              listener.onButtonReleased(p);
             }
           }
-        });
+        };
+    listenerMap.put(listener, subListener);
+    baseViewport.addListener(subListener);
   }
 
   @Override
   public void removeListener(Button2Listener listener) {
-    // TODO implement
-    throw new UnsupportedOperationException("SubViewport::removeListener");
+    Button2Listener subListener = listenerMap.remove(listener);
+    if (subListener != null) {
+      baseViewport.removeListener(subListener);
+    }
   }
 }

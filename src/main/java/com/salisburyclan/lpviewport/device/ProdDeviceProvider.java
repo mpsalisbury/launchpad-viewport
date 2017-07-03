@@ -1,6 +1,5 @@
 package com.salisburyclan.lpviewport.device;
 
-import com.salisburyclan.lpviewport.api.LaunchpadDeviceProvider;
 import com.salisburyclan.lpviewport.device.javafx.JavafxDeviceProvider;
 import com.salisburyclan.lpviewport.device.midi.MidiLaunchpadDeviceProvider;
 

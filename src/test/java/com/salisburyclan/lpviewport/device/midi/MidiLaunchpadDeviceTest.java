@@ -6,10 +6,10 @@ import static org.mockito.Mockito.when;
 
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.device.LaunchpadDevice;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,11 +45,11 @@ public class MidiLaunchpadDeviceTest {
     int testX = 4;
     int testY = 2;
     Color testColor = Color.ORANGE;
-    viewport.getLightLayer().setLight(testX, testY, testColor);
+    viewport.getRawLayer().setPixel(testX, testY, testColor);
     verify(mockClient)
         .setLight(
             PositionCode.fromXY(testX, testY),
-            ColorCode.fromRGB(testColor.getRed(), testColor.getGreen(), testColor.getBlue()));
+            ColorCode.fromRGB(testColor.red(), testColor.green(), testColor.blue()));
 
     viewport.addListener(mockButton2Listener);
     verify(mockMidiListener).addListener(mockButton2Listener);

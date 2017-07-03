@@ -1,11 +1,13 @@
 package com.salisburyclan.lpviewport.animation;
 
+import com.salisburyclan.lpviewport.api.AnimatedLayer;
+import com.salisburyclan.lpviewport.api.AnimationProvider;
 import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.FramedAnimation;
+import com.salisburyclan.lpviewport.api.Pixel;
+import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
-import com.salisburyclan.lpviewport.layer.AnimatedLayer;
-import com.salisburyclan.lpviewport.layer.Pixel;
-import com.salisburyclan.lpviewport.layer.WriteLayer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -15,8 +17,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class BorderSweep extends AnimatedLayer {
-
+public class BorderSweep extends FramedAnimation {
   private WriteLayer outputLayer;
   private Pixel pixel;
 
@@ -56,13 +57,13 @@ public class BorderSweep extends AnimatedLayer {
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-            renderDots((Integer) oldLocation, Pixel.EMPTY);
-            renderDots((Integer) newLocation, pixel);
+            renderDots((Integer) newLocation);
           }
         });
   }
 
-  protected void renderDots(int location, Pixel pixel) {
+  protected void renderDots(int location) {
+    outputLayer.nextFrame();
     Range2 extent = outputLayer.getExtent();
 
     int x = location;

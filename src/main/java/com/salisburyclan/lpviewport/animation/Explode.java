@@ -1,8 +1,8 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LightLayer;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.api.FramedAnimation;
+import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
@@ -15,23 +15,22 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class Explode extends Animation {
+public class Explode extends FramedAnimation {
 
-  private final LightLayer lightLayer;
+  private final WriteLayer layer;
   private final Point center;
   private final Color color;
 
-  private static final int FADE_LENGTH = 5;
-
-  public Explode(RawViewport viewport, Point center, Color color) {
-    this.lightLayer = viewport.getLightLayer();
+  public Explode(Range2 extent, Point center, Color color) {
+    super(extent);
+    this.layer = getWriteLayer();
     this.center = center;
     this.color = color;
     init();
   }
 
   private void init() {
-    final int maxDistance = getMaxDistanceToCorner() + FADE_LENGTH + 1;
+    final int maxDistance = getMaxDistanceToCorner() + 1;
     IntegerProperty explodeDistance = new SimpleIntegerProperty();
     Timeline timeline = new Timeline();
     timeline
@@ -51,39 +50,19 @@ public class Explode extends Animation {
   }
 
   private int getMaxDistanceToCorner() {
-    Range2 extent = lightLayer.getExtent();
+    Range2 extent = layer.getExtent();
     int bigX = Math.max(center.x() - extent.xRange().low(), extent.xRange().high() - center.x());
     int bigY = Math.max(center.y() - extent.yRange().low(), extent.yRange().high() - center.y());
     return bigX + bigY;
   }
 
-  private void renderExplodeFrame(int distance) {
-    for (int fade = 0; fade <= FADE_LENGTH; fade++) {
-      Color moderatedColor = moderateColor(FADE_LENGTH - fade, FADE_LENGTH, color);
-      renderDiamond(distance - fade, moderatedColor);
-    }
-  }
-
-  private void renderDiamond(int radius, Color color) {
+  private void renderExplodeFrame(int radius) {
+    layer.nextFrame();
     for (int pos = 0; pos <= radius; pos++) {
-      lightLayer.setLight(center.add(Vector.create(pos, radius - pos)), color);
-      lightLayer.setLight(center.add(Vector.create(pos, -(radius - pos))), color);
-      lightLayer.setLight(center.add(Vector.create(-pos, radius - pos)), color);
-      lightLayer.setLight(center.add(Vector.create(-pos, -(radius - pos))), color);
+      layer.setPixel(center.add(Vector.create(pos, radius - pos)), color);
+      layer.setPixel(center.add(Vector.create(pos, -(radius - pos))), color);
+      layer.setPixel(center.add(Vector.create(-pos, radius - pos)), color);
+      layer.setPixel(center.add(Vector.create(-pos, -(radius - pos))), color);
     }
-  }
-
-  private Color moderateColor(int numerator, int denominator, Color color) {
-    double percent = (double) numerator / denominator;
-    if (percent > 1.0) {
-      percent = 1.0;
-    }
-    if (percent < 0.0) {
-      percent = 0.0;
-    }
-    return Color.of(
-        (int) (color.getRed() * percent),
-        (int) (color.getGreen() * percent),
-        (int) (color.getBlue() * percent));
   }
 }
