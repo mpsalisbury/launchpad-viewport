@@ -38,10 +38,12 @@ To draw into a Viewport, you must first add a Layer to it.
 
 Simple example:
 
+```java
 // Add a new layer to the viewport.
 WriteLayer layer = viewport.addLayer();
 // Set one pixel to be blue.
 layer.setPixel(1, 2, Color.BLUE);
+```
  
 ### Coordinates
 
