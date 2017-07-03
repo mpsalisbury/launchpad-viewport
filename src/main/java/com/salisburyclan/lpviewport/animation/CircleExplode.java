@@ -3,7 +3,6 @@ package com.salisburyclan.lpviewport.animation;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.geom.Vector;
 import com.salisburyclan.lpviewport.layer.DColor;
 import com.salisburyclan.lpviewport.layer.DecayingBuffer;
 import javafx.animation.KeyFrame;
@@ -15,7 +14,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class Explode extends DecayingAnimation {
+public class CircleExplode extends DecayingAnimation {
 
   private final DecayingBuffer buffer;
   private final Point center;
@@ -23,7 +22,7 @@ public class Explode extends DecayingAnimation {
 
   private static final int FADE_LENGTH = 5;
 
-  public Explode(Range2 extent, Point center, Color color) {
+  public CircleExplode(Range2 extent, Point center, Color color) {
     super(extent);
     this.buffer = getBuffer();
     this.center = center;
@@ -64,11 +63,15 @@ public class Explode extends DecayingAnimation {
 
   private void renderExplodeFrame(int distance) {
     buffer.pushFrame();
-    for (int pos = 0; pos <= distance; pos++) {
-      buffer.setPixel(center.add(Vector.create(pos, distance - pos)), color);
-      buffer.setPixel(center.add(Vector.create(pos, -(distance - pos))), color);
-      buffer.setPixel(center.add(Vector.create(-pos, distance - pos)), color);
-      buffer.setPixel(center.add(Vector.create(-pos, -(distance - pos))), color);
+    drawCircle(center, distance, color);
+  }
+
+  private void drawCircle(Point center, int radius, DColor color) {
+    for (int degrees = 0; degrees < 360; degrees++) {
+      double radians = degrees * (Math.PI / 180);
+      int x = center.x() + (int) Math.round(Math.sin(radians) * radius);
+      int y = center.y() + (int) Math.round(Math.cos(radians) * radius);
+      buffer.setPixel(x, y, color);
     }
   }
 }

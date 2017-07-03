@@ -1,13 +1,13 @@
 package com.salisburyclan.lpviewport.apps;
 
-import com.salisburyclan.lpviewport.animation.Explode;
+import com.salisburyclan.lpviewport.animation.CircleExplode;
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 
-public class ExplodeApp extends JavafxLaunchpadApplication {
+public class CircleExplodeApp extends JavafxLaunchpadApplication {
 
   @Override
   public void run() {
@@ -20,7 +20,7 @@ public class ExplodeApp extends JavafxLaunchpadApplication {
         new Button2Listener() {
           @Override
           public void onButtonPressed(Point p) {
-            Explode explode = new Explode(extent, p, getBaseColor(p));
+            CircleExplode explode = new CircleExplode(extent, p, getBaseColor(p));
             viewport.addLayer(explode);
             explode.play();
           }

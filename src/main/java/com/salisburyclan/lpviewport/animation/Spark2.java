@@ -80,7 +80,6 @@ public class Spark2 extends DecayingAnimation {
   // Should be used with decaying layer.
   private void renderSparkFrame(int distance) {
     buffer.pushFrame();
-    Range2 extent = buffer.getExtent();
     // Render spark at distance from center.
     buffer.setPixel(center.x() + distance, center.y(), color);
     buffer.setPixel(center.x() - distance, center.y(), color);

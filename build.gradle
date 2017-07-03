@@ -52,6 +52,28 @@ task rainbow(type: JavaExec) {
   }
 }
 
+task circle(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.lpviewport.apps.Circle'
+  if (project.hasProperty('layout')) {
+    args = ["--layout=${layout}"]
+  }
+  if (project.hasProperty('device')) {
+    args += ["--device=${device}"]
+  }
+}
+
+task circleexplode(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.lpviewport.apps.CircleExplodeApp'
+  if (project.hasProperty('layout')) {
+    args = ["--layout=${layout}"]
+  }
+  if (project.hasProperty('device')) {
+    args += ["--device=${device}"]
+  }
+}
+
 task spark(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.SparkApp'
