@@ -1,11 +1,10 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.FramedAnimation;
-import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.geom.Vector;
+import com.salisburyclan.lpviewport.api.WriteLayer;
+import com.salisburyclan.lpviewport.api.FramedAnimation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -15,13 +14,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class Explode extends FramedAnimation {
+public class CircleExplode extends FramedAnimation {
 
   private final WriteLayer layer;
   private final Point center;
   private final Color color;
 
-  public Explode(Range2 extent, Point center, Color color) {
+  private static final int FADE_LENGTH = 5;
+
+  public CircleExplode(Range2 extent, Point center, Color color) {
     super(extent);
     this.layer = getWriteLayer();
     this.center = center;
@@ -30,7 +31,7 @@ public class Explode extends FramedAnimation {
   }
 
   private void init() {
-    final int maxDistance = getMaxDistanceToCorner() + 1;
+    final int maxDistance = getMaxDistanceToCorner() + FADE_LENGTH + 1;
     IntegerProperty explodeDistance = new SimpleIntegerProperty();
     Timeline timeline = new Timeline();
     timeline
@@ -60,13 +61,17 @@ public class Explode extends FramedAnimation {
     return bigX + bigY;
   }
 
-  private void renderExplodeFrame(int radius) {
+  private void renderExplodeFrame(int distance) {
     layer.nextFrame();
-    for (int pos = 0; pos <= radius; pos++) {
-      layer.setPixel(center.add(Vector.create(pos, radius - pos)), color);
-      layer.setPixel(center.add(Vector.create(pos, -(radius - pos))), color);
-      layer.setPixel(center.add(Vector.create(-pos, radius - pos)), color);
-      layer.setPixel(center.add(Vector.create(-pos, -(radius - pos))), color);
+    drawCircle(center, distance);
+  }
+
+  private void drawCircle(Point center, int radius) {
+    for (int degrees = 0; degrees < 360; degrees++) {
+      double radians = degrees * (Math.PI / 180);
+      int x = center.x() + (int) Math.round(Math.sin(radians) * radius);
+      int y = center.y() + (int) Math.round(Math.cos(radians) * radius);
+      layer.setPixel(x, y, color);
     }
   }
 }
