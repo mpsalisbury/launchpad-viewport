@@ -2,6 +2,7 @@ package com.salisburyclan.lpviewport.apps;
 
 import com.salisburyclan.lpviewport.animation.CircleExplode;
 import com.salisburyclan.lpviewport.api.Button2Listener;
+import com.salisburyclan.lpviewport.api.DecayingAnimation;
 import com.salisburyclan.lpviewport.api.LaunchpadApplication;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.Viewport;
@@ -22,7 +23,7 @@ public class CircleExplodeApp extends LaunchpadApplication {
           @Override
           public void onButtonPressed(Point p) {
             CircleExplode explode = new CircleExplode(extent, p, getBaseColor(p));
-            viewport.addLayer(explode);
+            viewport.addLayer(new DecayingAnimation(explode));
             explode.play();
           }
 
