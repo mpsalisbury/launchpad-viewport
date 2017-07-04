@@ -55,6 +55,7 @@ public class DecayingAnimation implements ReadLayer {
 
   public interface TickProvider {
     void addTicker(Runnable listener);
+    void close();
   }
 
   // @Param inputLayer Frame Layer that we will decay over time.
@@ -69,6 +70,7 @@ public class DecayingAnimation implements ReadLayer {
     this.pixelListeners = new PixelListenerMultiplexer();
     this.decayPerTick = decayPerTick;
     tickProvider.addTicker(this::decayCycle);
+    onCleanup.add(tickProvider::close);
 
     PixelListener layerPixelListener =
         new PixelListener() {
@@ -95,13 +97,14 @@ public class DecayingAnimation implements ReadLayer {
         new CloseListener() {
           @Override
           public void onClose() {
-            pixelListeners.clear();
             shuttingDown = true;
           }
         });
   }
 
   private void shutDown() {
+    onCleanup.execute();
+    pixelListeners.clear();
     closeListeners.onClose();
     closeListeners.clear();
   }
@@ -178,15 +181,25 @@ public class DecayingAnimation implements ReadLayer {
 
   // TickProvider that fires with each call to fireTick().
   public static class SimpleTickProvider implements TickProvider {
-    private CommandExecutor executor = new CommandExecutor();
+    private CommandExecutor tickCommands = new CommandExecutor();
+    private CommandExecutor closeCommands = new CommandExecutor();
 
     @Override
     public void addTicker(Runnable ticker) {
-      executor.add(ticker);
+      tickCommands.add(ticker);
     }
 
     public void fireTick() {
-      executor.execute();
+      tickCommands.execute();
+    }
+
+    public void onClose(Runnable closer) {
+      closeCommands.add(closer);
+    }
+
+    @Override
+    public void close() {
+      closeCommands.execute();
     }
   }
 
@@ -200,8 +213,7 @@ public class DecayingAnimation implements ReadLayer {
         .getKeyFrames()
         .add(new KeyFrame(Duration.millis(millisPerTick), event -> tickProvider.fireTick()));
     timeline.play();
-    // TODO: Figure out another way to stop the timeline.
-    //    onCleanup.add(() -> timeline.stop());
+    tickProvider.onClose(() -> timeline.stop());
     return tickProvider;
   }
 
