@@ -56,8 +56,9 @@ public abstract class Pixel {
     double underAlpha = underPixel.alpha();
     double overAlpha = overPixel.alpha();
 
-    return (underAlpha * (1.0 - overAlpha) * underChannel + overAlpha * overChannel)
-        / combinedAlpha;
+    double newChannel =
+        (underAlpha * (1.0 - overAlpha) * underChannel + overAlpha * overChannel) / combinedAlpha;
+    return Math.max(0.0, Math.min(1.0, newChannel));
   }
 
   @Override

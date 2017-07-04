@@ -55,6 +55,7 @@ public class DecayingAnimation implements ReadLayer {
 
   public interface TickProvider {
     void addTicker(Runnable listener);
+
     void close();
   }
 
