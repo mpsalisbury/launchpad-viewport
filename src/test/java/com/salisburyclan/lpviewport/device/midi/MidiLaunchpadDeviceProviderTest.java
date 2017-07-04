@@ -4,12 +4,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.device.LaunchpadDevice;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.midi.MidiDeviceProvider;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolClient;
 import com.salisburyclan.lpviewport.protocol.LaunchpadProtocolListener;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

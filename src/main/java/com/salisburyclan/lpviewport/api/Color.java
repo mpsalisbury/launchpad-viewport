@@ -1,103 +1,64 @@
 package com.salisburyclan.lpviewport.api;
 
-// RGB color, each in range 0..63.
-public final class Color {
+import com.google.auto.value.AutoValue;
+import com.google.common.math.DoubleMath;
 
-  // Minimal component intensity
-  public static final int MIN_INTENSITY = 0;
-  // Maximal component intensity
-  public static final int MAX_INTENSITY = 63;
+// An RGB color with (0.0..1.0)-valued components.
+@AutoValue
+public abstract class Color {
+  // Per-channel tolerance used for equality tests.
+  private static final double CHANNEL_TOLERANCE = 0.00001;
 
   // Common colors
-  public static final Color BLACK = Color.of(0, 0, 0);
-  public static final Color BLUE = Color.of(0, 0, 63);
-  public static final Color CYAN = Color.of(0, 63, 63);
-  public static final Color DARK_GRAY = Color.of(4, 4, 4);
-  public static final Color GRAY = Color.of(14, 14, 14);
-  public static final Color GREEN = Color.of(0, 63, 0);
-  public static final Color LIGHT_GRAY = Color.of(30, 30, 30);
-  public static final Color MAGENTA = Color.of(63, 0, 63);
-  public static final Color ORANGE = Color.of(63, 13, 0);
-  public static final Color PINK = Color.of(63, 14, 31);
-  public static final Color PURPLE = Color.of(32, 0, 56);
-  public static final Color RED = Color.of(63, 0, 0);
-  public static final Color SKY_BLUE = Color.of(28, 55, 41);
-  public static final Color WHITE = Color.of(63, 63, 63);
-  public static final Color YELLOW = Color.of(63, 63, 0);
-  public static final Color YELLOW_GREEN = Color.of(23, 63, 0);
+  public static final Color BLACK = create(0, 0, 0);
+  public static final Color BLUE = create(0, 0, 1);
+  public static final Color BROWN = create(0.55, 0.27, 0.07);
+  public static final Color CYAN = create(0, 1, 1);
+  public static final Color DARK_GRAY = create(0.08, 0.08, 0.08);
+  public static final Color GRAY = create(0.22, 0.22, 0.22);
+  public static final Color GREEN = create(0, 1, 0);
+  public static final Color LIGHT_GRAY = create(0.45, 0.45, 0.45);
+  public static final Color MAGENTA = create(1, 0, 1);
+  public static final Color ORANGE = create(1, 0.22, 0);
+  public static final Color PINK = create(1, 0.22, 0.50);
+  public static final Color PURPLE = create(0.50, 0, 0.88);
+  public static final Color RED = create(1, 0, 0);
+  public static final Color SKY_BLUE = create(0.45, 0.85, 0.66);
+  public static final Color WHITE = create(1, 1, 1);
+  public static final Color YELLOW = create(1, 1, 0);
+  public static final Color YELLOW_GREEN = create(0.35, 1, 0);
 
-  public static Color of(int red, int green, int blue) {
-    if (red < MIN_INTENSITY || red > MAX_INTENSITY) {
-      throw new IllegalArgumentException(
-          "Invalid red value : " + red + ". Acceptable values are in range [0..63].");
-    }
-    if (green < MIN_INTENSITY || green > MAX_INTENSITY) {
-      throw new IllegalArgumentException(
-          "Invalid green value : " + green + ". Acceptable values are in range [0..63].");
-    }
-    if (blue < MIN_INTENSITY || blue > MAX_INTENSITY) {
-      throw new IllegalArgumentException(
-          "Invalid blue value : " + blue + ". Acceptable values are in range [0..63].");
-    }
-    return new Color(red, green, blue);
+  // Constructs a new Color instance.
+  public static Color create(double red, double green, double blue) {
+    checkRange(red);
+    checkRange(green);
+    checkRange(blue);
+    return new AutoValue_Color(red, green, blue);
   }
 
-  // The red component intensity
-  private final int red;
-  // The green component intensity
-  private final int green;
-  // The blue component intensity
-  private final int blue;
+  public abstract double red();
 
-  /**
-   * @param red The red component
-   * @param green The green component
-   * @param blue The blue component
-   */
-  private Color(int red, int green, int blue) {
-    this.red = red;
-    this.green = green;
-    this.blue = blue;
-  }
+  public abstract double green();
 
-  private Color(java.awt.Color javaColor) {
-    this.red = javaColor.getRed() >> 2;
-    this.green = javaColor.getGreen() >> 2;
-    this.blue = javaColor.getBlue() >> 2;
-  }
-
-  /** @return the red intensity */
-  public int getRed() {
-    return red;
-  }
-
-  /** @return the green intensity */
-  public int getGreen() {
-    return green;
-  }
-
-  /** @return the blue intensity */
-  public int getBlue() {
-    return blue;
-  }
+  public abstract double blue();
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
+    if (o == this) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+    if (o instanceof Color) {
+      Color that = (Color) o;
+      return DoubleMath.fuzzyEquals(this.red(), that.red(), CHANNEL_TOLERANCE)
+          && DoubleMath.fuzzyEquals(this.green(), that.green(), CHANNEL_TOLERANCE)
+          && DoubleMath.fuzzyEquals(this.blue(), that.blue(), CHANNEL_TOLERANCE);
     }
-    Color color = (Color) o;
-    return blue == color.blue && green == color.green && red == color.red;
+    return false;
   }
 
-  @Override
-  public int hashCode() {
-    int result = red;
-    result = 31 * result + green;
-    result = 31 * result + blue;
-    return result;
+  private static void checkRange(double component) {
+    if (component < 0.0 || component > 1.0) {
+      throw new IllegalArgumentException("Color Component out of range: " + component);
+    }
   }
 }

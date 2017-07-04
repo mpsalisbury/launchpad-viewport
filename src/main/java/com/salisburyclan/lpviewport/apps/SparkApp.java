@@ -1,13 +1,15 @@
 package com.salisburyclan.lpviewport.apps;
 
-import com.salisburyclan.lpviewport.animation.Spark2;
+import com.salisburyclan.lpviewport.animation.Spark;
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.DecayingAnimation;
+import com.salisburyclan.lpviewport.api.LaunchpadApplication;
 import com.salisburyclan.lpviewport.api.Viewport;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 
-public class SparkApp extends JavafxLaunchpadApplication {
+public class SparkApp extends LaunchpadApplication {
 
   @Override
   public void run() {
@@ -20,20 +22,17 @@ public class SparkApp extends JavafxLaunchpadApplication {
         new Button2Listener() {
           @Override
           public void onButtonPressed(Point p) {
-            Spark2 spark = new Spark2(extent, p, getBaseColor(p));
-            viewport.addLayer(spark);
+            Spark spark = new Spark(extent, p, getBaseColor(p));
+            viewport.addLayer(new DecayingAnimation(spark));
             spark.play();
           }
-
-          @Override
-          public void onButtonReleased(Point p) {}
         });
   }
 
   // Returns a color for the given index.
   private Color getBaseColor(Point p) {
     final Color colors[] = {
-      Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.PURPLE,
+      Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.PURPLE, Color.BROWN,
     };
     int index = p.x() + p.y();
     index = index % colors.length;

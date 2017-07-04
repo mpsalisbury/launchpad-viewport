@@ -5,17 +5,16 @@ import com.google.common.collect.Iterables;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
-import com.salisburyclan.lpviewport.animation.AnimationProvider;
-import com.salisburyclan.lpviewport.animation.Spark2;
+import com.salisburyclan.lpviewport.animation.Spark;
 import com.salisburyclan.lpviewport.animation.Sweep;
+import com.salisburyclan.lpviewport.api.AnimatedLayer;
+import com.salisburyclan.lpviewport.api.AnimationProvider;
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.LayoutProvider;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.device.LaunchpadDevice;
 import com.salisburyclan.lpviewport.geom.Point;
-import com.salisburyclan.lpviewport.layer.AnimatedLayer;
-import com.salisburyclan.lpviewport.layer.AnimatedLayerPlayer;
+import com.salisburyclan.lpviewport.viewport.AnimatedLayerPlayer;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -80,19 +79,20 @@ public class PickOneLayoutProvider implements LayoutProvider {
           new Button2Listener() {
             public void onButtonPressed(Point p) {
               shutDownChooser();
-              Spark2.play(viewport, p, Color.BLUE);
+              Spark spark = new Spark(viewport.getExtent(), p, Color.BLUE);
+              AnimatedLayerPlayer.playDecay(spark, viewport);
               futureViewport.set(viewport);
             }
 
             public void onButtonReleased(Point p) {}
           };
-      AnimatedLayerPlayer.play(animation, viewport);
+      AnimatedLayerPlayer.playDecay(animation, viewport);
       viewport.addListener(listener);
 
       tearDowners.add(
           () -> {
             animation.stop();
-            viewport.getLightLayer().setAllLights(Color.BLACK);
+            viewport.getRawLayer().setAllPixels(Color.BLACK);
             viewport.removeListener(listener);
           });
     }

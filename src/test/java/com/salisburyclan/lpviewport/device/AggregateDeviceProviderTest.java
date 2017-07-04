@@ -5,9 +5,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Truth8;
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.LaunchpadDeviceProvider;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import java.util.List;
 import java.util.Set;
 import org.junit.Before;
@@ -30,7 +28,9 @@ public class AggregateDeviceProviderTest {
 
   @Test
   public void testGetAvailableTypes() throws Exception {
-    assertThat(deviceProvider.getAvailableTypes()).containsExactly("A", "B", "C", "D", "E");
+    assertThat(deviceProvider.getAvailableTypes())
+        .containsExactly("A", "B", "C", "D", "E")
+        .inOrder();
   }
 
   @Test

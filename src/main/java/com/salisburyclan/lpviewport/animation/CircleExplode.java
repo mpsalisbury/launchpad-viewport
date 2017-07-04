@@ -3,8 +3,8 @@ package com.salisburyclan.lpviewport.animation;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.DColor;
-import com.salisburyclan.lpviewport.layer.DecayingBuffer;
+import com.salisburyclan.lpviewport.api.WriteLayer;
+import com.salisburyclan.lpviewport.api.FramedAnimation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -14,19 +14,19 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class CircleExplode extends DecayingAnimation {
+public class CircleExplode extends FramedAnimation {
 
-  private final DecayingBuffer buffer;
+  private final WriteLayer layer;
   private final Point center;
-  private final DColor color;
+  private final Color color;
 
   private static final int FADE_LENGTH = 5;
 
   public CircleExplode(Range2 extent, Point center, Color color) {
     super(extent);
-    this.buffer = getBuffer();
+    this.layer = getWriteLayer();
     this.center = center;
-    this.color = DColor.create(color);
+    this.color = color;
     init();
   }
 
@@ -41,7 +41,7 @@ public class CircleExplode extends DecayingAnimation {
             new KeyFrame(Duration.seconds(1), new KeyValue(explodeDistance, maxDistance)));
     timeline.setOnFinished(
         event -> {
-          buffer.cleanUp();
+          layer.close();
         });
     addTimeline(timeline);
 
@@ -55,23 +55,23 @@ public class CircleExplode extends DecayingAnimation {
   }
 
   private int getMaxDistanceToCorner() {
-    Range2 extent = buffer.getExtent();
+    Range2 extent = layer.getExtent();
     int bigX = Math.max(center.x() - extent.xRange().low(), extent.xRange().high() - center.x());
     int bigY = Math.max(center.y() - extent.yRange().low(), extent.yRange().high() - center.y());
     return bigX + bigY;
   }
 
   private void renderExplodeFrame(int distance) {
-    buffer.pushFrame();
-    drawCircle(center, distance, color);
+    layer.nextFrame();
+    drawCircle(center, distance);
   }
 
-  private void drawCircle(Point center, int radius, DColor color) {
+  private void drawCircle(Point center, int radius) {
     for (int degrees = 0; degrees < 360; degrees++) {
       double radians = degrees * (Math.PI / 180);
       int x = center.x() + (int) Math.round(Math.sin(radians) * radius);
       int y = center.y() + (int) Math.round(Math.cos(radians) * radius);
-      buffer.setPixel(x, y, color);
+      layer.setPixel(x, y, color);
     }
   }
 }

@@ -1,11 +1,11 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.FramedAnimation;
+import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.geom.Vector;
-import com.salisburyclan.lpviewport.layer.DColor;
-import com.salisburyclan.lpviewport.layer.DecayingBuffer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -15,24 +15,22 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class Explode extends DecayingAnimation {
+public class Explode extends FramedAnimation {
 
-  private final DecayingBuffer buffer;
+  private final WriteLayer layer;
   private final Point center;
-  private final DColor color;
-
-  private static final int FADE_LENGTH = 5;
+  private final Color color;
 
   public Explode(Range2 extent, Point center, Color color) {
     super(extent);
-    this.buffer = getBuffer();
+    this.layer = getWriteLayer();
     this.center = center;
-    this.color = DColor.create(color);
+    this.color = color;
     init();
   }
 
   private void init() {
-    final int maxDistance = getMaxDistanceToCorner() + FADE_LENGTH + 1;
+    final int maxDistance = getMaxDistanceToCorner() + 1;
     IntegerProperty explodeDistance = new SimpleIntegerProperty();
     Timeline timeline = new Timeline();
     timeline
@@ -42,7 +40,7 @@ public class Explode extends DecayingAnimation {
             new KeyFrame(Duration.seconds(1), new KeyValue(explodeDistance, maxDistance)));
     timeline.setOnFinished(
         event -> {
-          buffer.cleanUp();
+          layer.close();
         });
     addTimeline(timeline);
 
@@ -56,19 +54,19 @@ public class Explode extends DecayingAnimation {
   }
 
   private int getMaxDistanceToCorner() {
-    Range2 extent = buffer.getExtent();
+    Range2 extent = layer.getExtent();
     int bigX = Math.max(center.x() - extent.xRange().low(), extent.xRange().high() - center.x());
     int bigY = Math.max(center.y() - extent.yRange().low(), extent.yRange().high() - center.y());
     return bigX + bigY;
   }
 
-  private void renderExplodeFrame(int distance) {
-    buffer.pushFrame();
-    for (int pos = 0; pos <= distance; pos++) {
-      buffer.setPixel(center.add(Vector.create(pos, distance - pos)), color);
-      buffer.setPixel(center.add(Vector.create(pos, -(distance - pos))), color);
-      buffer.setPixel(center.add(Vector.create(-pos, distance - pos)), color);
-      buffer.setPixel(center.add(Vector.create(-pos, -(distance - pos))), color);
+  private void renderExplodeFrame(int radius) {
+    layer.nextFrame();
+    for (int pos = 0; pos <= radius; pos++) {
+      layer.setPixel(center.add(Vector.create(pos, radius - pos)), color);
+      layer.setPixel(center.add(Vector.create(pos, -(radius - pos))), color);
+      layer.setPixel(center.add(Vector.create(-pos, radius - pos)), color);
+      layer.setPixel(center.add(Vector.create(-pos, -(radius - pos))), color);
     }
   }
 }

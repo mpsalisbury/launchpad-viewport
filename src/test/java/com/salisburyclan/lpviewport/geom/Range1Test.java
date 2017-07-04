@@ -4,6 +4,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.salisburyclan.lpviewport.testing.AssertThrows.assertThrows;
 
 import com.google.common.truth.Truth8;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -16,6 +18,12 @@ public class Range1Test {
     Range1.create(1, 4);
     Range1.create(1, 1);
     assertThrows(IllegalArgumentException.class, () -> Range1.create(1, 0));
+  }
+
+  @Test
+  public void testMiddle() {
+    Range1 range = Range1.create(2, 8);
+    assertThat(range.middle()).isEqualTo(5);
   }
 
   @Test
@@ -101,5 +109,13 @@ public class Range1Test {
   public void testStream() {
     Truth8.assertThat(Range1.create(1, 4).stream().boxed()).containsExactly(1, 2, 3, 4).inOrder();
     Truth8.assertThat(Range1.create(1, 1).stream().boxed()).containsExactly(1).inOrder();
+  }
+
+  @Test
+  public void testForEach() {
+    Range1 range = Range1.create(3, 5);
+    List<Integer> values = new ArrayList<>();
+    range.forEach(x -> values.add(x));
+    assertThat(values).containsExactly(3, 4, 5).inOrder();
   }
 }

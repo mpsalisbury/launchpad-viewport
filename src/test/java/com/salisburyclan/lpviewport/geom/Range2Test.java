@@ -3,6 +3,8 @@ package com.salisburyclan.lpviewport.geom;
 import static com.google.common.truth.Truth.assertThat;
 import static com.salisburyclan.lpviewport.testing.AssertThrows.assertThrows;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -67,6 +69,18 @@ public class Range2Test {
   public void testYRange() {
     Range2 range = Range2.create(1, 2, 4, 7);
     assertThat(range.yRange()).isEqualTo(Range1.create(2, 7));
+  }
+
+  @Test
+  public void testOrigin() {
+    Range2 range = Range2.create(1, 2, 4, 7);
+    assertThat(range.origin()).isEqualTo(Point.create(1, 2));
+  }
+
+  @Test
+  public void testMiddle() {
+    Range2 range = Range2.create(1, 2, 3, 8);
+    assertThat(range.middle()).isEqualTo(Point.create(2, 5));
   }
 
   @Test
@@ -163,5 +177,20 @@ public class Range2Test {
     // overlapping
     assertThat(Range2.create(1, 2, 3, 4).includeBoth(Range2.create(2, 3, 5, 6)))
         .isEqualTo(Range2.create(1, 2, 5, 6));
+  }
+
+  @Test
+  public void testForEach() {
+    Range2 range = Range2.create(1, 2, 3, 3);
+    List<Point> points = new ArrayList<>();
+    range.forEach((x, y) -> points.add(Point.create(x, y)));
+    assertThat(points)
+        .containsExactly(
+            Point.create(1, 2),
+            Point.create(2, 2),
+            Point.create(3, 2),
+            Point.create(1, 3),
+            Point.create(2, 3),
+            Point.create(3, 3));
   }
 }

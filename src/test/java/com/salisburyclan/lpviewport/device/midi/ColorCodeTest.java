@@ -12,9 +12,9 @@ public class ColorCodeTest {
 
   @Test
   public void testFromRGB() {
-    assertThat(ColorCode.fromRGB(0, 0, 0)).isEqualTo(0x000000);
-    assertThat(ColorCode.fromRGB(1, 2, 3)).isEqualTo(0x010203);
-    assertThat(ColorCode.fromRGB(0x3f, 0x3f, 0x3f)).isEqualTo(0x3f3f3f);
+    assertThat(ColorCode.fromRGB(0.0, 0.0, 0.0)).isEqualTo(0x000000);
+    assertThat(ColorCode.fromRGB(0.0, 0.5, 1.0)).isEqualTo(0x001f3f);
+    assertThat(ColorCode.fromRGB(1.0, 1.0, 1.0)).isEqualTo(0x3f3f3f);
   }
 
   @Test
@@ -22,9 +22,9 @@ public class ColorCodeTest {
     assertThrows(IllegalArgumentException.class, () -> ColorCode.fromRGB(0, 0, -1));
     assertThrows(IllegalArgumentException.class, () -> ColorCode.fromRGB(0, -1, 0));
     assertThrows(IllegalArgumentException.class, () -> ColorCode.fromRGB(-1, 0, 0));
-    assertThrows(IllegalArgumentException.class, () -> ColorCode.fromRGB(0x40, 0, 0));
-    assertThrows(IllegalArgumentException.class, () -> ColorCode.fromRGB(0, 0x40, 0));
-    assertThrows(IllegalArgumentException.class, () -> ColorCode.fromRGB(0, 0, 0x40));
+    assertThrows(IllegalArgumentException.class, () -> ColorCode.fromRGB(2, 0, 0));
+    assertThrows(IllegalArgumentException.class, () -> ColorCode.fromRGB(0, 2, 0));
+    assertThrows(IllegalArgumentException.class, () -> ColorCode.fromRGB(0, 0, 2));
   }
 
   @Test

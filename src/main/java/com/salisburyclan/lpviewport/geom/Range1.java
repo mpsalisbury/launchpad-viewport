@@ -1,6 +1,7 @@
 package com.salisburyclan.lpviewport.geom;
 
 import com.google.auto.value.AutoValue;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 @AutoValue
@@ -59,5 +60,12 @@ public abstract class Range1 {
 
   public IntStream stream() {
     return IntStream.rangeClosed(low(), high());
+  }
+
+  // Iterate through all values.
+  public void forEach(Consumer<Integer> callback) {
+    for (int x = low(); x <= high(); ++x) {
+      callback.accept(x);
+    }
   }
 }

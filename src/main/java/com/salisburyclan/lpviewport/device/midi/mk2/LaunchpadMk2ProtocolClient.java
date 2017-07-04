@@ -10,12 +10,12 @@ import javax.sound.midi.SysexMessage;
 
 public class LaunchpadMk2ProtocolClient implements LaunchpadProtocolClient {
 
-  /** The Launchpad's Receiver, to which commands are sent. */
+  // The Launchpad's Receiver, to which commands are sent.
   private final Receiver receiver;
 
   private final LaunchpadDevice device = new LaunchpadMk2Device();
 
-  /** @param receiver The Launchpad's MIDI Receiver. Must not be null. */
+  // @param receiver The Launchpad's MIDI Receiver. Must not be null.
   public LaunchpadMk2ProtocolClient(Receiver receiver) {
     if (receiver == null) {
       throw new IllegalArgumentException("Receiver must not be null.");
@@ -95,36 +95,20 @@ public class LaunchpadMk2ProtocolClient implements LaunchpadProtocolClient {
 
     SysexBuilder builder = newSysexBuilder();
     builder.add((byte) 0x0b);
-    extent
-        .xRange()
-        .stream()
-        .forEach(
-            x ->
-                extent
-                    .yRange()
-                    .stream()
-                    .forEach(y -> builder.add(device.posToIndex(x, y), red, green, blue)));
+    extent.forEach((x, y) -> builder.add(device.posToIndex(x, y), red, green, blue));
     send(builder.build());
   }
-
-  /*
-  @Override
-  public void clearLights() {
-    byte[] command = {0x0e, 0x00};
-    send(command);
-  }
-  */
 
   private SysexBuilder newSysexBuilder() {
     return new SysexBuilder(device.getSysexPreamble());
   }
 
-  /** Sends the given message to the Launchpad. */
+  // Sends the given message to the Launchpad.
   private void send(SysexMessage message) {
     receiver.send(message, -1);
   }
 
-  /** Sends the given sysex command to the Launchpad. */
+  // Sends the given sysex command to the Launchpad.
   private void send(byte[] command) {
     send(SysexBuilder.newMessage(device.getSysexPreamble(), command));
   }

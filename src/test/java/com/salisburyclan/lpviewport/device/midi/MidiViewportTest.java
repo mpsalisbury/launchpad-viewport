@@ -48,12 +48,12 @@ public class MidiViewportTest {
     int testY = 2;
     Color testColor = Color.ORANGE;
 
-    viewport.getLightLayer().setLight(testX, testY, testColor);
+    viewport.getRawLayer().setPixel(testX, testY, testColor);
 
     verify(mockClient)
         .setLight(
             PositionCode.fromXY(testX, testY),
-            ColorCode.fromRGB(testColor.getRed(), testColor.getGreen(), testColor.getBlue()));
+            ColorCode.fromRGB(testColor.red(), testColor.green(), testColor.blue()));
   }
 
   @Test

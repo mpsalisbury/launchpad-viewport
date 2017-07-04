@@ -7,6 +7,7 @@ public enum Edge {
   BOTTOM,
   INVALID;
 
+  // Returns the edge of the opposite side as this edge.
   public Edge getOpposite() {
     switch (this) {
       case LEFT:
@@ -22,6 +23,7 @@ public enum Edge {
     }
   }
 
+  // Returns the 1-dimensional range of pixel locations for this edge in the given extent.
   public Range1 getRange(Range2 extent) {
     switch (this) {
       case LEFT:
@@ -35,6 +37,7 @@ public enum Edge {
     }
   }
 
+  // Returns the point on this edge of the given extent at the given location along the edge.
   public Point getPoint(Range2 extent, int location) {
     switch (this) {
       case LEFT:
@@ -50,21 +53,25 @@ public enum Edge {
     }
   }
 
+  // Returns whether the given point is on this edge of the given extent.
   public boolean isEdge(Range2 extent, Point p) {
     switch (this) {
       case LEFT:
-        return p.x() == extent.xRange().low();
+        return extent.xRange().low() == p.x() && extent.yRange().isPointWithin(p.y());
       case RIGHT:
-        return p.x() == extent.xRange().high();
+        return extent.xRange().high() == p.x() && extent.yRange().isPointWithin(p.y());
       case TOP:
-        return p.y() == extent.yRange().high();
+        return extent.yRange().high() == p.y() && extent.xRange().isPointWithin(p.x());
       case BOTTOM:
-        return p.y() == extent.yRange().low();
+        return extent.yRange().low() == p.y() && extent.xRange().isPointWithin(p.x());
       default:
         return false;
     }
   }
 
+  // Returns the edge of the given extent that the given point sits on.
+  // If the point is not on an edge, returns Edge.INVALID.
+  // Corners are not considered on an edge because they are ambiguous (two edges).
   public static Edge getEdge(Range2 extent, Point p) {
     if (p.x() > extent.xRange().low() && p.x() < extent.xRange().high()) {
       if (p.y() == extent.yRange().low()) {

@@ -4,17 +4,16 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
-import com.salisburyclan.lpviewport.animation.AnimationProvider;
-import com.salisburyclan.lpviewport.animation.Spark2;
+import com.salisburyclan.lpviewport.animation.Spark;
 import com.salisburyclan.lpviewport.animation.Sweep;
+import com.salisburyclan.lpviewport.api.AnimatedLayer;
+import com.salisburyclan.lpviewport.api.AnimationProvider;
 import com.salisburyclan.lpviewport.api.Button2Listener;
 import com.salisburyclan.lpviewport.api.Color;
-import com.salisburyclan.lpviewport.api.LaunchpadDevice;
-import com.salisburyclan.lpviewport.api.LayoutProvider;
-import com.salisburyclan.lpviewport.api.RawViewport;
+import com.salisburyclan.lpviewport.device.LaunchpadDevice;
 import com.salisburyclan.lpviewport.geom.Point;
-import com.salisburyclan.lpviewport.layer.AnimatedLayer;
-import com.salisburyclan.lpviewport.layer.AnimatedLayerPlayer;
+import com.salisburyclan.lpviewport.viewport.AnimatedLayerPlayer;
+import com.salisburyclan.lpviewport.viewport.RawViewport;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,17 +81,15 @@ public class HorizontalLayoutProvider implements LayoutProvider {
     private void setupViewport(RawViewport viewport) {
       remainingViewportCount++;
       AnimatedLayer animation = AWAITING_SELECTION_ANIMATION.newAnimation(viewport.getExtent());
-      AnimatedLayerPlayer.play(animation, viewport);
+      AnimatedLayerPlayer.playDecay(animation, viewport);
       viewport.addListener(
           new Button2Listener() {
             public void onButtonPressed(Point p) {
               animation.stop();
-              viewport.getLightLayer().setAllLights(Color.BLACK);
+              viewport.getRawLayer().setAllPixels(Color.BLACK);
               viewport.removeListener(this);
               appendViewport(viewport);
             }
-
-            public void onButtonReleased(Point p) {}
           });
     }
 
@@ -110,15 +107,17 @@ public class HorizontalLayoutProvider implements LayoutProvider {
         RawViewport temporaryViewport = viewportBuilder.build();
         AnimatedLayer animation =
             SELECTED_VIEWPORT_ANIMATION.newAnimation(temporaryViewport.getExtent());
-        animation.play();
+        AnimatedLayerPlayer.playDecay(animation, temporaryViewport);
         teardownTemporaryViewport =
             (() -> {
               animation.stop();
-              temporaryViewport.getLightLayer().setAllLights(Color.BLACK);
+              temporaryViewport.getRawLayer().setAllPixels(Color.BLACK);
             });
       } else {
         RawViewport chosenViewport = viewportBuilder.build();
-        Spark2.play(chosenViewport, chosenViewport.getExtent().middle(), Color.BLUE);
+        Spark spark =
+            new Spark(chosenViewport.getExtent(), chosenViewport.getExtent().middle(), Color.BLUE);
+        AnimatedLayerPlayer.playDecay(spark, chosenViewport);
         futureViewport.set(chosenViewport);
       }
     }

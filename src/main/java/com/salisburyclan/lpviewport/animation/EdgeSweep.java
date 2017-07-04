@@ -1,13 +1,13 @@
 package com.salisburyclan.lpviewport.animation;
 
 import com.salisburyclan.lpviewport.api.Color;
+import com.salisburyclan.lpviewport.api.FramedAnimation;
+import com.salisburyclan.lpviewport.api.Pixel;
+import com.salisburyclan.lpviewport.api.WriteLayer;
 import com.salisburyclan.lpviewport.geom.Edge;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range1;
 import com.salisburyclan.lpviewport.geom.Range2;
-import com.salisburyclan.lpviewport.layer.AnimatedLayer;
-import com.salisburyclan.lpviewport.layer.Pixel;
-import com.salisburyclan.lpviewport.layer.WriteLayer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -17,7 +17,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-public class EdgeSweep extends AnimatedLayer {
+public class EdgeSweep extends FramedAnimation {
 
   private WriteLayer writeLayer;
   private Edge edge;
@@ -50,13 +50,13 @@ public class EdgeSweep extends AnimatedLayer {
         new ChangeListener() {
           @Override
           public void changed(ObservableValue o, Object oldLocation, Object newLocation) {
-            renderDot((Integer) oldLocation, Pixel.EMPTY);
-            renderDot((Integer) newLocation, pixel);
+            renderDot((Integer) newLocation);
           }
         });
   }
 
-  protected void renderDot(int location, Pixel pixel) {
+  protected void renderDot(int location) {
+    writeLayer.nextFrame();
     Point point = edge.getPoint(writeLayer.getExtent(), location);
     writeLayer.setPixel(point, pixel);
   }
