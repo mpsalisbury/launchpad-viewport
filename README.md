@@ -80,7 +80,7 @@ Applications
 <!-- references -->
 
 [gh-pages-shield]:
-https://img.shields.io/badge/main%20site-mpsalisbury.github.io/launchpad%2dviewport-ff55ff.png?style=flat
+https://img.shields.io/badge/main%20site-mpsalisbury.github.io/launchpad--viewport-ff55ff.png?style=flat
 [gh-pages-link]: http://mpsalisbury.github.io/launchpad-viewport/
 [travis-shield]: https://img.shields.io/travis/mpsalisbury/launchpad-viewport.png
 [travis-link]: https://travis-ci.org/mpsalisbury/launchpad-viewport
