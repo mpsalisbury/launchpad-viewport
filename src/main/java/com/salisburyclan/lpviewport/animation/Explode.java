@@ -57,7 +57,7 @@ public class Explode extends FramedAnimation {
     Range2 extent = layer.getExtent();
     int bigX = Math.max(center.x() - extent.xRange().low(), extent.xRange().high() - center.x());
     int bigY = Math.max(center.y() - extent.yRange().low(), extent.yRange().high() - center.y());
-    return bigX + bigY;
+    return bigX + bigY + 1;
   }
 
   private void renderExplodeFrame(int radius) {
