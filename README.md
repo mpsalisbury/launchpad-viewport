@@ -1,6 +1,7 @@
 # launchpad-viewport
-***Abstraction library for controlling Launchpad devices***
+***Animation library for controlling Launchpad devices***
 
+[![Main Site][gh-pages-shield]][gh-pages-link]
 [![Build Status][travis-shield]][travis-link]
 
 ## Overview
@@ -12,10 +13,10 @@ inputs (buttons you can push) and as outputs (light up with colors).
 Launchpads are designed to act as MIDI inputs and outputs, and
 as such are used mostly with music-making software. However,
 the device can be considered as a general input/output device.
-We weren't able to find a library that made it easy to treat
-the Launchpads in this way, so we decided to build one ourselves.
-Please let us know what you think and if you have any ideas for
-new capabilities we should add.
+We weren't able to find a library that made it easy to flexibly
+render animations on the Launchpad buttons, so we decided to
+build one ourselves.  Please let us know what you think and if
+you have any ideas for new capabilities we should add.
 
 ## Components
 
@@ -78,6 +79,9 @@ Applications
 
 <!-- references -->
 
+[gh-pages-shield]:
+https://img.shields.io/badge/main%20site-mpsalisbury.github.io/launchpad-viewport-ff55ff.png?style=flat
+[gh-pages-link]: http://mpsalisbury.github.io/launchpad-viewport/
 [travis-shield]: https://img.shields.io/travis/mpsalisbury/launchpad-viewport.png
 [travis-link]: https://travis-ci.org/mpsalisbury/launchpad-viewport
 
