@@ -30,6 +30,17 @@ dependencies {
 }
 
 // TODO make task that includes this boilerplate
+task select(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.lpviewport.apps.SelectAnimationApp'
+  if (project.hasProperty('layout')) {
+    args = ["--layout=${layout}"]
+  }
+  if (project.hasProperty('device')) {
+    args += ["--device=${device}"]
+  }
+}
+
 task allBlue(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.AllBlue'

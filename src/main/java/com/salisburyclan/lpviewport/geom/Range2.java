@@ -70,6 +70,7 @@ public abstract class Range2 {
     return xRange().isRangeWithin(other.xRange()) && yRange().isRangeWithin(other.yRange());
   }
 
+  // Return a range inset from this range by the given amounts.
   public Range2 inset(int xLowInset, int yLowInset, int xHighInset, int yHighInset) {
     return create(xRange().inset(xLowInset, xHighInset), yRange().inset(yLowInset, yHighInset));
   }
