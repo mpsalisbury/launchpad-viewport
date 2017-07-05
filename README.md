@@ -1,6 +1,8 @@
 # launchpad-viewport
 ***Abstraction library for controlling Launchpad devices***
 
+[![Build Status][travis-shield]][travis-link]
+
 ## Overview
 
 LaunchpadViewport is a library for interacting with [Launchpad
@@ -72,3 +74,10 @@ FramedAnimation
 DecayingAnimation
 
 Applications
+
+
+<!-- references -->
+
+[travis-shield]: https://img.shields.io/travis/mpsalisbury/launchpad-viewport.png
+[travis-link]: https://travis-ci.org/mpsalisbury/launchpad-viewport
+
