@@ -130,14 +130,14 @@ rendered frames.
 A _LaunchpadApplication_ is the standard base class for implementing
 LaunchpadViewport applications. It uses [JavaFX][javafx-link] 
 [Timelines][timeline-link] to execute the animations. Applications
-implement `run`, which should call `getViewport` to fetch the
+implement `run()`, which should call `getViewport()` to fetch the
 Viewport specified by the user. Given the Viewport, you can
 then set up any button listeners and animations you need for
 your application.
 
 #### Devices
 
-The LaunchpadApplication accepts an argument (device) to specify which
+The LaunchpadApplication accepts an argument (`device`) to specify which
 Launchpad devices you wish it to use populate the Viewport. The
 current available device types are:
 
@@ -159,7 +159,7 @@ described next.
 
 Since a LaunchpadApplication works with only a single Viewport, when you
 specify more than one device we provide a mechanism to combine them into
-a single Viewport. This is the 'layout' argument, and we currently support:
+a single Viewport. This is the `layout` argument, and we currently support:
  * pickone - The user selects one of the specified devices by clicking a button on it. [default]
  * horiz - The devices will be arranged in a horizontal row. The user clicks on the devices in
    left-to-right order.
