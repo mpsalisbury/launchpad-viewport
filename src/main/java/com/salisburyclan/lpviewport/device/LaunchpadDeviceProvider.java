@@ -12,8 +12,8 @@ public interface LaunchpadDeviceProvider {
   Set<String> getAvailableTypes();
 
   /**
-   * @param deviceSpec a string of the form: 'type[.config]' where config is an optional type-specific
-   * configuration string.
+   * @param deviceSpec a string of the form: 'type[.config]' where config is an optional
+   *     type-specific configuration string.
    * @return all devices that match the given deviceSpec.
    */
   List<LaunchpadDevice> getDevices(String deviceSpec);
