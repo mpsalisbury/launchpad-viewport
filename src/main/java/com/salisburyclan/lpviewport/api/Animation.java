@@ -14,18 +14,25 @@ public abstract class Animation {
     this.timelines = new ArrayList<>();
   }
 
+  /**
+   * Adds the given Timeline to this Animation.
+   * @param timeline the Timeline to add
+   */
   protected void addTimeline(Timeline timeline) {
     timelines.add(timeline);
   }
 
+  /** Plays all Timelines in this Animation. */
   public void play() {
     timelines.forEach(Timeline::play);
   }
 
+  /** Pauses all Timelines in this Animation. */
   public void pause() {
     timelines.forEach(Timeline::pause);
   }
 
+  /** Stops all Timelines in this Animation. */
   public void stop() {
     timelines.forEach(Timeline::stop);
   }
