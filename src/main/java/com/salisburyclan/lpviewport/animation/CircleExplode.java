@@ -3,6 +3,7 @@ package com.salisburyclan.lpviewport.animation;
 import com.salisburyclan.lpviewport.api.Color;
 import com.salisburyclan.lpviewport.api.FramedAnimation;
 import com.salisburyclan.lpviewport.api.WriteLayer;
+import com.salisburyclan.lpviewport.apps.Circle;
 import com.salisburyclan.lpviewport.geom.Point;
 import com.salisburyclan.lpviewport.geom.Range2;
 import javafx.animation.KeyFrame;
@@ -67,11 +68,6 @@ public class CircleExplode extends FramedAnimation {
   }
 
   private void drawCircle(Point center, int radius) {
-    for (int degrees = 0; degrees < 360; degrees++) {
-      double radians = degrees * (Math.PI / 180);
-      int x = center.x() + (int) Math.round(Math.sin(radians) * radius);
-      int y = center.y() + (int) Math.round(Math.cos(radians) * radius);
-      layer.setPixel(x, y, color);
-    }
+    Circle.drawRangeCircle(layer, center, radius, radius+1, color);
   }
 }

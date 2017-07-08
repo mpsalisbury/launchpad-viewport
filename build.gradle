@@ -65,7 +65,7 @@ task rainbow(type: JavaExec) {
 
 task circle(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
-  main = 'com.salisburyclan.lpviewport.apps.Circle'
+  main = 'com.salisburyclan.lpviewport.apps.CircleApp'
   if (project.hasProperty('layout')) {
     args = ["--layout=${layout}"]
   }
