@@ -16,6 +16,7 @@ public abstract class Animation {
 
   /**
    * Adds the given Timeline to this Animation.
+   *
    * @param timeline the Timeline to add
    */
   protected void addTimeline(Timeline timeline) {

@@ -53,10 +53,7 @@ public class DecayingAnimation implements ReadLayer {
         getDecayPerTick(ticksPerSecond, millisToDecay));
   }
 
-  /**
-   * Provides ticks to a listener. Used to manage the frequency
-   * of decay ticks.
-   */
+  /** Provides ticks to a listener. Used to manage the frequency of decay ticks. */
   public interface TickProvider {
     /** Calls listener.run() on each tick. */
     void addTicker(Runnable listener);
