@@ -38,14 +38,14 @@ public class DecayingAnimation implements ReadLayer {
   private static final int DEFAULT_TICKS_PER_SECOND = 30;
   private static final int DEFAULT_MILLIS_TO_DECAY = 500;
 
-  // @Param inputLayer Frame Layer that we will decay over time.
+  // @param inputLayer Frame Layer that we will decay over time.
   public DecayingAnimation(ReadLayer inputLayer) {
     this(inputLayer, DEFAULT_TICKS_PER_SECOND, DEFAULT_MILLIS_TO_DECAY);
   }
 
-  // @Param inputLayer Frame Layer that we will decay over time.
-  // @Param ticksPerSecond how frequently to update the buffer and output pixels.
-  // @Param millisToDecay How long for an opaque pixel to decay to fully transparent.
+  // @param inputLayer Frame Layer that we will decay over time.
+  // @param ticksPerSecond how frequently to update the buffer and output pixels.
+  // @param millisToDecay How long for an opaque pixel to decay to fully transparent.
   public DecayingAnimation(ReadLayer inputLayer, int ticksPerSecond, int millisToDecay) {
     this(
         inputLayer,
@@ -53,15 +53,18 @@ public class DecayingAnimation implements ReadLayer {
         getDecayPerTick(ticksPerSecond, millisToDecay));
   }
 
+  /** Provides ticks to a listener. Used to manage the frequency of decay ticks. */
   public interface TickProvider {
+    /** Calls listener.run() on each tick. */
     void addTicker(Runnable listener);
 
+    /** Stops this ticker. */
     void close();
   }
 
-  // @Param inputLayer Frame Layer that we will decay over time.
-  // @Param tickProvider Provides a tick for each decay update.
-  // @Param decayPerTick Amount of alpha to decay each pixel on each tick.
+  // @param inputLayer Frame Layer that we will decay over time.
+  // @param tickProvider Provides a tick for each decay update.
+  // @param decayPerTick Amount of alpha to decay each pixel on each tick.
   public DecayingAnimation(ReadLayer inputLayer, TickProvider tickProvider, double decayPerTick) {
     this.inputLayer = inputLayer;
     this.extent = inputLayer.getExtent();
@@ -73,6 +76,7 @@ public class DecayingAnimation implements ReadLayer {
     tickProvider.addTicker(this::decayCycle);
     onCleanup.add(tickProvider::close);
 
+    // Listen for changes from both inputLayer and decayLayer.
     PixelListener layerPixelListener =
         new PixelListener() {
           @Override
@@ -94,6 +98,8 @@ public class DecayingAnimation implements ReadLayer {
     inputLayer.addPixelListener(layerPixelListener);
     decayLayer.addPixelListener(layerPixelListener);
 
+    // Mark this animation as shutting down when inputLayer closes.
+    // After decay has completed, then we will close too.
     inputLayer.addCloseListener(
         new CloseListener() {
           @Override
@@ -169,6 +175,7 @@ public class DecayingAnimation implements ReadLayer {
   // Copy input frame into decaying frame.
   private void pushFrame() {
     if (shuttingDown) {
+      // If shutting down, don't allow any more pushed frames.
       return;
     }
     extent.forEach(

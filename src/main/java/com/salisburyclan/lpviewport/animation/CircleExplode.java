@@ -68,6 +68,6 @@ public class CircleExplode extends FramedAnimation {
   }
 
   private void drawCircle(Point center, int radius) {
-    Circle.drawRangeCircle(layer, center, radius, radius+1, color);
+    Circle.drawRangeCircle(layer, center, radius, radius + 1, color);
   }
 }
