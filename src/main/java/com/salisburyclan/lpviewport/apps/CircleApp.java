@@ -22,13 +22,20 @@ public class CircleApp extends LaunchpadApplication {
         new Button2Listener() {
           @Override
           public void onButtonPressed(Point p) {
-            Circle.drawRangeCircle(outputLayer, p, 5, 17, Color.CYAN);
+            drawCircle(p, Color.CYAN, Color.BLUE);
           }
 
           @Override
           public void onButtonReleased(Point p) {
-            Circle.drawRangeCircle(outputLayer, p, 5, 17, Color.BLACK);
+            drawCircle(p, Color.BLACK, Color.BLACK);
           }
         });
+  }
+
+  private void drawCircle(Point center, Color color, Color color2) {
+    for (int i = 0; i < 10; i += 2) {
+      Circle.drawRangeCircle(outputLayer, center, i, i + 1, color);
+      Circle.drawRangeCircle(outputLayer, center, i + 1, i + 2, color2);
+    }
   }
 }

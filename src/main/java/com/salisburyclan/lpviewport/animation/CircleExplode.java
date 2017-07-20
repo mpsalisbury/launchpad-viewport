@@ -49,8 +49,8 @@ public class CircleExplode extends FramedAnimation {
     explodeDistance.addListener(
         new ChangeListener() {
           @Override
-          public void changed(ObservableValue o, Object distance, Object newVal) {
-            renderExplodeFrame((Integer) distance);
+          public void changed(ObservableValue o, Object oldVal, Object newVal) {
+            renderExplodeFrame((Integer) oldVal, (Integer) newVal);
           }
         });
   }
@@ -62,12 +62,12 @@ public class CircleExplode extends FramedAnimation {
     return bigX + bigY;
   }
 
-  private void renderExplodeFrame(int distance) {
+  private void renderExplodeFrame(int innerDistance, int outerDistance) {
     layer.nextFrame();
-    drawCircle(center, distance);
+    drawCircle(center, innerDistance, outerDistance);
   }
 
-  private void drawCircle(Point center, int radius) {
-    Circle.drawRangeCircle(layer, center, radius, radius + 1, color);
+  private void drawCircle(Point center, int innerRadius, int outerRadius) {
+    Circle.drawRangeCircle(layer, center, innerRadius, outerRadius, color);
   }
 }
