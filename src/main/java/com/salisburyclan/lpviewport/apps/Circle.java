@@ -56,18 +56,18 @@ public class Circle {
       eOut += 2 * x + 1;
       if (eOut >= 0) {
         // Diagonal case
-        eOut -= 2 * yOut - 1;
+        eOut += -2 * yOut + 1;
         yOut--;
       }
       // Compute new yIn and eIn
       // Move diagonal (down/right) as long as our center is still outside the inner circle.
       // Try diagonal
       eIn += 2 * (x - yIn + 1);
-      yIn--;
       if (eIn < 0) {
         // Horizontal case
         eIn += 2 * yIn - 1;
-        yIn++;
+      } else {
+        yIn--;
       }
       x++;
     }
@@ -79,7 +79,7 @@ public class Circle {
       eOut += 2 * x + 1;
       if (eOut >= 0) {
         // Diagonal case
-        eOut -= 2 * yOut - 1;
+        eOut += -2 * yOut + 1;
         yOut--;
       }
       yIn++;
