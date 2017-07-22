@@ -16,18 +16,18 @@ public class SubView {
     return new SubViewport(viewport, extent);
   }
 
-  // Returns a new ViewStrip relative to this viewport.
+  // Returns a new one-dimensional viewport relative to this viewport.
   // extent must be one button wide or one button high.
   public static Viewport1 getSubViewport1(Viewport viewport, Range2 extent) {
     return new SubViewport1(viewport, extent);
   }
 
-  // Returns a new ViewButton relative to this viewport.
+  // Returns a new one-button viewport relative to this viewport.
   public static Viewport0 getSubViewport0(Viewport viewport, Point p) {
     return new SubViewport0(viewport, p);
   }
 
-  // Returns a new ViewButton relative to this viewstrip.
+  // Returns a new one-button viewport relative to this viewstrip.
   public static Viewport0 getSubViewport0(Viewport1 viewstrip, int x) {
     return new StripSubViewport0(viewstrip, x);
   }

@@ -36,10 +36,13 @@ public abstract class Color {
     return new AutoValue_Color(red, green, blue);
   }
 
+  /** @return the red component of the color. */
   public abstract double red();
 
+  /** @return the green component of the color. */
   public abstract double green();
 
+  /** @return the blue component of the color. */
   public abstract double blue();
 
   @Override
@@ -56,6 +59,10 @@ public abstract class Color {
     return false;
   }
 
+  /**
+   * @param component the value of the color component to check
+   * @throws IllegalArgumentException if the given component is out of range.
+   */
   private static void checkRange(double component) {
     if (component < 0.0 || component > 1.0) {
       throw new IllegalArgumentException("Color Component out of range: " + component);
