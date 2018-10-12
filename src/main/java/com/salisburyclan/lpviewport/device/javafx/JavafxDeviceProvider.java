@@ -22,7 +22,8 @@ public class JavafxDeviceProvider implements LaunchpadDeviceProvider {
   private final Pattern DEFAULT_PATTERN = Pattern.compile(TYPE);
   private final Pattern SIZE_PATTERN = Pattern.compile(TYPE + "\\.(\\d*)x(\\d*)");
   private final Pattern LINE_SIZE_PATTERN = Pattern.compile(TYPE + "\\.(\\d*)x(\\d*)\\.(\\d*)");
-  //  private final Pattern GRID_SIZE_PATTERN = Pattern.compile(TYPE+"\\.(\\d*)x(\\d*)\\.(\\d*)x(\\d*)");
+  //  private final Pattern GRID_SIZE_PATTERN =
+  // Pattern.compile(TYPE+"\\.(\\d*)x(\\d*)\\.(\\d*)x(\\d*)");
 
   @Override
   public Set<String> getAvailableTypes() {

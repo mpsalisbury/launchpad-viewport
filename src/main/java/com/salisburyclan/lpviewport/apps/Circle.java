@@ -71,7 +71,8 @@ public class Circle {
       }
       x++;
     }
-    // After we reach the 45 degree line, we continue diagonally from the inner one to meet the outer one
+    // After we reach the 45 degree line, we continue diagonally from the inner one to meet the
+    // outer one
     while (yIn <= yOut) {
       drawRange(outputLayer, center, x, yIn, yOut, color);
       // Compute new yOut and eOut

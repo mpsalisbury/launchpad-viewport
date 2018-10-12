@@ -5,12 +5,11 @@ buildscript {
 }
 
 plugins {
-  id 'com.github.sherter.google-java-format' version '0.6'
-//  id "com.palantir.jacoco-coverage" version "0.4.0"
-  id "com.palantir.jacoco-full-report" version "0.4.0"
+  id 'com.github.sherter.google-java-format' version '0.7.1'
   id "net.ltgt.apt" version "0.10"
 }
 
+apply plugin: 'jacoco'
 apply plugin: 'java'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'

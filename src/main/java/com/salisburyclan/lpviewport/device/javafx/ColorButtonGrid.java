@@ -78,7 +78,7 @@ public class ColorButtonGrid {
   public Button getButton(int x, int y) {
     if (x < 0 || x >= xCount || y < 0 || y >= yCount) {
       return null;
-      //throw new IllegalArgumentException(String.format("Button out of range (%s, %s)", x, y));
+      // throw new IllegalArgumentException(String.format("Button out of range (%s, %s)", x, y));
     }
     return buttons[x][y];
   }

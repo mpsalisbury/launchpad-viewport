@@ -40,7 +40,8 @@ public class LaunchpadMk2ProtocolReceiver implements Receiver {
     int status = message.getStatus();
     int note = message.getData1();
     int velocity = message.getData2();
-    //    System.out.println("Got message " + status + ", " + note + ", " + velocity + ", " + timestamp);
+    //    System.out.println("Got message " + status + ", " + note + ", " + velocity + ", " +
+    // timestamp);
 
     if (status == ShortMessage.NOTE_ON || status == ShortMessage.CONTROL_CHANGE) {
       handleButtonPress(note, velocity, timestamp);

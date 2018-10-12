@@ -1,6 +1,6 @@
 package com.salisburyclan.lpviewport.layout.linked;
 
-//@RunWith(JUnit4.class)
+// @RunWith(JUnit4.class)
 public class LinkedPairsLayoutProviderTest {
   /*
     @Rule public MockitoRule mockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);

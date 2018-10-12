@@ -1,6 +1,6 @@
 package com.salisburyclan.lpviewport.protocol;
 
-//import javax.sound.midi.MidiMessage;
+// import javax.sound.midi.MidiMessage;
 
 public interface LaunchpadProtocolListener {
   void onButtonPressed(int pos, long timestamp);

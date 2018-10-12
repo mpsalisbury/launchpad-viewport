@@ -49,6 +49,11 @@ public abstract class LaunchpadApplication extends Application {
   // Entrypoint for application.
   public abstract void run();
 
+  // Shuts down the JavaFx application thread.
+  public void exitApplication() {
+    Platform.exit();
+  }
+
   // Provides the user-specified Viewport to the given callback when it has been constructed.
   protected void getViewport(Consumer<Viewport> viewportCallback) {
     Futures.addCallback(
