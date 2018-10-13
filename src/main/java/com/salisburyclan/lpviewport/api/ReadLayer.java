@@ -21,6 +21,8 @@ public interface ReadLayer {
 
   void removePixelListener(PixelListener listener);
 
+  void removeAllPixelListeners();
+
   // Adds a listener that is notified when this layer is closed.
   void addCloseListener(CloseListener listener);
 }

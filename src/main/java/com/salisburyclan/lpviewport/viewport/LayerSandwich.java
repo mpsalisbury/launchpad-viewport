@@ -72,6 +72,11 @@ public class LayerSandwich implements ReadLayer {
   }
 
   @Override
+  public void removeAllPixelListeners() {
+    pixelListeners.clear();
+  }
+
+  @Override
   public void addCloseListener(CloseListener listener) {
     closeListeners.add(listener);
   }

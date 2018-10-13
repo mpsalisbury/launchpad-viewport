@@ -59,4 +59,10 @@ public class SubViewport0 implements Viewport0 {
       baseViewport.removeListener(subListener);
     }
   }
+
+  @Override
+  public void removeAllListeners() {
+    listenerMap.values().forEach(subListener -> baseViewport.removeListener(subListener));
+    listenerMap.clear();
+  }
 }

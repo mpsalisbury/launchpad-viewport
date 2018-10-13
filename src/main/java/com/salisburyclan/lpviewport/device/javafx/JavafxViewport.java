@@ -54,6 +54,11 @@ public class JavafxViewport implements RawViewport {
     listenerMultiplexer.remove(listener);
   }
 
+  @Override
+  public void removeAllListeners() {
+    listenerMultiplexer.clear();
+  }
+
   private class ButtonGridRawLayer implements RawLayer {
     @Override
     public Range2 getExtent() {

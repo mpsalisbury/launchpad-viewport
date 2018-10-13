@@ -33,6 +33,11 @@ public class LayerBuffer implements ReadWriteLayer {
   }
 
   @Override
+  public void removeAllPixelListeners() {
+    pixelListeners.clear();
+  }
+
+  @Override
   public void addCloseListener(CloseListener closer) {
     closeListeners.add(closer);
   }

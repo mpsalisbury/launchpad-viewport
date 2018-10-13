@@ -31,21 +31,25 @@ public class RawViewportViewport implements Viewport {
         });
   }
 
+  @Override
   public Range2 getExtent() {
     return rawViewport.getExtent();
   }
 
   // Adds and returns an output layer.
+  @Override
   public LayerBuffer addLayer() {
     LayerBuffer buffer = new LayerBuffer(getExtent());
     addLayer(buffer);
     return buffer;
   }
 
+  @Override
   public void addLayer(ReadLayer layer) {
     layers.addLayer(layer);
   }
 
+  @Override
   public void removeLayer(ReadLayer layer) {
     layers.removeLayer(layer);
   }
@@ -62,11 +66,18 @@ public class RawViewportViewport implements Viewport {
   }
 
   // Adds a listener for this viewport.
+  @Override
   public void addListener(Button2Listener listener) {
     rawViewport.addListener(listener);
   }
 
+  @Override
   public void removeListener(Button2Listener listener) {
     rawViewport.removeListener(listener);
+  }
+
+  @Override
+  public void removeAllListeners() {
+    rawViewport.removeAllListeners();
   }
 }

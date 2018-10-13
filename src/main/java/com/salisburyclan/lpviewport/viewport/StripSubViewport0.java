@@ -55,4 +55,10 @@ public class StripSubViewport0 implements Viewport0 {
       baseViewStrip.removeListener(subListener);
     }
   }
+
+  @Override
+  public void removeAllListeners() {
+    listenerMap.values().forEach(subListener -> baseViewStrip.removeListener(subListener));
+    listenerMap.clear();
+  }
 }

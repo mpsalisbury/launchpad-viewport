@@ -81,4 +81,10 @@ public class SubViewport implements Viewport {
       baseViewport.removeListener(subListener);
     }
   }
+
+  @Override
+  public void removeAllListeners() {
+    listenerMap.values().forEach(subListener -> baseViewport.removeListener(subListener));
+    listenerMap.clear();
+  }
 }

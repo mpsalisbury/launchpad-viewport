@@ -18,4 +18,7 @@ public interface Viewport1 {
 
   // Removes a listener from this viewstrip.
   void removeListener(Button1Listener listener);
+
+  // Removes all listeners from this viewstrip.
+  void removeAllListeners();
 }

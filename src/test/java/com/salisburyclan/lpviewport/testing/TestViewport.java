@@ -68,6 +68,11 @@ public class TestViewport implements Viewport {
     listeners.remove(listener);
   }
 
+  @Override
+  public void removeAllListeners() {
+    listeners.clear();
+  }
+
   private static class Button2ListenerMultiplexer extends Multiplexer<Button2Listener>
       implements Button2Listener {
     @Override

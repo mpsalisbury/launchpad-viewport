@@ -14,4 +14,6 @@ public interface RawViewport {
   void addListener(Button2Listener listener);
 
   void removeListener(Button2Listener listener);
+
+  void removeAllListeners();
 }

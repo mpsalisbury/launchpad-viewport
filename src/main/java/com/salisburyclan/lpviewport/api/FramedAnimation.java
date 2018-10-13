@@ -36,6 +36,11 @@ public abstract class FramedAnimation extends AnimatedLayer {
   }
 
   @Override
+  public void removeAllPixelListeners() {
+    layer.removeAllPixelListeners();
+  }
+
+  @Override
   public void addCloseListener(CloseListener listener) {
     layer.addCloseListener(listener);
   }

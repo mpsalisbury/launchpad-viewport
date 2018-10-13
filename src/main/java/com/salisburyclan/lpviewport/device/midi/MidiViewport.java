@@ -42,6 +42,11 @@ public class MidiViewport implements RawViewport {
     listener.removeListener(viewportListener);
   }
 
+  @Override
+  public void removeAllListeners() {
+    listener.removeAllListeners();
+  }
+
   private class MidiRawLayer implements RawLayer {
     @Override
     public Range2 getExtent() {

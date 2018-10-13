@@ -13,4 +13,7 @@ public interface Viewport0 {
 
   // Removes a listener from this viewbutton.
   void removeListener(Button0Listener listener);
+
+  // Removes all listeners from this viewbutton.
+  void removeAllListeners();
 }

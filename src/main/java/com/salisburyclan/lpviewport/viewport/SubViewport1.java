@@ -86,6 +86,12 @@ public class SubViewport1 implements Viewport1 {
     }
   }
 
+  @Override
+  public void removeAllListeners() {
+    listenerMap.values().forEach(subListener -> baseViewport.removeListener(subListener));
+    listenerMap.clear();
+  }
+
   // Maps between 1-D strip index and 2-D Viewport index.
   private interface IndexMap {
     Point getPoint(int index);

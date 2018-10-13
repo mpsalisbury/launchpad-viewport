@@ -130,5 +130,15 @@ public class SubViewport1Test {
     viewport1.removeListener(mockListener);
     baseViewport.pushButton(basePoint);
     verifyZeroInteractions(mockListener);
+
+    // Test removeAllListeners
+    reset(mockListener);
+    viewport1.addListener(mockListener);
+    baseViewport.pushButton(basePoint);
+    verify(mockListener).onButtonPressed(point);
+
+    viewport1.removeAllListeners();
+    baseViewport.pushButton(basePoint);
+    verifyZeroInteractions(mockListener);
   }
 }

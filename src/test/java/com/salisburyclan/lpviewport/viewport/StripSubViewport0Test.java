@@ -75,4 +75,15 @@ public class StripSubViewport0Test {
     baseViewport.pushButton(POINT);
     verifyZeroInteractions(mockListener);
   }
+
+  @Test
+  public void testRemoveAllListeners() {
+    viewport0.addListener(mockListener);
+    baseViewport.pushButton(POINT);
+    verify(mockListener).onButtonPressed();
+
+    viewport0.removeAllListeners();
+    baseViewport.pushButton(POINT);
+    verifyZeroInteractions(mockListener);
+  }
 }

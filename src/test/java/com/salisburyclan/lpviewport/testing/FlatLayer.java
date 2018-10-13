@@ -42,6 +42,10 @@ public class FlatLayer implements ReadLayer {
     // Pixels don't change. Do nothing.
   }
 
+  public void removeAllPixelListeners() {
+    // Pixels don't change. Do nothing.
+  }
+
   public void addCloseListener(CloseListener listener) {
     closeListeners.add(listener);
   }

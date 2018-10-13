@@ -17,6 +17,10 @@ public class MidiListener implements LaunchpadProtocolListener {
     multiplexer.remove(listener);
   }
 
+  public void removeAllListeners() {
+    multiplexer.clear();
+  }
+
   public void onButtonPressed(int pos, long timestamp) {
     multiplexer.onButtonPressed(PositionCode.getPoint(pos));
   }

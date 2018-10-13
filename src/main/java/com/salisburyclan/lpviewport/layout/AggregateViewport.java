@@ -88,6 +88,12 @@ public class AggregateViewport implements RawViewport {
     throw new UnsupportedOperationException("AggregateViewport::removeListener");
   }
 
+  @Override
+  public void removeAllListeners() {
+    // TODO implement
+    throw new UnsupportedOperationException("AggregateViewport::removeAllListeners");
+  }
+
   // Represents a viewport that composes part of this AggregateViewport.
   private static class Viewpart {
     public RawViewport viewport;

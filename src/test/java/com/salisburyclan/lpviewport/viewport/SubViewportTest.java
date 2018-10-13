@@ -82,9 +82,21 @@ public class SubViewportTest {
     baseViewport.pushButton(POINT);
     verifyZeroInteractions(mockListener);
   }
+
+  @Test
+  public void testRemoveAllListeners() {
+    viewport.addListener(mockListener);
+    baseViewport.pushButton(POINT);
+    verify(mockListener).onButtonPressed(POINT);
+
+    viewport.removeAllListeners();
+    baseViewport.pushButton(POINT);
+    verifyZeroInteractions(mockListener);
+  }
 }
 
 /*
+  TODO: Test these:
   public Range2 getExtent() {
   public LayerBuffer addLayer() {
   public void addLayer(ReadLayer layer) {
