@@ -13,7 +13,6 @@ import javafx.util.Duration;
 // Wraps a layer and decays each pixel's brightness over time.
 // The input layer is copied into a decaying layer on each frame (nextFrame()).
 // The decaying layer decays pixels towards transparent over time.
-// TODO Consider making this an AnimatedLayer
 public class DecayingAnimation implements ReadLayer {
   private Range2 extent;
 
@@ -35,7 +34,7 @@ public class DecayingAnimation implements ReadLayer {
   // How much to decay the buffer transparency for each tick.
   private double decayPerTick;
 
-  private static final int DEFAULT_TICKS_PER_SECOND = 30;
+  private static final int DEFAULT_TICKS_PER_SECOND = 10;
   private static final int DEFAULT_MILLIS_TO_DECAY = 500;
 
   // @param inputLayer Frame Layer that we will decay over time.

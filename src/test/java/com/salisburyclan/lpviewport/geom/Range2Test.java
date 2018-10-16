@@ -44,19 +44,17 @@ public class Range2Test {
   }
 
   @Test
-  public void testInvalidRange() {
-    testInvalidRange(1, 1, 0, 1);
-    testInvalidRange(1, 1, 1, 0);
+  public void testEmptyRange() {
+    testEmptyRange(1, 1, 0, 1);
+    testEmptyRange(1, 1, 1, 0);
   }
 
-  private void testInvalidRange(int xLow, int yLow, int xHigh, int yHigh) {
-    assertThrows(IllegalArgumentException.class, () -> Range2.create(xLow, yLow, xHigh, yHigh));
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> Range2.create(Point.create(xLow, yLow), Point.create(xHigh, yHigh)));
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> Range2.create(Range1.create(xLow, xHigh), Range1.create(yLow, yHigh)));
+  private void testEmptyRange(int xLow, int yLow, int xHigh, int yHigh) {
+    assertThat(Range2.create(xLow, yLow, xHigh, yHigh)).isEqualTo(Range2.EMPTY);
+    assertThat(Range2.create(Point.create(xLow, yLow), Point.create(xHigh, yHigh)))
+        .isEqualTo(Range2.EMPTY);
+    assertThat(Range2.create(Range1.create(xLow, xHigh), Range1.create(yLow, yHigh)))
+        .isEqualTo(Range2.EMPTY);
   }
 
   @Test
@@ -152,8 +150,8 @@ public class Range2Test {
     assertThat(range.inset(1, 1, 1, 1)).isEqualTo(Range2.create(2, 3, 3, 6));
     assertThat(range.inset(1, 1, 2, 4)).isEqualTo(Range2.create(2, 3, 2, 3));
     assertThat(range.inset(-1, -1, -1, -1)).isEqualTo(Range2.create(0, 1, 5, 8));
-    assertThrows(IllegalArgumentException.class, () -> range.inset(4, 0, 4, 0));
-    assertThrows(IllegalArgumentException.class, () -> range.inset(0, 4, 0, 4));
+    assertThat(range.inset(4, 0, 4, 0)).isEqualTo(Range2.EMPTY);
+    assertThat(range.inset(0, 4, 0, 4)).isEqualTo(Range2.EMPTY);
   }
 
   @Test
@@ -177,6 +175,21 @@ public class Range2Test {
     // overlapping
     assertThat(Range2.create(1, 2, 3, 4).includeBoth(Range2.create(2, 3, 5, 6)))
         .isEqualTo(Range2.create(1, 2, 5, 6));
+  }
+
+  @Test
+  public void testIntersect() {
+    // separate
+    assertThat(Range2.create(1, 2, 3, 4).intersect(Range2.create(4, 5, 7, 8)))
+        .isEqualTo(Range2.EMPTY);
+    assertThat(Range2.create(1, 5, 3, 8).intersect(Range2.create(4, 2, 7, 4)))
+        .isEqualTo(Range2.EMPTY);
+    // contained
+    assertThat(Range2.create(1, 2, 7, 8).intersect(Range2.create(2, 2, 5, 5)))
+        .isEqualTo(Range2.create(2, 2, 5, 5));
+    // overlapping
+    assertThat(Range2.create(1, 2, 3, 4).intersect(Range2.create(2, 3, 5, 6)))
+        .isEqualTo(Range2.create(2, 3, 3, 4));
   }
 
   @Test

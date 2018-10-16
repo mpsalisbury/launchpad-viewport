@@ -7,6 +7,7 @@ import com.salisburyclan.lpviewport.api.ReadLayer;
 import com.salisburyclan.lpviewport.geom.Range2;
 import com.salisburyclan.lpviewport.util.CloseListenerMultiplexer;
 
+// A layer containing just a single pixel value throughout its extent.
 public class FlatLayer implements ReadLayer {
   private Range2 extent;
   private Pixel pixel;

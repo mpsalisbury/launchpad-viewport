@@ -6,15 +6,13 @@ import java.util.stream.IntStream;
 
 @AutoValue
 public abstract class Range1 {
-  public static Range1 create(int low, int high) {
-    assertValid(low, high);
-    return new AutoValue_Range1(low, high);
-  }
+  public static final Range1 EMPTY = new AutoValue_Range1(1, 0);
 
-  // Validates that the given extentLow and extentHigh are valid values.
-  private static void assertValid(int low, int high) {
-    if (low > high) {
-      throw new IllegalArgumentException("Invalid extents: " + low + "-" + high);
+  public static Range1 create(int low, int high) {
+    if (low <= high) {
+      return new AutoValue_Range1(low, high);
+    } else {
+      return EMPTY;
     }
   }
 
@@ -22,11 +20,22 @@ public abstract class Range1 {
 
   public abstract int high();
 
+  // No values in this range.
+  public boolean isEmpty() {
+    return low() > high();
+  }
+
   public int middle() {
+    if (isEmpty()) {
+      return 0;
+    }
     return (high() + low()) / 2;
   }
 
   public int size() {
+    if (isEmpty()) {
+      return 0;
+    }
     return high() - low() + 1;
   }
 
@@ -54,8 +63,18 @@ public abstract class Range1 {
     return create(low() + offset, high() + offset);
   }
 
-  public Range1 includeBoth(Range1 other) {
+  public Range1 union(Range1 other) {
+    if (other.isEmpty()) {
+      return this;
+    }
+    if (this.isEmpty()) {
+      return other;
+    }
     return create(Math.min(low(), other.low()), Math.max(high(), other.high()));
+  }
+
+  public Range1 intersect(Range1 other) {
+    return create(Math.max(low(), other.low()), Math.min(high(), other.high()));
   }
 
   public IntStream stream() {

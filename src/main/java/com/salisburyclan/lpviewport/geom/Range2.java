@@ -6,6 +6,8 @@ import java.util.function.BiConsumer;
 /** Encodes a 2-D xrange and yrange. */
 @AutoValue
 public abstract class Range2 {
+  public static final Range2 EMPTY = new AutoValue_Range2(Range1.EMPTY, Range1.EMPTY);
+
   // Builds an extent from coordinates.
   public static Range2 create(Point low, Point high) {
     return create(Range1.create(low.x(), high.x()), Range1.create(low.y(), high.y()));
@@ -17,15 +19,18 @@ public abstract class Range2 {
   }
 
   public static Range2 create(Range1 xRange, int y) {
-    return new AutoValue_Range2(xRange, Range1.create(y, y));
+    return create(xRange, Range1.create(y, y));
   }
 
   public static Range2 create(int x, Range1 yRange) {
-    return new AutoValue_Range2(Range1.create(x, x), yRange);
+    return create(Range1.create(x, x), yRange);
   }
 
   // Builds an extent from ranges.
   public static Range2 create(Range1 xRange, Range1 yRange) {
+    if (xRange.isEmpty() || yRange.isEmpty()) {
+      return EMPTY;
+    }
     return new AutoValue_Range2(xRange, yRange);
   }
 
@@ -35,6 +40,10 @@ public abstract class Range2 {
 
   public Point origin() {
     return Point.create(xRange().low(), yRange().low());
+  }
+
+  public boolean isEmpty() {
+    return xRange().isEmpty();
   }
 
   public Point middle() {
@@ -81,7 +90,12 @@ public abstract class Range2 {
 
   // Returns a new ViewExtent that includes the full range of both this and other.
   public Range2 includeBoth(Range2 other) {
-    return create(xRange().includeBoth(other.xRange()), yRange().includeBoth(other.yRange()));
+    return create(xRange().union(other.xRange()), yRange().union(other.yRange()));
+  }
+
+  // Returns a new ViewExtent that includes only the overlapping bits of both this and other.
+  public Range2 intersect(Range2 other) {
+    return create(xRange().intersect(other.xRange()), yRange().intersect(other.yRange()));
   }
 
   // Iterate through all (x,y) pairs.

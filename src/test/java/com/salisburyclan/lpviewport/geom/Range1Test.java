@@ -14,10 +14,9 @@ import org.junit.runners.JUnit4;
 public class Range1Test {
 
   @Test
-  public void testRequireValidRange() {
-    Range1.create(1, 4);
-    Range1.create(1, 1);
-    assertThrows(IllegalArgumentException.class, () -> Range1.create(1, 0));
+  public void testCreatesEmptyRange() {
+    assertThat(Range1.create(4, 1).isEmpty()).isTrue();
+    assertThat(Range1.create(4, 1)).isEqualTo(Range1.EMPTY);
   }
 
   @Test
@@ -77,7 +76,7 @@ public class Range1Test {
     assertThat(range.inset(1, 1)).isEqualTo(Range1.create(3, 7));
     assertThat(range.inset(4, 2)).isEqualTo(Range1.create(6, 6));
     assertThat(range.inset(-1, -1)).isEqualTo(Range1.create(1, 9));
-    assertThrows(IllegalArgumentException.class, () -> range.inset(4, 4));
+    assertThat(range.inset(4, 4)).isEqualTo(Range1.EMPTY);
   }
 
   @Test
@@ -89,20 +88,37 @@ public class Range1Test {
   }
 
   @Test
-  public void testIncludeBoth() {
+  public void testUnion() {
     Range1 r13 = Range1.create(1, 3);
     Range1 r24 = Range1.create(2, 4);
     Range1 r35 = Range1.create(3, 5);
     Range1 r57 = Range1.create(5, 7);
     // adjacent
-    assertThat(r13.includeBoth(r35)).isEqualTo(Range1.create(1, 5));
-    assertThat(r35.includeBoth(r13)).isEqualTo(Range1.create(1, 5));
+    assertThat(r13.union(r35)).isEqualTo(Range1.create(1, 5));
+    assertThat(r35.union(r13)).isEqualTo(Range1.create(1, 5));
     // separate
-    assertThat(r13.includeBoth(r57)).isEqualTo(Range1.create(1, 7));
-    assertThat(r57.includeBoth(r13)).isEqualTo(Range1.create(1, 7));
+    assertThat(r13.union(r57)).isEqualTo(Range1.create(1, 7));
+    assertThat(r57.union(r13)).isEqualTo(Range1.create(1, 7));
     // overlapping
-    assertThat(r13.includeBoth(r24)).isEqualTo(Range1.create(1, 4));
-    assertThat(r24.includeBoth(r13)).isEqualTo(Range1.create(1, 4));
+    assertThat(r13.union(r24)).isEqualTo(Range1.create(1, 4));
+    assertThat(r24.union(r13)).isEqualTo(Range1.create(1, 4));
+  }
+
+  @Test
+  public void testIntersect() {
+    Range1 r13 = Range1.create(1, 3);
+    Range1 r24 = Range1.create(2, 4);
+    Range1 r35 = Range1.create(3, 5);
+    Range1 r57 = Range1.create(5, 7);
+    // adjacent
+    assertThat(r13.intersect(r35)).isEqualTo(Range1.create(3, 3));
+    assertThat(r35.intersect(r13)).isEqualTo(Range1.create(3, 3));
+    // separate
+    assertThat(r13.intersect(r57)).isEqualTo(Range1.create(1, 0));
+    assertThat(r57.intersect(r13)).isEqualTo(Range1.create(1, 0));
+    // overlapping
+    assertThat(r13.intersect(r24)).isEqualTo(Range1.create(2, 3));
+    assertThat(r24.intersect(r13)).isEqualTo(Range1.create(2, 3));
   }
 
   @Test
