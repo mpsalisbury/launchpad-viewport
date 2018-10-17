@@ -17,6 +17,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
+// Sweeps pixels across one edge of an extent.
 public class EdgeSweep extends FramedAnimation {
 
   private WriteLayer writeLayer;

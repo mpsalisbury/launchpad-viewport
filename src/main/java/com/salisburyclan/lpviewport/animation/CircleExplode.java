@@ -15,6 +15,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
+// Grows a circle from a center point to the edge of the extent.
 public class CircleExplode extends FramedAnimation {
 
   private final WriteLayer layer;

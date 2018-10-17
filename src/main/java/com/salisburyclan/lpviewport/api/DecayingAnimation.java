@@ -34,7 +34,7 @@ public class DecayingAnimation implements ReadLayer {
   // How much to decay the buffer transparency for each tick.
   private double decayPerTick;
 
-  private static final int DEFAULT_TICKS_PER_SECOND = 10;
+  private static final int DEFAULT_TICKS_PER_SECOND = 15;
   private static final int DEFAULT_MILLIS_TO_DECAY = 500;
 
   // @param inputLayer Frame Layer that we will decay over time.

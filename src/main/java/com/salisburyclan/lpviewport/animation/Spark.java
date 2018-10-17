@@ -15,6 +15,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
+// Fires a spark in four cardinal directions from a center point.
 public class Spark extends FramedAnimation {
 
   private final Point center;

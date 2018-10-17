@@ -17,6 +17,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
+// Sweeps a vertical bar back and forth across an extent.
 public class Sweep extends FramedAnimation {
   private WriteLayer layer;
   private Pixel pixel;

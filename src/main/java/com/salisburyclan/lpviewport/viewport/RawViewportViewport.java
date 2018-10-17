@@ -54,6 +54,11 @@ public class RawViewportViewport implements Viewport {
     layers.removeLayer(layer);
   }
 
+  @Override
+  public void removeAllLayers() {
+    layers.removeAllLayers();
+  }
+
   // Write pixel from our layers into the raw viewport.
   private void writeRawPixel(int x, int y) {
     Pixel pixel = Pixel.BLACK.combine(layers.getPixel(x, y));

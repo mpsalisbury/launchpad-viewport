@@ -15,7 +15,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
-// Animation moves the sprite around the edges of the moveExtent.
+// Moves the sprite around the edges of the moveExtent.
 public class MoveSprite extends AnimatedLayer {
   private final LayerTranslator translator;
   private final Range2 moveExtent;

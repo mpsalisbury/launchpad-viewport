@@ -16,6 +16,9 @@ public interface Viewport {
   // Removes the given layer from this Viewport.
   void removeLayer(ReadLayer layer);
 
+  // Removes all layers from this viewport.
+  void removeAllLayers();
+
   // Adds a button listener to this Viewport.
   void addListener(Button2Listener listener);
 

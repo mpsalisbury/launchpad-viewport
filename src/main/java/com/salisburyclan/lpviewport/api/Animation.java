@@ -1,5 +1,6 @@
 package com.salisburyclan.lpviewport.api;
 
+import com.salisburyclan.lpviewport.util.AnimationListenerMultiplexer;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.Timeline;
@@ -9,9 +10,11 @@ import javafx.animation.Timeline;
 public abstract class Animation {
 
   private List<Timeline> timelines;
+  private AnimationListenerMultiplexer listeners;
 
   public Animation() {
     this.timelines = new ArrayList<>();
+    this.listeners = new AnimationListenerMultiplexer();
   }
 
   /**
@@ -36,5 +39,13 @@ public abstract class Animation {
   /** Stops all Timelines in this Animation. */
   public void stop() {
     timelines.forEach(Timeline::stop);
+  }
+
+  public void addAnimationListener(AnimationListener listener) {
+    listeners.add(listener);
+  }
+
+  protected void fireOnFinished() {
+    listeners.onFinished();
   }
 }

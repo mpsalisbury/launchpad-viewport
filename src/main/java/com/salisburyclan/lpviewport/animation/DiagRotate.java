@@ -13,6 +13,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
+// Sweep diagonal lines through an extent.
 public class DiagRotate extends FramedAnimation {
 
   private final WriteLayer layer;

@@ -55,6 +55,11 @@ public class SubViewport implements Viewport {
   }
 
   @Override
+  public void removeAllLayers() {
+    baseViewport.removeAllLayers();
+  }
+
+  @Override
   public void addListener(Button2Listener listener) {
     Button2Listener subListener =
         new Button2Listener() {

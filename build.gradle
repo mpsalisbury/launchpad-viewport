@@ -90,3 +90,8 @@ task flyingsquares(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.FlyingSquaresApp'
 }
+
+task dissolve(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.lpviewport.apps.DissolveApp'
+}

@@ -15,6 +15,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 
+// Explodes a diamond from a centerpoint through an extent.
 public class Explode extends FramedAnimation {
 
   private final WriteLayer layer;
