@@ -59,6 +59,11 @@ public class TestViewport implements Viewport {
   }
 
   @Override
+  public void removeAllLayers() {
+    layers.removeAllLayers();
+  }
+
+  @Override
   public void addListener(Button2Listener listener) {
     listeners.add(listener);
   }
