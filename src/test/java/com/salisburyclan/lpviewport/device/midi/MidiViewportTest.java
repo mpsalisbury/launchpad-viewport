@@ -38,8 +38,8 @@ public class MidiViewportTest {
 
   @Test
   public void testExtent() throws Exception {
-    assertThat(viewport.getExtent().getWidth()).isEqualTo(testExtent.getWidth());
-    assertThat(viewport.getExtent().getHeight()).isEqualTo(testExtent.getHeight());
+    assertThat(viewport.getExtent().width()).isEqualTo(testExtent.width());
+    assertThat(viewport.getExtent().height()).isEqualTo(testExtent.height());
   }
 
   @Test

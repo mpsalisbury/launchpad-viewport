@@ -100,7 +100,7 @@ public class HorizontalLayoutProvider implements LayoutProvider {
         teardownTemporaryViewport.run();
       }
       viewportBuilder.add(viewport, Point.create(nextX, 0));
-      nextX += viewport.getExtent().getWidth();
+      nextX += viewport.getExtent().width();
       remainingViewportCount--;
 
       if (remainingViewportCount > 0) {

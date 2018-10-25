@@ -51,7 +51,7 @@ public class BorderSweep extends FramedAnimation {
             new KeyFrame(Duration.ZERO, new KeyValue(barLocation, 0)),
             new KeyFrame(
                 Duration.seconds(1),
-                new KeyValue(barLocation, extent.getWidth() + extent.getHeight() - 2)));
+                new KeyValue(barLocation, extent.width() + extent.height() - 2)));
     addTimeline(timeline);
 
     barLocation.addListener(
@@ -69,20 +69,20 @@ public class BorderSweep extends FramedAnimation {
 
     int x = location;
     int y = 0;
-    if (x >= extent.getWidth()) {
-      int diff = location - extent.getWidth() + 1;
+    if (x >= extent.width()) {
+      int diff = location - extent.width() + 1;
       x -= diff;
       y += diff;
     }
-    outputLayer.setPixel(extent.origin().add(Vector.create(x, y)), pixel);
+    outputLayer.setPixel(extent.low().add(Vector.create(x, y)), pixel);
 
     x = 0;
     y = location;
-    if (y >= extent.getHeight()) {
-      int diff = location - extent.getHeight() + 1;
+    if (y >= extent.height()) {
+      int diff = location - extent.height() + 1;
       x += diff;
       y -= diff;
     }
-    outputLayer.setPixel(extent.origin().add(Vector.create(x, y)), pixel);
+    outputLayer.setPixel(extent.low().add(Vector.create(x, y)), pixel);
   }
 }

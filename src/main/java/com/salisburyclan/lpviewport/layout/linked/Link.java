@@ -50,8 +50,8 @@ public class Link {
   // Returns the offset between the origin of fromViewport and the origin of toViewport
   // in absolute space. (How much to move the from to line it up with the to + edgeoffset).
   public Vector getOriginOffset() {
-    Vector normalFrom = fromPoint.subtract(fromViewport.getExtent().origin());
-    Vector normalTo = toPoint.subtract(toViewport.getExtent().origin());
+    Vector normalFrom = fromPoint.subtract(fromViewport.getExtent().low());
+    Vector normalTo = toPoint.subtract(toViewport.getExtent().low());
     return normalFrom.subtract(normalTo).add(edgeLinkOffset());
   }
 

@@ -49,7 +49,7 @@ public class DiagRotate extends FramedAnimation {
   private void renderBars(int linePosition) {
     layer.nextFrame();
     Range2 extent = getExtent();
-    for (int x = linePosition; x < extent.getWidth() + extent.getHeight(); x += 4) {
+    for (int x = linePosition; x < extent.width() + extent.height(); x += 4) {
       renderBar(x);
     }
   }

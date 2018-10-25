@@ -39,8 +39,8 @@ public class MidiLaunchpadDeviceTest {
     LaunchpadDevice device = new MidiLaunchpadDevice(mockResources);
     RawViewport viewport = device.getViewport();
 
-    assertThat(viewport.getExtent().getWidth()).isEqualTo(testExtent.getWidth());
-    assertThat(viewport.getExtent().getHeight()).isEqualTo(testExtent.getHeight());
+    assertThat(viewport.getExtent().width()).isEqualTo(testExtent.width());
+    assertThat(viewport.getExtent().height()).isEqualTo(testExtent.height());
 
     int testX = 4;
     int testY = 2;

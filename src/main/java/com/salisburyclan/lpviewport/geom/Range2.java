@@ -13,6 +13,11 @@ public abstract class Range2 {
     return create(Range1.create(low.x(), high.x()), Range1.create(low.y(), high.y()));
   }
 
+  // Builds a one-pixel extent.
+  public static Range2 create(Point pixel) {
+    return create(Range1.create(pixel.x(), pixel.x()), Range1.create(pixel.y(), pixel.y()));
+  }
+
   // Builds an extent from coordinates.
   public static Range2 create(int xLow, int yLow, int xHigh, int yHigh) {
     return create(Range1.create(xLow, xHigh), Range1.create(yLow, yHigh));
@@ -24,6 +29,15 @@ public abstract class Range2 {
 
   public static Range2 create(int x, Range1 yRange) {
     return create(Range1.create(x, x), yRange);
+  }
+
+  // Creates a Range2 of the given size (offset is unspecified).
+  public static Range2 create(Size size) {
+    return create(0, 0, size);
+  }
+
+  public static Range2 create(int xLow, int yLow, Size size) {
+    return create(xLow, yLow, xLow + size.sx() - 1, yLow + size.sy() - 1);
   }
 
   // Builds an extent from ranges.
@@ -38,23 +52,31 @@ public abstract class Range2 {
 
   public abstract Range1 yRange();
 
-  public Point origin() {
+  public Point low() {
     return Point.create(xRange().low(), yRange().low());
   }
 
+  public Point high() {
+    return Point.create(xRange().high(), yRange().high());
+  }
+
   public boolean isEmpty() {
-    return xRange().isEmpty();
+    return xRange().isEmpty() || yRange().isEmpty();
   }
 
   public Point middle() {
     return Point.create(xRange().middle(), yRange().middle());
   }
 
-  public int getWidth() {
+  public Size size() {
+    return Size.create(width(), height());
+  }
+
+  public int width() {
     return xRange().size();
   }
 
-  public int getHeight() {
+  public int height() {
     return yRange().size();
   }
 

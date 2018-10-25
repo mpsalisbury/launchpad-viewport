@@ -34,7 +34,7 @@ public class AggregateViewport implements RawViewport {
     // (originX, originY) in this aggregate viewport.
     public void add(RawViewport viewport, Point origin) {
       Range2 oldExtent = viewport.getExtent();
-      Vector offset = origin.subtract(oldExtent.origin());
+      Vector offset = origin.subtract(oldExtent.low());
       Range2 newExtent = viewport.getExtent().shift(offset);
       viewparts.add(new Viewpart(viewport, newExtent, offset));
     }

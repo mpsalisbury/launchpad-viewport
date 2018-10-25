@@ -2,6 +2,7 @@ package com.salisburyclan.lpviewport.geom;
 
 import com.google.auto.value.AutoValue;
 
+// Describes a 2D point.
 @AutoValue
 public abstract class Point {
   public static Point create(int x, int y) {

@@ -32,10 +32,10 @@ public class SubViewport1 implements Viewport1 {
 
   private IndexMap newIndexMap(Range2 extent) {
     checkExtent(extent);
-    if (extent.getWidth() == 1) {
+    if (extent.width() == 1) {
       return new VerticalIndexMap(extent);
     }
-    if (extent.getHeight() == 1) {
+    if (extent.height() == 1) {
       return new HorizontalIndexMap(extent);
     }
     throw new IllegalArgumentException("Viewport1 extent must be only one button wide or high");

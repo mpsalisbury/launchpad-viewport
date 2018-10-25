@@ -16,7 +16,7 @@ public class LayerBuffer implements ReadWriteLayer {
 
   public LayerBuffer(Range2 extent) {
     this.extent = extent;
-    this.buffer = new Pixel[extent.getWidth()][extent.getHeight()];
+    this.buffer = new Pixel[extent.width()][extent.height()];
     this.pixelListeners = new PixelListenerMultiplexer();
     this.closeListeners = new CloseListenerMultiplexer();
     setAllPixels(Pixel.EMPTY);
@@ -64,7 +64,7 @@ public class LayerBuffer implements ReadWriteLayer {
   @Override
   public Pixel getPixel(int x, int y) {
     if (extent.isPointWithin(x, y)) {
-      Point origin = extent.origin();
+      Point origin = extent.low();
       return buffer[x - origin.x()][y - origin.y()];
     } else {
       return Pixel.EMPTY;
@@ -79,7 +79,7 @@ public class LayerBuffer implements ReadWriteLayer {
   @Override
   public void setPixel(int x, int y, Pixel pixel) {
     if (extent.isPointWithin(x, y)) {
-      Point origin = extent.origin();
+      Point origin = extent.low();
       Pixel oldPixel = buffer[x - origin.x()][y - origin.y()];
       if (!pixel.equals(oldPixel)) {
         buffer[x - origin.x()][y - origin.y()] = pixel;

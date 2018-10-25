@@ -60,8 +60,8 @@ public class MidiLaunchpadDeviceProviderTest {
     assertThat(device.getType()).isEqualTo("A");
 
     RawViewport viewport = device.getViewport();
-    assertThat(viewport.getExtent().getWidth()).isEqualTo(11);
-    assertThat(viewport.getExtent().getHeight()).isEqualTo(11);
+    assertThat(viewport.getExtent().width()).isEqualTo(11);
+    assertThat(viewport.getExtent().height()).isEqualTo(11);
   }
 
   @Test

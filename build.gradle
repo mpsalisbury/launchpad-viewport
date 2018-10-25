@@ -95,3 +95,8 @@ task dissolve(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.salisburyclan.lpviewport.apps.DissolveApp'
 }
+
+task smoothcircle(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.salisburyclan.lpviewport.apps.SmoothCircleApp'
+}

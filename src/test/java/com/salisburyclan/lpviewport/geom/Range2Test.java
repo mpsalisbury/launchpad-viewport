@@ -72,7 +72,7 @@ public class Range2Test {
   @Test
   public void testOrigin() {
     Range2 range = Range2.create(1, 2, 4, 7);
-    assertThat(range.origin()).isEqualTo(Point.create(1, 2));
+    assertThat(range.low()).isEqualTo(Point.create(1, 2));
   }
 
   @Test
@@ -84,13 +84,13 @@ public class Range2Test {
   @Test
   public void testWidth() {
     Range2 range = Range2.create(1, 2, 4, 7);
-    assertThat(range.getWidth()).isEqualTo(4);
+    assertThat(range.width()).isEqualTo(4);
   }
 
   @Test
   public void testHeight() {
     Range2 range = Range2.create(1, 2, 4, 7);
-    assertThat(range.getHeight()).isEqualTo(6);
+    assertThat(range.height()).isEqualTo(6);
   }
 
   @Test

@@ -7,6 +7,7 @@ import com.salisburyclan.lpviewport.util.PixelListenerMultiplexer;
 import java.util.HashMap;
 import java.util.Map;
 
+// Offsets a given layer to a new position.
 public class LayerTranslator implements ReadLayer {
   private ReadLayer innerLayer;
 

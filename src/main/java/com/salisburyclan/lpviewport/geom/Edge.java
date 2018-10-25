@@ -1,5 +1,6 @@
 package com.salisburyclan.lpviewport.geom;
 
+// Describes a cartesian edge of a rectangular shape.
 public enum Edge {
   LEFT,
   RIGHT,

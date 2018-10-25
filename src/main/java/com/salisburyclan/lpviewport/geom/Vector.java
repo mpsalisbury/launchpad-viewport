@@ -2,6 +2,7 @@ package com.salisburyclan.lpviewport.geom;
 
 import com.google.auto.value.AutoValue;
 
+// Describes the difference between two points.
 @AutoValue
 public abstract class Vector {
   public static Vector create(int dx, int dy) {
