@@ -48,7 +48,6 @@ public class Range2Scaler {
   // representing how much of the Point range is covered by the float range.
   public void mapToWeightedIterator(Range2 source, WeightedPointCallback callback) {
     FloatRange2 mappedRange = mapToFloatRange2(source);
-    System.out.println("mappedRange: " + mappedRange.toString());
     mappedRange.weightedIterator(callback);
   }
 
