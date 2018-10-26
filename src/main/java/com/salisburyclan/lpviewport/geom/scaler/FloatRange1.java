@@ -9,8 +9,10 @@ import com.salisburyclan.lpviewport.geom.scaler.Rounder.RoundingPolicy;
 public abstract class FloatRange1 {
   public static final FloatRange1 EMPTY = new AutoValue_FloatRange1(0.0f, 0.0f);
 
+  // Converts a Range1 to the corresponding FloatRange1.
+  // Integral pixels p map to the range p..p+1.0 in floating coordinates.
   public static FloatRange1 create(Range1 range) {
-    return create(range.low() - 0.5f, range.high() + 0.5f);
+    return create(range.low(), range.high() + 1.0f);
   }
 
   public static FloatRange1 create(float low, float high) {
@@ -32,6 +34,12 @@ public abstract class FloatRange1 {
 
   public float size() {
     return high() - low();
+  }
+
+  public Range1 round() {
+    int low = Rounder.round(low(), RoundingPolicy.ROUND_DOWN);
+    int high = Rounder.round(high(), RoundingPolicy.ROUND_UP);
+    return Range1.create(low, high);
   }
 
   @FunctionalInterface

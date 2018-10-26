@@ -1,11 +1,8 @@
 package com.salisburyclan.lpviewport.geom;
 
-import com.salisburyclan.lpviewport.geom.scaler.FloatPoint;
 import com.salisburyclan.lpviewport.geom.scaler.FloatRange1;
 import com.salisburyclan.lpviewport.geom.scaler.FloatRange2;
 import com.salisburyclan.lpviewport.geom.scaler.Range1Scaler;
-import com.salisburyclan.lpviewport.geom.scaler.Rounder;
-import com.salisburyclan.lpviewport.geom.scaler.Rounder.RoundingPolicy;
 
 // Provides transforms for converting an input Range2 to an output Range2.
 // Transforms are performed in continuous (float) space and can be rounded
@@ -36,7 +33,7 @@ public class Range2Scaler {
   }
 
   public Range2 mapToRange2(Range2 source) {
-    return roundToRange2(mapToFloatRange2(source));
+    return mapToFloatRange2(source).round();
   }
 
   @FunctionalInterface
@@ -51,12 +48,6 @@ public class Range2Scaler {
     mappedRange.weightedIterator(callback);
   }
 
-  private Point roundToPoint(FloatPoint point, RoundingPolicy roundingPolicy) {
-    int px = Rounder.round(point.x(), roundingPolicy);
-    int py = Rounder.round(point.y(), roundingPolicy);
-    return Point.create(px, py);
-  }
-
   private FloatRange2 mapToFloatRange2(Range2 source) {
     FloatRange1 xRange = xScaler.mapToFloatRange1(source.xRange());
     FloatRange1 yRange = yScaler.mapToFloatRange1(source.yRange());
@@ -67,11 +58,5 @@ public class Range2Scaler {
     FloatRange1 xRange = xScaler.mapToFloatRange1(source.xRange());
     FloatRange1 yRange = yScaler.mapToFloatRange1(source.yRange());
     return FloatRange2.create(xRange, yRange);
-  }
-
-  private Range2 roundToRange2(FloatRange2 range) {
-    Range1 xRange = xScaler.roundToRange1(range.xRange());
-    Range1 yRange = yScaler.roundToRange1(range.yRange());
-    return Range2.create(xRange, yRange);
   }
 }

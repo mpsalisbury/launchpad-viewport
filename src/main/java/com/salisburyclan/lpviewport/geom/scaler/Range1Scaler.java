@@ -21,19 +21,10 @@ public class Range1Scaler {
     return new Range1Scaler(outputRange, inputRange);
   }
 
-  // Returns the output position corresponding to the given input position, rounding to nearest
-  // location.
+  // Returns the output position corresponding to the given input position, rounding down to
+  // integral position value.
   public int mapToInt(int inputPosition) {
-    return Rounder.round(mapToFloat(inputPosition), RoundingPolicy.ROUND_CLOSEST);
-  }
-
-  // Maps pixel (range) named by source coords to corresponding FloatRange2.
-  public FloatRange1 mapPixel(int position) {
-    return mapToFloatRange1(Range1.create(position, position));
-  }
-
-  public Range1 mapToRange1(Range1 input) {
-    return roundToRange1(mapToFloatRange1(input));
+    return Rounder.round(mapToFloat(inputPosition), RoundingPolicy.ROUND_DOWN);
   }
 
   // Returns the output 1-d position (x-dimension) corresponding to the given source 1-d position.
@@ -53,11 +44,5 @@ public class Range1Scaler {
     float low = mapToFloat(input.low());
     float high = mapToFloat(input.high());
     return FloatRange1.create(low, high);
-  }
-
-  public Range1 roundToRange1(FloatRange1 range) {
-    int low = Rounder.round(range.low(), RoundingPolicy.ROUND_DOWN);
-    int high = Rounder.round(range.high(), RoundingPolicy.ROUND_UP);
-    return Range1.create(low, high);
   }
 }

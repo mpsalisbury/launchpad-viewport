@@ -56,6 +56,10 @@ public abstract class FloatRange2 {
     return yRange().size();
   }
 
+  public Range2 round() {
+    return Range2.create(xRange().round(), yRange().round());
+  }
+
   // For each int range in this float range, callback with the Point and a weighted coverage
   // representing how much of the Point range is covered by the float range.
   public void weightedIterator(Range2Scaler.WeightedPointCallback callback) {

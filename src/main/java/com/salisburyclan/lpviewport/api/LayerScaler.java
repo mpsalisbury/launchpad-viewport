@@ -9,30 +9,23 @@ import com.salisburyclan.lpviewport.geom.Range2Scaler;
 public class LayerScaler extends ReadLayerProxy {
   private ReadLayer sourceLayer;
   private ReadWriteLayer outputLayer;
-  private Range2Scaler scaler;
-
-  // Keep track of derived listeners so we can remove them
-  // from innerLayer upon request. original -> derived.
-  //  private Map<PixelListener, PixelListener> listenerMap;
-
-  // For fanning out pixelListener notifications.
-  //  private PixelListenerMultiplexer pixelListeners;
+  private Range2Scaler sourceToOutputScaler;
 
   public LayerScaler(ReadLayer sourceLayer, Range2 outputExtent) {
     this.sourceLayer = sourceLayer;
     this.outputLayer = new LayerBuffer(outputExtent);
-    this.scaler = new Range2Scaler(sourceLayer.getExtent(), outputLayer.getExtent());
+    this.sourceToOutputScaler = new Range2Scaler(sourceLayer.getExtent(), outputLayer.getExtent());
 
     addSourceListener();
     recomputeForSourcePixels(sourceLayer.getExtent());
   }
 
-  public void addSourceListener() {
+  private void addSourceListener() {
     sourceLayer.addPixelListener(
         new PixelListener() {
           @Override
           public void onPixelChanged(Point p) {
-            recomputeForSourcePixels(Range2.create(p, p));
+            recomputeForSourcePixels(Range2.create(p));
           }
 
           @Override
@@ -40,9 +33,6 @@ public class LayerScaler extends ReadLayerProxy {
             recomputeForSourcePixels(range);
           }
         });
-
-    //    this.listenerMap = new HashMap<>();
-    //    this.pixelListeners = new PixelListenerMultiplexer();
   }
 
   @Override
@@ -51,12 +41,12 @@ public class LayerScaler extends ReadLayerProxy {
   }
 
   public Range2Scaler getScaler() {
-    return scaler;
+    return sourceToOutputScaler;
   }
 
   // Recomputes the output pixels affected by the given sourceRange.
   private void recomputeForSourcePixels(Range2 sourceRange) {
-    Range2 outputRange = scaler.mapToRange2(sourceRange);
+    Range2 outputRange = sourceToOutputScaler.mapToRange2(sourceRange);
     outputRange.forEach((x, y) -> outputLayer.setPixel(x, y, recomputeOutputPixel(x, y)));
   }
 
@@ -68,19 +58,21 @@ public class LayerScaler extends ReadLayerProxy {
     AtomicDouble totalAlpha = new AtomicDouble(0.0);
     AtomicDouble totalWeight = new AtomicDouble(0.0);
 
-    Range2 sourceRange = Range2.create(Point.create(x, y));
-    scaler.mapToWeightedIterator(
-        sourceRange,
-        (wx, wy, weight) -> {
-          // collect together weighted pixel values.
-          Pixel pixel = getPixel(wx, wy);
+    Range2 outputRange = Range2.create(Point.create(x, y));
+    sourceToOutputScaler
+        .invert()
+        .mapToWeightedIterator(
+            outputRange,
+            (wx, wy, weight) -> {
+              // collect together weighted pixel values.
+              Pixel pixel = sourceLayer.getPixel(wx, wy);
 
-          totalRed.addAndGet(pixel.color().red() * weight);
-          totalGreen.addAndGet(pixel.color().green() * weight);
-          totalBlue.addAndGet(pixel.color().blue() * weight);
-          totalAlpha.addAndGet(pixel.alpha() * weight);
-          totalWeight.addAndGet(weight);
-        });
+              totalRed.addAndGet(pixel.color().red() * weight);
+              totalGreen.addAndGet(pixel.color().green() * weight);
+              totalBlue.addAndGet(pixel.color().blue() * weight);
+              totalAlpha.addAndGet(pixel.alpha() * weight);
+              totalWeight.addAndGet(weight);
+            });
 
     if (totalWeight.doubleValue() == 0.0) {
       return Pixel.EMPTY;

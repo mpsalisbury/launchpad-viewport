@@ -14,6 +14,6 @@ public abstract class Size {
   public abstract int sy();
 
   public Size scale(int factor) {
-    return Size.create(sx() * factor, sy() + factor);
+    return Size.create(sx() * factor, sy() * factor);
   }
 }

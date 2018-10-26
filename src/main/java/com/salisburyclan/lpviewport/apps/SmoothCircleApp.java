@@ -40,6 +40,6 @@ public class SmoothCircleApp extends LaunchpadApplication {
 
   private void drawCircle(Point center, Color color) {
     Point bufferCenter = scaler.mapToPoint(center);
-    Circle.drawRangeCircle(bufferLayer, bufferCenter, 4, 8, color);
+    Circle.drawRangeCircle(bufferLayer, bufferCenter, 8, 14, color);
   }
 }
